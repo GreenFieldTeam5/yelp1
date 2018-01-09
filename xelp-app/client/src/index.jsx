@@ -1,15 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import Search from './Search.jsx';
+
 class App extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+    	searchInput: ''
+    };
   }
 
   render() {
     return (
-      <div> Title Page </div>
+    	<div>
+      	<div> Title Page </div>
+      	<Search searchInput={this.props.searchInput} />
+      </div>
     )
   }
 }
