@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import TopNavbar from './components/TopNavbar.jsx';
 
 class App extends React.Component {
 
@@ -9,7 +10,10 @@ class App extends React.Component {
 
   render() {
     return (
-      <div> Title Page </div>
+      <div> 
+        Title Page 
+        <TopNavbar/>
+      </div>
     )
   }
 }
