@@ -4,10 +4,10 @@
 
 ## Team
 
-  - teamMember
-  - teamMember
-  - teamMember
-  - teamMember
+  - Ben Basuni
+  - Tom Humphrey
+  - Catherine Han
+  - Tyler Cable
 
 ## Table of Contents
 
@@ -45,7 +45,7 @@ bower install
 
 ### Roadmap
 
-View the project roadmap [here](LINK_TO_DOC)
+View the project roadmap [here](http://bit.ly/2CL44MR)
 
 
 ## Contributing
