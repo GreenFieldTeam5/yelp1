@@ -1,5 +1,5 @@
 import React from 'react';
-import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
+import { ModalFooter, ModalBody, ModalHeader, Modal, Button, Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
 
 class TopNavbar extends React.Component {
   constructor(props) {
