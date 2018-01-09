@@ -1,13 +1,13 @@
 # Project Name
 
-> Pithy project description
+> Xelp
 
 ## Team
 
-  - teamMember
-  - teamMember
-  - teamMember
-  - teamMember
+  - Ben Basuni
+  - Tom Humphrey
+  - Catherine Han
+  - Tyler Cable
 
 ## Table of Contents
 
@@ -38,14 +38,12 @@
 From within the root directory:
 
 ```sh
-npm install -g bower
 npm install
-bower install
 ```
 
 ### Roadmap
 
-View the project roadmap [here](LINK_TO_DOC)
+View the project roadmap [here](http://bit.ly/2CL44MR)
 
 
 ## Contributing
