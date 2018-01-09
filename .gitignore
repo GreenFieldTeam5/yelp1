@@ -30,7 +30,8 @@ bower_components/
 
 
 # Ben
-Icon
 package-lock.json
 bundle.js
 Icon
+.DS_Store
+xelp-app/client/dist/index.html
