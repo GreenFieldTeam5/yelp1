@@ -1,13 +1,18 @@
 const express = require('express');
+
 const app = express();
 const bodyParser = require('body-parser');
 const db = require('../database');
+
 const path = require('path');
 const axios = require('axios');
+
+const data = require('../data.json');
 
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '../client/dist')));
 app.listen(3000);
+
 
 app.get('/search/:searchInput', (req, res) => {
   console.log(`doing GET -> /search/${req.params.searchInput}`);
@@ -31,4 +36,8 @@ app.get('/search/:searchInput', (req, res) => {
 		.catch(function (error) {
     	console.log(error);
   	}); 
+});
+
+app.get('/3restaurants', (req, res) => {
+  res.send(data.businesses);
 });

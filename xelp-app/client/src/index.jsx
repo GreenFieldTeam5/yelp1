@@ -4,8 +4,11 @@ import axios from 'axios';
 
 import Search from './Search.jsx';
 
-class App extends React.Component {
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import Main from './components/Main.jsx';
 
+
+class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -31,16 +34,21 @@ class App extends React.Component {
 	    	console.log(error);
 	  	});
   }
-
   render() {
     return (
-    	<div>
-      	<div> Title Page </div>
-      	<Search searchInput={this.state.searchInput} handleSearchInputChange={this.handleSearchInputChange} 
-      		handleSearchButtonClick={this.handleSearchButtonClick} />
-      </div>
+      <MuiThemeProvider>
+        <div>
+    	    <div>
+          	<div> Title Page </div>
+          	<Search searchInput={this.state.searchInput} handleSearchInputChange={this.handleSearchInputChange} 
+      		  handleSearchButtonClick={this.handleSearchButtonClick} />
+          </div>
+          <div>
+            <Main />
+          </div> 
+          </div>
+      </MuiThemeProvider>
     )
   }
 }
-
-ReactDOM.render( <App />, document.getElementById('app'));
+ReactDOM.render(<App />, document.getElementById('app'));
