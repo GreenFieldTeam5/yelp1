@@ -3,9 +3,11 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const db = require('../database');
+const config = require('../client/src/config.js');
 
 const path = require('path');
 const axios = require('axios');
+const yelp = require('yelp-fusion');
 
 const data = require('../data.json');
 
@@ -17,25 +19,28 @@ app.listen(3000);
 
 app.get('/search/:searchInput', (req, res) => {
   console.log(`doing GET -> /search/${req.params.searchInput}`);
-  // db.getAllLines((err, data) => {
-  // 	if (err) console.error(err);
-  // 	console.log('success GET -> /api/lines', data);
-  // 	res.status(200).json(data);
-  // });
-  axios.get('https://api.yelp.com/v3/businesses/search', {
-    headers: {
-      Authorization: 'Bearer RjDRgv8bBA1Sk5ybA-JT_L2eEQQY7qVO5yepc2FBXDOwJAthQz7mtjLxqAaW2U-QYWdUUETuHzBaeTuV4AD-GTq-YwpUX5Ucu3r4aodS5kLVolyUlAqoGb5Q1XtUWnYx',
-    },
-    params: {
-      term: req.params.searchInput,
-    },
-  })
+
+  const searchRequest = {
+    term: req.params.searchInput,
+    location: 'san francisco, ca',
+  };
+  const client = yelp.client(config.apiKey);
+
+  client.search(searchRequest)
     .then((response) => {
-      console.log(response);
-      res.status(200).json(data);
+      const topTen = response.jsonBody.businesses.slice(0, 10);
+      // topTen.forEach((business) => {
+      //   if (business.display_phone === '') {
+      //     business.display_phone = 'No Phone Number';
+      //   }
+      // });
+      topTen.forEach((business) => {
+        console.log('got ', business.name);
+      });
+      res.status(200).json(topTen);
     })
-    .catch((error) => {
-      console.log(error);
+    .catch((err) => {
+      console.log('caught error', err);
     });
 });
 
