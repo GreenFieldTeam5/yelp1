@@ -12,7 +12,7 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use((req, res, next) => {
-  console.log(`${req.path}, ${req.method}, ${req.status}, ${req.body}`);
+  console.log(`${req.path}, ${req.method}, ${req.status}, ${JSON.stringify(req.body)}`);
   next();
 });
 app.use(express.static(path.join(__dirname, '../client/dist')));

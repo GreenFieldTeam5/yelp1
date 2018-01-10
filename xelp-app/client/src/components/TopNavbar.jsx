@@ -2,10 +2,9 @@ import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import IconButton from 'material-ui/IconButton';
-import TextField from 'material-ui/TextField';
+import FontIcon from 'material-ui/FontIcon';
 import AppBar from 'material-ui/AppBar';
-import LoginButton from 'material-ui/svg-icons/action/account-circle';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 class TopNavbar extends React.Component {
   constructor(props) {
@@ -28,41 +27,46 @@ class TopNavbar extends React.Component {
   }
 
   render() {
-    const actions = [
-      <FlatButton
-        label="Cancel"
-        primary
-        onClick={this.handleClose}
-      />,
-      <FlatButton
-        label="Submit"
-        primary
-        disabled
-        onClick={this.handleClose}
-      />,
-    ];
 
     return (
       <div>
-        <AppBar title="Xelp" onRightIconButtonClick={this.handleOpen} showMenuIconButton={false}
-        iconElementRight={<FlatButton label="Login" />} 
+        <AppBar
+          title="Xelp"
+          onRightIconButtonClick={this.handleOpen}
+          showMenuIconButton={false}
+          iconElementRight={<FlatButton label="Login" />}
         />
-        {/* <RaisedButton label="Sign Up / Login" onClick={this.handleOpen} /> */}
         <Dialog
           title="Sign Up / Login"
-          actions={actions}
-          modal
+          titleStyle={{textAlign: "center"}}
+          modal={false}
+          onRequestClose={this.handleClose}
+          autoDetectWindowHeight={false}
+          autoScrollBodyContent={false}
+          contentStyle={{maxWidth: 300}}
           open={this.state.open}
         >
-          <TextField
-            hintText="Enter your Username"
-            floatingLabelText="Username"
+          <RaisedButton
+            className="signin-oauth github"
+            target="_blank"
+            label="Github"
+            secondary
+            icon={<FontIcon className="muidocs-icon-custom-github" />}
           />
-          <br />
-          <TextField
-            type="password"
-            hintText="Enter your Password"
-            floatingLabelText="Password"
+          <br/>
+          <RaisedButton
+            className="signin-oauth facebook"
+            target="_blank"
+            label="Facebook"
+            primary
+            icon={<FontIcon className="muidocs-icon-custom-github" />}
+          />
+          <br/>
+          <RaisedButton
+            className="signin-oauth google"
+            target="_blank"
+            label="Google"
+            icon={<FontIcon className="muidocs-icon-custom-github" />}
           />
         </Dialog>
       </div>

@@ -8,8 +8,6 @@ import TopNavbar from './components/TopNavbar.jsx';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'; 
 import SingleRestaurant from './components/SingleRestaurant.jsx';
 import SearchList from './components/SearchList.jsx';
-
-
 import Footer from './components/footer.jsx';
 
 
