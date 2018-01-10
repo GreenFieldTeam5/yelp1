@@ -1,4 +1,7 @@
 before_install: cd xelp-app
 language: node_js
 node_js:
-  - "8"
+  - 8.4.0
+before_script:
+- npm run build:dev
+script: node ./server/index.js & npm test
