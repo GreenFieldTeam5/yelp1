@@ -3,5 +3,5 @@ language: node_js
 node_js:
   - 8.4.0
 before_script:
-- npm run build:dev
-script: node ./server/index.js & npm test
+- npm run build:prod
+script: node ./build/server/index.js & npm run test
