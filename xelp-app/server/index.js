@@ -11,10 +11,17 @@ const data = require('../data.json');
 const app = express();
 
 app.use(bodyParser.json());
+app.use((req, res, next) => {
+  console.log(`${req.path}, ${req.method}, ${req.status}, ${req.body}`);
+  next();
+});
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
 app.listen(3000);
 
+/* =================
+        Search 
+   ================= */
 app.get('/search/:searchInput', (req, res) => {
   console.log(`doing GET -> /search/${req.params.searchInput}`);
 
@@ -45,3 +52,11 @@ app.get('/search/:searchInput', (req, res) => {
 app.get('/3restaurants', (req, res) => {
   res.send(data.businesses);
 });
+
+/* =================
+     Signup/Login
+   ================= */
+app.post('/createUser', (req, res) => {
+
+});
+
