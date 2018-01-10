@@ -7,6 +7,7 @@ import Search from './Search.jsx';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Main from './components/Main.jsx';
 
+import Footer from './footer.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -38,17 +39,19 @@ class App extends React.Component {
     return (
       <MuiThemeProvider>
         <div>
-    	    <div>
-          	<div> Title Page </div>
-          	<Search searchInput={this.state.searchInput} handleSearchInputChange={this.handleSearchInputChange} 
+    	     <div>
+           	<div> Title Page </div>
+           	<Search searchInput={this.state.searchInput} handleSearchInputChange={this.handleSearchInputChange} 
       		  handleSearchButtonClick={this.handleSearchButtonClick} />
           </div>
           <div>
             <Main />
           </div> 
-          </div>
+          <Footer />
+        </div>
       </MuiThemeProvider>
     )
   }
 }
+
 ReactDOM.render(<App />, document.getElementById('app'));

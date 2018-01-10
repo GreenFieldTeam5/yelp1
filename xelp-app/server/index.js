@@ -11,6 +11,7 @@ const data = require('../data.json');
 
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '../client/dist')));
+
 app.listen(3000);
 
 

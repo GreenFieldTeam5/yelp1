@@ -9,7 +9,7 @@
   },
   "scripts": {
     "react-dev": "webpack -d --watch",
-    "server-dev": "nodemon server/index.js"
+    "server-dev": "nodemon --inspect server/index.js"
   },
   "dependencies": {
     "axios": "^0.17.1",
@@ -20,6 +20,7 @@
     "babel-preset-react": "^6.23.0",
     "body-parser": "^1.18.2",
     "bookshelf": "^0.12.1",
+    "bootstrap": "^4.0.0-beta.3",
     "express": "^4.15.0",
     "jquery": "^3.1.1",
     "knex": "^0.13.0",
@@ -28,8 +29,9 @@
     "path": "^0.12.7",
     "pg": "^7.4.1",
     "prettier-eslint": "^8.7.1",
-    "react": "^15.4.2",
-    "react-dom": "^15.4.2",
+    "react": "^15.6.2",
+    "react-dom": "^15.6.2",
+    "reactstrap": "^5.0.0-alpha.4",
     "webpack": "^2.2.1"
   },
   "devDependencies": {
