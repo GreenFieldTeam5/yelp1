@@ -3,6 +3,7 @@ import axios from 'axios';
 import { GridList, GridTile } from 'material-ui/GridList';
 import IconButton from 'material-ui/IconButton';
 import StarBorder from 'material-ui/svg-icons/toggle/star-border';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'; 
 
 const styles = {
   root: {
@@ -56,21 +57,15 @@ class Main extends React.Component {
               titleStyle={styles.titleStyle}
               titleBackground="linear-gradient(to top, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)"
             >
+              <Link to="/restaurant">
               <img src={restaurant.image_url} />
+              </Link>
             </GridTile>
       ))}
         </GridList>
       </div>
     );
   }
-  // <div>
-  //   Recommended Restaurants:
-  //   <ul>{ this.state.restaurants.map(restaurant =>
-  //     <li key={restaurant.id}> {restaurant.name}
-  //       <img src={restaurant.image_url}> </img>
-  //     </li>)}
-  //   </ul>
-  // </div>
 }
 export default Main;
 
