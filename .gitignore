@@ -33,7 +33,7 @@ bower_components/
 xelp-app/config/yelpAPI.js
 package-lock.json
 bundle.js
-Icon
+Icon*
 
 .DS_Store
 xelp-app/client/dist/bundle.js

@@ -20,8 +20,8 @@
     "babel-preset-react": "^6.23.0",
     "body-parser": "^1.18.2",
     "bookshelf": "^0.12.1",
-    "eslint-config-airbnb-base": "^12.1.0",
     "bootstrap": "^4.0.0-beta.3",
+    "eslint-config-airbnb-base": "^12.1.0",
     "express": "^4.15.0",
     "jquery": "^3.1.1",
     "knex": "^0.13.0",
@@ -33,6 +33,7 @@
     "react": "^15.6.2",
     "react-dom": "^15.6.2",
     "reactstrap": "^5.0.0-alpha.4",
+    "svg-inline-loader": "^0.8.0",
     "webpack": "^2.2.1"
   },
   "devDependencies": {
