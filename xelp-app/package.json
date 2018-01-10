@@ -14,7 +14,7 @@
     "build:database": "babel ./database -d build/database",
     "build:fakeData" : "babel ./data.json -d build/data.json",
     "build:client": "webpack --config ./webpack.config.js/",
-    "build:prod": "npm run build:server && npm run build:database && npm run build:client",
+    "build:prod": "npm run build:server && npm run build:database && npm run build:client && npm run build:fakeData",
     "test": "./node_modules/.bin/mocha --exit"
   },
   "dependencies": {
