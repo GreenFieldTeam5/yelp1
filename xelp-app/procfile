@@ -1,1 +1,1 @@
-web: node xelp-app/server/index.js
+web: node server/index.js
