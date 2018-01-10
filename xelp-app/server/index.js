@@ -18,9 +18,7 @@ app.use((req, res, next) => {
 });
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
-console.log('what is the process.env.PORT', process.env.PORT);
-
-app.listen(process.env.PORT);
+app.listen(process.env.PORT || 3000);
 
 /* =================
         Search 

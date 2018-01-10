@@ -36,7 +36,7 @@ bundle.js
 
 # Tom
 xelp-app/.env
-xelp_app/logfile
+xelp-app/logfile
 
 Icon*
 
