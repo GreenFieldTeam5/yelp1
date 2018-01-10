@@ -11,9 +11,9 @@ describe('Array', function() {
 
 const baseUrl = `http://localhost:2432`;
 
-describe('GET /', () => {
+describe('GET /3restaurants', () => {
   it('responds with a status code of 200', (done) => {
-    axios.get(`${baseUrl}/`)
+    axios.get(`${baseUrl}/3restaurants`)
       .then((response) => {
         assert.equal(response.status, 200);
         // expect(response.status).to.equal(200);
