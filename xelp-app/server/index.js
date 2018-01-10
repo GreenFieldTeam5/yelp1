@@ -42,22 +42,6 @@ app.get('/search/:searchInput', (req, res) => {
     .catch((err) => {
       console.log('caught error', err);
     });
-
-  // axios.get('https://api.yelp.com/v3/businesses/search', {
-  //   headers: {
-  //     Authorization: `Bearer ${apiKey}`,
-  //   },
-  //   // params: {
-  //   //   term: req.params.searchInput,
-  //   // },
-  // })
-  //   .then((response) => {
-  //     console.log('got response', response);
-  //     res.status(200).json(data);
-  //   })
-  //   .catch((error) => {
-  //     console.log('caught error', error);
-  //   });
 });
 
 app.get('/3restaurants', (req, res) => {
