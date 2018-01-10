@@ -15,6 +15,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       searchInput: '',
+      tenSearchResults: [],
     };
 
     this.handleSearchInputChange = this.handleSearchInputChange.bind(this);
@@ -27,10 +28,12 @@ class App extends React.Component {
   }
 
   handleSearchButtonClick() {
+    let _this = this;
     console.log(`doing axios call with search input: ${this.state.searchInput}`);
     axios.get(`/search/${this.state.searchInput}`)
       .then((response) => {
-        console.log(response);
+        _this.setState({ tenSearchResults: response.data });
+        console.log('the top 10 search results: ', _this.state.tenSearchResults);
       })
       .catch((error) => {
         console.log(error);
