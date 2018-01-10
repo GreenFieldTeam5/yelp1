@@ -2,12 +2,11 @@ import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
+import IconButton from 'material-ui/IconButton';
 import TextField from 'material-ui/TextField';
+import AppBar from 'material-ui/AppBar';
+import LoginButton from 'material-ui/svg-icons/action/account-circle';
 
-/**
- * A simple example of `AppBar` with an icon on the right.
- * By default, the left icon is a navigation-menu.
- */
 class TopNavbar extends React.Component {
   constructor(props) {
     super(props);
@@ -45,7 +44,10 @@ class TopNavbar extends React.Component {
 
     return (
       <div>
-        <RaisedButton label="Sign Up / Login" onClick={this.handleOpen} />
+        <AppBar title="Xelp" onRightIconButtonClick={this.handleOpen} showMenuIconButton={false}
+        iconElementRight={<FlatButton label="Login" />} 
+        />
+        {/* <RaisedButton label="Sign Up / Login" onClick={this.handleOpen} /> */}
         <Dialog
           title="Sign Up / Login"
           actions={actions}

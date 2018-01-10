@@ -51,7 +51,6 @@ class App extends React.Component {
       <MuiThemeProvider>
         <div>
           <div>
-            <div> Title Page </div>
             <TopNavbar />
             <Search
               searchInput={this.state.searchInput}

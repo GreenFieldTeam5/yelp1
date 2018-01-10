@@ -1,21 +1,19 @@
 const express = require('express');
-
-const app = express();
 const bodyParser = require('body-parser');
-const db = require('../database');
-const config = require('../client/src/config.js');
-
 const path = require('path');
 const axios = require('axios');
 const yelp = require('yelp-fusion');
 
+const db = require('../database/db');
+const config = require('../client/src/config.js');
 const data = require('../data.json');
+
+const app = express();
 
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
 app.listen(3000);
-
 
 app.get('/search/:searchInput', (req, res) => {
   console.log(`doing GET -> /search/${req.params.searchInput}`);
