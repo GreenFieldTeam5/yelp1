@@ -4,7 +4,8 @@ import ReactDOM from 'react-dom';
 const Search = (props) => {
   return (
     <div>
-      A Search Bar! by kat
+      Search: <input value={props.searchInput} onChange={props.handleSearchInputChange} />
+      <button onClick={props.handleSearchButtonClick}>Xelp it!</button>
     </div>
   );
 }
