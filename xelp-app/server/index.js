@@ -21,21 +21,21 @@ app.get('/search/:searchInput', (req, res) => {
   // 	console.log('success GET -> /api/lines', data);
   // 	res.status(200).json(data);
   // });
-	axios.get('https://api.yelp.com/v3/businesses/search', {
-		headers: {
-			'Authorization': 'Bearer RjDRgv8bBA1Sk5ybA-JT_L2eEQQY7qVO5yepc2FBXDOwJAthQz7mtjLxqAaW2U-QYWdUUETuHzBaeTuV4AD-GTq-YwpUX5Ucu3r4aodS5kLVolyUlAqoGb5Q1XtUWnYx'
-		},
-		params: {
-			term: req.params.searchInput
-		}
-	})
-		.then(function (response) {
-  		console.log(response);
-  		res.status(200).json(data);
-		})
-		.catch(function (error) {
-    	console.log(error);
-  	}); 
+  axios.get('https://api.yelp.com/v3/businesses/search', {
+    headers: {
+      Authorization: 'Bearer RjDRgv8bBA1Sk5ybA-JT_L2eEQQY7qVO5yepc2FBXDOwJAthQz7mtjLxqAaW2U-QYWdUUETuHzBaeTuV4AD-GTq-YwpUX5Ucu3r4aodS5kLVolyUlAqoGb5Q1XtUWnYx',
+    },
+    params: {
+      term: req.params.searchInput,
+    },
+  })
+    .then((response) => {
+      console.log(response);
+      res.status(200).json(data);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 });
 
 app.get('/3restaurants', (req, res) => {
