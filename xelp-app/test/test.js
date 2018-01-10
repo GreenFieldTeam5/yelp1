@@ -9,7 +9,7 @@ describe('Array', function() {
   });
 });
 
-const baseUrl = `http://localhost:2432`;
+const baseUrl = `http://localhost:3000`;
 
 describe('GET /3restaurants', () => {
   it('responds with a status code of 200', (done) => {

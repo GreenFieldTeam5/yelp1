@@ -12,7 +12,7 @@ const data = require('../data.json');
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
-app.listen(2432);
+app.listen(3000);
 
 
 app.get('/search/:searchInput', (req, res) => {
