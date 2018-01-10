@@ -30,7 +30,7 @@ bower_components/
 
 
 # Ben
-xelp-app/config/yelpAPI.js
+xelp-app/config/*
 package-lock.json
 bundle.js
 Icon*

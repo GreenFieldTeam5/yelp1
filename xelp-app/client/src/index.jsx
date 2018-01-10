@@ -1,14 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
-import Search from './Search.jsx';
+import Search from './components/Search.jsx';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Main from './components/Main.jsx';
 import TopNavbar from './components/TopNavbar.jsx';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'; 
+import SingleRestaurant from './components/SingleRestaurant.jsx';
 import SearchList from './components/SearchList.jsx';
 
 
-import Footer from './footer.jsx';
+import Footer from './components/footer.jsx';
 
 
 class App extends React.Component {
@@ -58,13 +60,9 @@ class App extends React.Component {
               handleSearchButtonClick={this.handleSearchButtonClick}
             />
           </div>
-          <SearchList
-            tenSearchResults={this.state.tenSearchResults}
-            handleSearchListClick={this.handleSearchListClick}
-          />
-          <div>
-            <Main />
-          </div>
+          <Route exact={true} path="/" component={Main} />
+          <Route path="/restaurant" component={SingleRestaurant} />
+          <Route path="/searchList" render={() => <SearchList tenSearchResults={this.state.tenSearchResults} handleSearchListClick={this.handleSearchListClick}/>}/>
           <Footer />
         </div>
       </MuiThemeProvider>
@@ -72,4 +70,9 @@ class App extends React.Component {
   }
 }
 
-ReactDOM.render(<App />, document.getElementById('app'));
+ReactDOM.render(
+  <Router>
+    <App />
+  </Router>
+  , document.getElementById('app')
+);
