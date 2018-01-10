@@ -1,17 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-class App extends React.Component {
+import Footer from './footer.jsx';
 
+class App extends React.Component {
   constructor(props) {
     super(props);
   }
 
   render() {
     return (
-      <div> Title Page </div>
-    )
+      <div>
+        <div> Title Page </div>
+        <Footer />
+      </div>
+    );
   }
 }
 
-ReactDOM.render( <App />, document.getElementById('app'));
+ReactDOM.render(<App />, document.getElementById('app'));
