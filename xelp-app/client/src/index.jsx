@@ -1,17 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import Main from './components/Main.jsx';
 
 class App extends React.Component {
-
   constructor(props) {
     super(props);
   }
-
   render() {
     return (
-      <div> Title Page </div>
-    )
+      <MuiThemeProvider>
+      <div>
+        <Main />
+      </div> 
+      </MuiThemeProvider>
+
+    );
   }
 }
-
-ReactDOM.render( <App />, document.getElementById('app'));
+ReactDOM.render(<App />, document.getElementById('app'));
