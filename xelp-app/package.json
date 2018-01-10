@@ -9,7 +9,13 @@
   },
   "scripts": {
     "react-dev": "webpack -d --watch",
-    "server-dev": "nodemon --inspect server/index.js"
+    "server-dev": "nodemon --inspect server/index.js",
+    "build:server": "babel ./server -d build/server",
+    "build:database": "babel ./database -d build/database",
+    "build:fakeData" : "cp ./data.json build/",
+    "build:client": "webpack --config ./webpack.config.js/",
+    "build:prod": "npm run build:server && npm run build:database && npm run build:client && npm run build:fakeData",
+    "test": "./node_modules/.bin/mocha --exit"
   },
   "dependencies": {
     "axios": "^0.17.1",
@@ -46,7 +52,8 @@
     "eslint-config-hackreactor": "git://github.com/reactorcore/eslint-config-hackreactor",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
-    "eslint-plugin-react": "^7.5.1"
+    "eslint-plugin-react": "^7.5.1",
+    "mocha": "^4.1.0"
   },
   "babel": {
     "presets": [
