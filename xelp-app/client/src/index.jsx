@@ -5,6 +5,7 @@ import Search from './Search.jsx';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Main from './components/Main.jsx';
 import TopNavbar from './components/TopNavbar.jsx';
+import SearchList from './components/SearchList.jsx';
 
 
 import Footer from './footer.jsx';
@@ -15,11 +16,12 @@ class App extends React.Component {
     super(props);
     this.state = {
       searchInput: '',
-      tenSearchResults: [],
+      tenSearchResults: [{ id: 1, name: 'currently empty SearchList component, please search something. ' }],
     };
 
     this.handleSearchInputChange = this.handleSearchInputChange.bind(this);
     this.handleSearchButtonClick = this.handleSearchButtonClick.bind(this);
+    this.handleSearchListClick = this.handleSearchListClick.bind(this);
   }
 
   handleSearchInputChange(e) {
@@ -28,7 +30,7 @@ class App extends React.Component {
   }
 
   handleSearchButtonClick() {
-    let _this = this;
+    const _this = this;
     console.log(`doing axios call with search input: ${this.state.searchInput}`);
     axios.get(`/search/${this.state.searchInput}`)
       .then((response) => {
@@ -39,6 +41,11 @@ class App extends React.Component {
         console.log(error);
       });
   }
+
+  handleSearchListClick(name) {
+    console.log('you just clicked ', name);
+  }
+
   render() {
     return (
       <MuiThemeProvider>
@@ -52,6 +59,10 @@ class App extends React.Component {
               handleSearchButtonClick={this.handleSearchButtonClick}
             />
           </div>
+          <SearchList
+            tenSearchResults={this.state.tenSearchResults}
+            handleSearchListClick={this.handleSearchListClick}
+          />
           <div>
             <Main />
           </div>
