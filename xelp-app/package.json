@@ -11,8 +11,9 @@
     "react-dev": "webpack -d --watch",
     "server-dev": "nodemon --inspect server/index.js",
     "build:server": "babel ./server -d build/server",
+    "build:database": "babel ./database -d build/database",
     "build:client": "webpack --config ./webpack.config.js/",
-    "build:prod": "npm run build:server && npm run build:client",
+    "build:prod": "npm run build:server && npm run build:database && npm run build:client",
     "test": "./node_modules/.bin/mocha --exit"
   },
   "dependencies": {
