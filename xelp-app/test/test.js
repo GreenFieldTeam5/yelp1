@@ -9,7 +9,7 @@ describe('Array', function() {
   });
 });
 
-const baseUrl = `http://localhost:${process.env.PORT}`;
+const baseUrl = `http://localhost:${3000}`;
 
 describe('GET /', () => {
   it('responds with a status code of 200', (done) => {
