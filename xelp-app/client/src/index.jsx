@@ -6,6 +6,10 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Main from './components/Main.jsx';
 import TopNavbar from './components/TopNavbar.jsx';
 
+
+import Footer from './footer.jsx';
+
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -45,9 +49,11 @@ class App extends React.Component {
           <div>
             <Main />
           </div> 
-          </div>
+          <Footer />
+        </div>
       </MuiThemeProvider>
     )
   }
 }
+
 ReactDOM.render(<App />, document.getElementById('app'));
