@@ -32,12 +32,13 @@ class TopNavbar extends React.Component {
     const actions = [
       <FlatButton
         label="Cancel"
-        primary={true}
-        onClick={this.handleClose}/>,
+        primary
+        onClick={this.handleClose}
+      />,
       <FlatButton
         label="Submit"
-        primary={true}
-        disabled={true}
+        primary
+        disabled
         onClick={this.handleClose}
       />,
     ];
@@ -48,25 +49,23 @@ class TopNavbar extends React.Component {
         <Dialog
           title="Sign Up / Login"
           actions={actions}
-          modal={true}
+          modal
           open={this.state.open}
         >
           <TextField
             hintText="Enter your Username"
             floatingLabelText="Username"
-            onChange={(event.newValue) => this.setState({username: newValue})}
-      />
-   <br/>
-      <TextField
-        type="password"
-        hintText="Enter your Password"
-        floatingLabelText="Password"
-        onChange = {(event,newValue) => this.setState({password:newValue})}
-        />
-      </Dialog>
+          />
+          <br />
+          <TextField
+            type="password"
+            hintText="Enter your Password"
+            floatingLabelText="Password"
+          />
+        </Dialog>
       </div>
-    )
+    );
   }
-};
+}
 
-export default TopNavbar
+export default TopNavbar;
