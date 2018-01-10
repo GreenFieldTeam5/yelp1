@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
@@ -5,7 +7,6 @@ const axios = require('axios');
 const yelp = require('yelp-fusion');
 
 const db = require('../database/db');
-const config = require('../client/src/config.js');
 const data = require('../data.json');
 
 const app = express();
@@ -17,9 +18,9 @@ app.use((req, res, next) => {
 });
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
-app.listen(3000);
+console.log('what is the process.env.PORT', process.env.PORT);
 
-// test change
+app.listen(process.env.PORT);
 
 /* =================
         Search 
@@ -31,7 +32,7 @@ app.get('/search/:searchInput', (req, res) => {
     term: req.params.searchInput,
     location: 'san francisco, ca',
   };
-  const client = yelp.client(config.apiKey);
+  const client = yelp.client(process.env.YELP_API_KEY);
 
   client.search(searchRequest)
     .then((response) => {

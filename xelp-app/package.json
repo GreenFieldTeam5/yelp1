@@ -12,7 +12,7 @@
     "server-dev": "nodemon --inspect server/index.js",
     "build:server": "babel ./server -d build/server",
     "build:database": "babel ./database -d build/database",
-    "build:fakeData" : "cp ./data.json build/; cp ./knexfile.js build/",
+    "build:fakeData": "cp ./data.json build/; cp ./knexfile.js build/",
     "build:client": "webpack --config ./webpack.config.js/",
     "build:prod": "npm run build:server && npm run build:database && npm run build:client && npm run build:fakeData",
     "test": "./node_modules/.bin/mocha --exit"
@@ -27,6 +27,7 @@
     "body-parser": "^1.18.2",
     "bookshelf": "^0.12.1",
     "bootstrap": "^4.0.0-beta.3",
+    "dotenv": "^4.0.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "express": "^4.15.0",
     "jquery": "^3.1.1",

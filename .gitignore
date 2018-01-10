@@ -33,6 +33,11 @@ bower_components/
 xelp-app/config/*
 package-lock.json
 bundle.js
+
+# Tom
+xelp-app/.env
+xelp_app/logfile
+
 Icon*
 
 .DS_Store
