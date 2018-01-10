@@ -10,7 +10,7 @@
   "scripts": {
     "react-dev": "webpack -d --watch",
     "server-dev": "nodemon --inspect server/index.js",
-    "build:server": "babel ./app/server -d build/server",
+    "build:server": "babel ./server -d build/server",
     "build:client": "webpack --config ./webpack.config.js/",
     "build:prod": "npm run build:server && npm run build:client",
     "test": "./node_modules/.bin/mocha --exit"
