@@ -29,7 +29,7 @@ class App extends React.Component {
   handleSearchButtonClick() {
     console.log(`doing axios call with search input: ${this.state.searchInput}`);
     axios.get(`/search/${this.state.searchInput}`)
-    .then((response) => {
+      .then((response) => {
         console.log(response);
       })
       .catch((error) => {
@@ -40,19 +40,22 @@ class App extends React.Component {
     return (
       <MuiThemeProvider>
         <div>
-    	    <div>
-          	<div> Title Page </div>
-            <TopNavbar/>
-          	<Search searchInput={this.state.searchInput} handleSearchInputChange={this.handleSearchInputChange} 
-      		  handleSearchButtonClick={this.handleSearchButtonClick} />
+          <div>
+            <div> Title Page </div>
+            <TopNavbar />
+            <Search
+              searchInput={this.state.searchInput}
+              handleSearchInputChange={this.handleSearchInputChange}
+              handleSearchButtonClick={this.handleSearchButtonClick}
+            />
           </div>
           <div>
             <Main />
-          </div> 
+          </div>
           <Footer />
         </div>
       </MuiThemeProvider>
-    )
+    );
   }
 }
 
