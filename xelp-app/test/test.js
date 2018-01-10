@@ -16,6 +16,7 @@ describe('GET /3restaurants', () => {
     axios.get(`${baseUrl}/3restaurants`)
       .then((response) => {
         assert.equal(response.status, 200);
+        console.log('response:', response);
         // expect(response.status).to.equal(200);
         done();
       })
