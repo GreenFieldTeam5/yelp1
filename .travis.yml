@@ -1,5 +1,4 @@
+before_install: cd xelp-app
 language: node_js
 node_js:
-  - "iojs"
   - "8"
-before_install: cd xelp-app
