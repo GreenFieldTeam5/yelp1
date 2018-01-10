@@ -19,11 +19,13 @@ class App extends React.Component {
     this.state = {
       searchInput: '',
       tenSearchResults: [],
+      restaurant: [],
     };
 
     this.handleSearchInputChange = this.handleSearchInputChange.bind(this);
     this.handleSearchButtonClick = this.handleSearchButtonClick.bind(this);
     this.handleSearchListClick = this.handleSearchListClick.bind(this);
+    this.selectRestaurant = this.selectRestaurant.bind(this);
   }
 
   handleSearchInputChange(e) {
@@ -48,6 +50,13 @@ class App extends React.Component {
     console.log('you just clicked ', name);
   }
 
+  selectRestaurant(restaurant) {
+    console.log('selected: ', restaurant);
+    this.setState({
+      restaurant: restaurant,
+    });
+  }
+
   render() {
     return (
       <MuiThemeProvider>
@@ -60,9 +69,9 @@ class App extends React.Component {
               handleSearchButtonClick={this.handleSearchButtonClick}
             />
           </div>
-          <Route exact={true} path="/" component={Main} />
-          <Route path="/restaurant" component={SingleRestaurant} />
-          <Route path="/searchList" render={() => <SearchList tenSearchResults={this.state.tenSearchResults} handleSearchListClick={this.handleSearchListClick}/>}/>
+          <Route exact={true} path="/" render={() => <Main selectRestaurant={this.selectRestaurant} />} />
+          <Route path="/restaurant" render={() => <SingleRestaurant restaurant={this.state.restaurant} />} />
+          <Route path="/searchList" render={() => <SearchList tenSearchResults={this.state.tenSearchResults} handleSearchListClick={this.handleSearchListClick} selectRestaurant={this.selectRestaurant} />} />
           <Footer />
         </div>
       </MuiThemeProvider>
@@ -74,5 +83,5 @@ ReactDOM.render(
   <Router>
     <App />
   </Router>
-  , document.getElementById('app')
+  , document.getElementById('app'),
 );

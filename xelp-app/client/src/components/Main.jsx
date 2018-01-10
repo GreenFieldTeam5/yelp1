@@ -58,7 +58,7 @@ class Main extends React.Component {
               titleBackground="linear-gradient(to top, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)"
             >
               <Link to="/restaurant">
-              <img src={restaurant.image_url} />
+              <img onClick={() => this.props.selectRestaurant(restaurant)} src={restaurant.image_url} />
               </Link>
             </GridTile>
       ))}
