@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-const express    = require('express');
-const app        = express();
-const bodyParser = require('body-parser');
-const db         = require('../database');
-const path       = require('path');
-=======
 const express = require('express');
 
 const app = express();
@@ -15,7 +8,6 @@ const path = require('path');
 const axios = require('axios');
 
 const data = require('../data.json');
->>>>>>> 8355689f60dd1ad4d9c41975738c5f86f8c93c8a
 
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '../client/dist')));
