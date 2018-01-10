@@ -1,41 +1,74 @@
 import React from 'react';
-import { ModalFooter, ModalBody, ModalHeader, Modal, Button, Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
+import TextField from 'material-ui/TextField';
 
+
+/**
+ * A simple example of `AppBar` with an icon on the right.
+ * By default, the left icon is a navigation-menu.
+ */
 class TopNavbar extends React.Component {
   constructor(props) {
     super(props);
 
-    this.toggleNavbar = this.toggleNavbar.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+    this.handleOpen = this.handleOpen.bind(this);
+
     this.state = {
-      collapsed: true
+      open: false
     };
   }
 
-  toggleNavbar() {
-    this.setState({
-      collapsed: !this.state.collapsed
-    });
+  handleOpen() {
+    this.setState({open: true});
   }
+
+  handleClose() {
+    this.setState({open: false});
+  }
+
   render() {
+  const actions = [
+    <FlatButton
+      label="Cancel"
+      primary={true}
+      onClick={this.handleClose}
+    />,
+    <FlatButton
+      label="Submit"
+      primary={true}
+      disabled={true}
+      onClick={this.handleClose}
+    />,
+  ];
+
     return (
       <div>
-        <Navbar color="faded" light>
-          <NavbarBrand href="/" className="mr-auto">reactstrap</NavbarBrand>
-          <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
-          <Collapse isOpen={!this.state.collapsed} navbar>
-            <Nav navbar>
-              <NavItem>
-                <NavLink href="/components/">Components</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink href="https://github.com/reactstrap/reactstrap">Github</NavLink>
-              </NavItem>
-            </Nav>
-          </Collapse>
-        </Navbar>
+        <RaisedButton label="Sign Up / Login" onClick={this.handleOpen} />
+      <Dialog
+        title="Sign Up / Login"
+        actions={actions}
+        modal={true}
+        open={this.state.open}
+      >
+      <TextField
+        hintText="Enter your Username"
+        floatingLabelText="Username"
+        onChange = {(event,newValue) => this.setState({username:newValue})}
+      />
+   <br/>
+      <TextField
+        type="password"
+        hintText="Enter your Password"
+        floatingLabelText="Password"
+        onChange = {(event,newValue) => this.setState({password:newValue})}
+        />
+      </Dialog>
       </div>
-    );
+    )
   }
-}
+};
 
-export default TopNavbar;
+export default TopNavbar
