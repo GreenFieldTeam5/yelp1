@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Main from './components/Main.jsx';
 
 class App extends React.Component {
@@ -8,9 +9,11 @@ class App extends React.Component {
   }
   render() {
     return (
-      <div> Title Page
+      <MuiThemeProvider>
+      <div>
         <Main />
-      </div>
+      </div> 
+      </MuiThemeProvider>
 
     );
   }

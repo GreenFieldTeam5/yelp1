@@ -14,6 +14,5 @@ app.listen(3000);
 
 
 app.get('/3restaurants', (req, res) => {
-  const featured = data.businesses.slice(0, 3);
-  res.send(featured);
+  res.send(data.businesses);
 });
