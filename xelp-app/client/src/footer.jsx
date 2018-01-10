@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from 'reactstrap';
+
 
 class Footer extends React.Component {
   constructor(props) {
@@ -7,11 +7,16 @@ class Footer extends React.Component {
   }
   render() {
     return (
-      <div className="footer">
-        <Button color="danger">Danger!</Button>
-        <div className="footer-text">
-          Copyright © 2018 Xelp Inc.
-        </div>
+      <div>
+        <table className="footer-table">
+          <tbody>
+            <tr>
+              <td className="footer mui-container mui--text-center mui--align-middle">
+                  Copyright © 2018 Xelp Inc.
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     );
   }

@@ -39,15 +39,16 @@ class App extends React.Component {
     return (
       <MuiThemeProvider>
         <div>
-    	    <div>
-          	<div> Title Page </div>
-          	<Search searchInput={this.state.searchInput} handleSearchInputChange={this.handleSearchInputChange} 
+    	     <div>
+           	<div> Title Page </div>
+           	<Search searchInput={this.state.searchInput} handleSearchInputChange={this.handleSearchInputChange} 
       		  handleSearchButtonClick={this.handleSearchButtonClick} />
           </div>
           <div>
             <Main />
           </div> 
-          </div>
+          <Footer />
+        </div>
       </MuiThemeProvider>
     )
   }
