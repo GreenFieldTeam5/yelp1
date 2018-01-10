@@ -7,4 +7,6 @@ describe('Array', function() {
   });
 });
 
+var newVar = 0;
+
 // change
