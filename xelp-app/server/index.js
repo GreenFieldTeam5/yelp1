@@ -29,6 +29,11 @@ app.get('/search/:searchInput', (req, res) => {
   client.search(searchRequest)
     .then((response) => {
       const topTen = response.jsonBody.businesses.slice(0, 10);
+      // topTen.forEach((business) => {
+      //   if (business.display_phone === '') {
+      //     business.display_phone = 'No Phone Number';
+      //   }
+      // });
       topTen.forEach((business) => {
         console.log('got ', business.name);
       });

@@ -16,7 +16,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       searchInput: '',
-      tenSearchResults: [{ id: 1, name: 'currently empty SearchList component, please search something. ' }],
+      tenSearchResults: [],
     };
 
     this.handleSearchInputChange = this.handleSearchInputChange.bind(this);
