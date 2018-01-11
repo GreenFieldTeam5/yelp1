@@ -7,6 +7,7 @@ const axios = require('axios');
 const yelp = require('yelp-fusion');
 const passport = require('passport');
 const GitHubStrategy = require('passport-github').Strategy;
+const FacebookStrategy = require('passport-facebook');
 
 const db = require('../database/db');
 const data = require('../data.json');
@@ -63,26 +64,56 @@ app.get('/3restaurants', (req, res) => {
 /* Github Authentication */
 
 app.get('/auth/github', passport.authenticate('github'));
-
 app.get(
   '/auth/github/callback',
   passport.authenticate('github', { failureRedirect: '/login' }),
   (req, res) => { res.redirect('/'); },
 );
-
-passport.use(new GitHubStrategy({
-  clientID: process.env.GITHUB_CLIENT_ID,
-  clientSecret: process.env.GITHUB_SECRET,
-  callbackURL: "http://127.0.0.1:3000/auth/github/callback"
-},
-function(accessToken, refreshToken, profile, cb) {
-  // do database things here
-  User.findOrCreate({ githubId: profile.id }, function (err, user) {
-    return cb(err, user);
-  });
-}
+passport.use(new GitHubStrategy(
+  {
+    clientID: process.env.GITHUB_CLIENT_ID,
+    clientSecret: process.env.GITHUB_SECRET,
+    callbackURL: 'http://127.0.0.1:3000/auth/github/callback',
+  },
+  (accessToken, refreshToken, profile, cb) => {
+    // do database things here
+    console.log('accessToken: ', accessToken);
+    console.log('refreshToken: ', refreshToken);
+    console.log('profile: ', profile);
+    return cb(null, profile);
+  },
 ));
 
-/* Google Authentication */
 
-/* Facebook Authentication */
+app.get('/auth/facebook', passport.authenticate('facebook'));
+app.get(
+  '/auth/fb/callback',
+  passport.authenticate('facebook', { failureRedirect: '/login' }),
+  (req, res) => { res.redirect('/'); },
+);
+/* Facebook Authentication -- Currently processing by Ben */
+/* passport.use(new FacebookStrategy(
+  {
+    clientID: process.env.FACEBOOK_CLIENT_ID,
+    clientSecret: process.env.FACEBOOK_SECRET,
+    callbackURL: 'http://127.0.0.1:3000/auth/fb/callback',
+  },
+  (accessToken, refreshToken, profile, cb) => {
+    // do database things here
+    console.log('accessToken: ', accessToken);
+    console.log('refreshToken: ', refreshToken);
+    console.log('profile: ', profile);
+    return cb(null, profile);
+  },
+)); */
+
+/* 
+app.get('/auth/google', passport.authenticate('google'));
+app.get(
+  '/auth/google/callback',
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  (req, res) => { res.redirect('/'); },
+); 
+*/
+
+/* Google Authentication */
