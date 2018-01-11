@@ -3,10 +3,10 @@ const axios = require('axios');
 
 require('dotenv').config();
 
-describe('Array', function() {
-  describe('#indexOf()', function() {
-    it('should return -1 when the value is not present', function() {
-      assert.equal([1,2,3].indexOf(4), -1);
+dheroku buildpacks:set heroku/nodejsescribe('Array', () => {
+  describe('#indexOf()', () => {
+    it('should return -1 when the value is not present', () => {
+      assert.equal([1, 2, 3].indexOf(4), -1);
     });
   });
 });

@@ -1,5 +1,6 @@
 require('dotenv').config();
 
+const abc = require('../database/index');
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
@@ -55,6 +56,10 @@ app.get('/search/:searchInput/:prices', (req, res) => {
 
 app.get('/3restaurants', (req, res) => {
   res.send(data.businesses);
+});
+
+app.get('/testinghere', (req, res) => {
+  abc.test();
 });
 
 /* =================
