@@ -8,9 +8,9 @@ const SearchList = (props) => {
       {props.tenSearchResults.length === 0 &&
         <div>
           This is the SearchList component. Please search something!
+          <Map className="mapping" />
         </div>
       }
-      <Map />
       {props.tenSearchResults.length !== 0 && props.tenSearchResults.map(item => (
         <SearchListEntry
           key={item.id}

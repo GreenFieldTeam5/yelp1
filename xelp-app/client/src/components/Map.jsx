@@ -1,7 +1,6 @@
 import React from 'react';
 import mapboxgl from 'mapbox-gl';
 
-console.log('This is the mapbox accessToken: ', process.env.MAPBOX_TOKEN);
 mapboxgl.accessToken = process.env.MAPBOX_TOKEN;
 
 class Map extends React.Component {
@@ -26,11 +25,12 @@ class Map extends React.Component {
     });
 
     map.on('move', () => {
-      const { newLongitude, newLatitude } = map.getCenter();
+
+      const { lng, lat } = map.getCenter();
 
       this.setState({
-        longitude: newLongitude.toFixed(4), // toFixed(4) means to 4 decimal accuracy
-        latitude: newLatitude.toFixed(4),
+        longitude: lng.toFixed(4), // toFixed(4) means to 4 decimal accuracy
+        latitude: lat.toFixed(4),
         zoom: map.getZoom().toFixed(2)
       });
     });
