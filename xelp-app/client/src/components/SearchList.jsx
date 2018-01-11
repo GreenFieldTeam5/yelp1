@@ -1,5 +1,6 @@
 import React from 'react';
 import SearchListEntry from './SearchListEntry.jsx';
+import Map from './Map.jsx';
 
 const SearchList = (props) => {
   return (
@@ -7,6 +8,7 @@ const SearchList = (props) => {
       {props.tenSearchResults.length === 0 &&
         <div>
           This is the SearchList component. Please search something!
+          <Map className="mapping" />
         </div>
       }
       {props.tenSearchResults.length !== 0 && props.tenSearchResults.map(item => (
