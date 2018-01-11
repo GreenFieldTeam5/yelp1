@@ -26,12 +26,13 @@ class App extends React.Component {
 
     this.handleSearchInputChange = this.handleSearchInputChange.bind(this);
     this.handleSearchButtonClick = this.handleSearchButtonClick.bind(this);
+    this.handleSearchButtonClickTesting = this.handleSearchButtonClickTesting.bind(this);
     this.handleSearchListClick = this.handleSearchListClick.bind(this);
     this.selectRestaurant = this.selectRestaurant.bind(this);
     this.handlePriceFilterClick = this.handlePriceFilterClick.bind(this);
-    this.addRestaurantsToDB = this.addRestaurantsToDB.bind(this);
     this.getAllRestaurants = this.getAllRestaurants.bind(this);
     this.wipeRestaurantDB = this.wipeRestaurantDB.bind(this);
+    this.populateRestaurants = this.populateRestaurants.bind(this);
   }
 
   handleSearchInputChange(e) {
@@ -60,6 +61,30 @@ class App extends React.Component {
       });
   }
 
+  handleSearchButtonClickTesting() {
+    const _this = this;
+    let prices = [
+      this.state.priceFilterOne ? '1' : '',
+      this.state.priceFilterTwo ? '2' : '',
+      this.state.priceFilterThree ? '3' : '',
+      this.state.priceFilterFour ? '4' : '',
+    ].filter(item => item !== '').join(', ');
+    prices = prices === '' ? '1, 2, 3, 4' : prices;
+
+    console.log(`doing axios call with search input: ${this.state.searchInput} and prices ${prices}`);
+    console.log('this feature is in testing, current state: searches for exact string match');
+    axios.get(`/test/search/${this.state.searchInput}/${prices}`)
+      .then((response) => {
+        const results = Array(10).fill(response.data.filter(item => item.name === _this.state.searchInput)[0]);
+        console.log('testing search results: ', results);
+        _this.setState({ tenSearchResults: results });
+        console.log('the top 10 search results: ', _this.state.tenSearchResults);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   handleSearchListClick(entry) {
     console.log('you just clicked ', entry);
     this.setState({
@@ -79,19 +104,6 @@ class App extends React.Component {
     if (price === '$$') { this.setState({ priceFilterTwo: !this.state.priceFilterTwo }, () => this.handleSearchButtonClick()); }
     if (price === '$$$') { this.setState({ priceFilterThree: !this.state.priceFilterThree }, () => this.handleSearchButtonClick()); }
     if (price === '$$$$') { this.setState({ priceFilterFour: !this.state.priceFilterFour }, () => this.handleSearchButtonClick()); }
-  }
-
-  addRestaurantsToDB(restaurants) {
-    console.log('doing axios call to /cat-add');
-    axios.post('/cat-add', {
-      data: restaurants,
-    })
-      .then((response) => {
-        console.log('got POST response: ', response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
   }
 
   getAllRestaurants() {
@@ -116,6 +128,19 @@ class App extends React.Component {
       });
   }
 
+  populateRestaurants() {
+    console.log('doing axios call to /populate');
+    axios.post('/populate', {
+      data: '',
+    })
+      .then((response) => {
+        console.log('got POST response:: ', response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   render() {
     return (
       <MuiThemeProvider>
@@ -123,14 +148,14 @@ class App extends React.Component {
           <div>
             <TopNavbar />
           </div>
-          <button onClick={() => this.addRestaurantsToDB(this.state.tenSearchResults.slice(0, 2))}>
-            Add the first two search results to the database
-          </button>
           <button onClick={() => this.getAllRestaurants()}>
             Get all restaurants in database
           </button>
           <button onClick={() => this.wipeRestaurantDB()}>
-            Wipe the restaurant database
+            Wipe the restaurant table
+          </button>
+          <button onClick={() => this.populateRestaurants()}>
+            Add 1000 restaurants from San Francisco, CA to database (20 API calls)
           </button>
           <Route path="/" render={() => (
             <Search
@@ -141,6 +166,7 @@ class App extends React.Component {
               priceFilterFour={this.state.priceFilterFour}
               handleSearchInputChange={this.handleSearchInputChange}
               handleSearchButtonClick={this.handleSearchButtonClick}
+              handleSearchButtonClickTesting={this.handleSearchButtonClickTesting}
               handlePriceFilterClick={this.handlePriceFilterClick}
             />
           )} />

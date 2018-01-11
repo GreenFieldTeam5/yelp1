@@ -16,7 +16,7 @@ const test = () => {
 
 const addToRestaurants = (restaurants, cb) => {
   let completion = 0;
-  restaurants.forEach(restaurant => {
+  restaurants.forEach((restaurant) => {
     knex.insert({
       name: restaurant.name,
       image_url: restaurant.image_url,
@@ -26,6 +26,7 @@ const addToRestaurants = (restaurants, cb) => {
       state: restaurant.location.state,
       zip_code: restaurant.location.zip_code,
       price: restaurant.price,
+      rating: restaurant.rating,
       latitude: restaurant.coordinates.latitude,
       longitude: restaurant.coordinates.longitude,
     }).into('restaurants')

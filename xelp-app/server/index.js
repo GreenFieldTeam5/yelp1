@@ -13,6 +13,7 @@ const dbHelpers = require('../database/index');
 const data = require('../data.json');
 
 const app = express();
+const client = yelp.client(process.env.YELP_API_KEY);
 
 app.use(bodyParser.json());
 app.use((req, res, next) => {
@@ -34,16 +35,10 @@ app.get('/search/:searchInput/:prices', (req, res) => {
     location: 'san francisco, ca',
     price: req.params.prices,
   };
-  const client = yelp.client(process.env.YELP_API_KEY);
 
   client.search(searchRequest)
     .then((response) => {
       const topTen = response.jsonBody.businesses.slice(0, 10);
-      // topTen.forEach((business) => {
-      //   if (business.display_phone === '') {
-      //     business.display_phone = 'No Phone Number';
-      //   }
-      // });
       topTen.forEach((business) => {
         console.log('got ', business.name);
       });
@@ -62,24 +57,45 @@ app.get('/3restaurants', (req, res) => {
     Database Testing
    ================= */
 
-app.post('/cat-add', (req, res) => {
-  console.log('doing POST -> /cat-add. got data: ');
-  console.log(req.body.data);
-  dbHelpers.addToRestaurants(req.body.data, (post) => {
-    res.status(201).json(post);
-  });
-});
-
 app.get('/cat-get', (req, res) => {
   console.log('doing GET -> /cat-get');
   dbHelpers.getAllRestaurants((data) => {
     res.status(200).json(data);
   });
 });
-
 app.get('/cat-wipe', (req, res) => {
   console.log('doing GET -> /cat-wipe');
   dbHelpers.deleteAllRestaurants((data) => {
+    res.status(200).json(data);
+  });
+});
+app.post('/populate', (req, res) => {
+  for (let i = 0; i <= 1000; i += 50) {
+    const searchRequest = {
+      location: 'san francisco, ca',
+      limit: 50,
+      offset: i,
+    };
+
+    client.search(searchRequest)
+      .then((response) => {
+        const results = response.jsonBody.businesses;
+        dbHelpers.addToRestaurants(results, () => {
+          if (i === 1000) {
+            res.status(201).json('POSTing finished, 1000 results. ');
+          }
+        });
+      })
+      .catch((err) => {
+        console.log('caught error', err);
+      });
+  }
+});
+app.get('/test/search/:searchInput/:prices', (req, res) => {
+  console.log(`doing GET -> /test/search/${req.params.searchInput}/${req.params.prices}`);
+  dbHelpers.getAllRestaurants((data) => {
+    console.log('testing search function got data: ', data);
+    //const results = data.filter(item => item.name === req.params.searchInput);
     res.status(200).json(data);
   });
 });
