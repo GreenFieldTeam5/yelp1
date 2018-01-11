@@ -9,7 +9,7 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import SingleRestaurant from './components/SingleRestaurant.jsx';
 import SearchList from './components/SearchList.jsx';
 import Footer from './components/footer.jsx';
-
+import AddReview from './components/AddReview.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -96,10 +96,12 @@ class App extends React.Component {
               handleSearchButtonClick={this.handleSearchButtonClick}
               handlePriceFilterClick={this.handlePriceFilterClick}
             />
-          )} />
+          )}
+          />
           <Route exact={true} path="/" render={() => <Main selectRestaurant={this.selectRestaurant} />} />
           <Route path="/restaurant" render={() => <SingleRestaurant restaurant={this.state.restaurant} />} />
           <Route path="/searchList" render={() => <SearchList tenSearchResults={this.state.tenSearchResults} handleSearchListClick={this.handleSearchListClick} />} />
+          <Route path="/restaurant/writeReview" render={() => <AddReview />} />
           <Footer />
         </div>
       </MuiThemeProvider>
