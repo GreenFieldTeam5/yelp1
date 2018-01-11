@@ -27,23 +27,24 @@ class TopNavbar extends React.Component {
   }
 
   render() {
-
     return (
       <div>
-        <AppBar
-          title="Xelp"
-          onRightIconButtonClick={this.handleOpen}
-          showMenuIconButton={false}
-          iconElementRight={<FlatButton label="Login" />}
-        />
+        <Link to="/">
+          <AppBar
+            title="Xelp"
+            onRightIconButtonClick={this.handleOpen}
+            showMenuIconButton={false}
+            iconElementRight={<FlatButton label="Login" />}
+          />
+        </Link>
         <Dialog
           title="Sign Up / Login"
-          titleStyle={{textAlign: "center"}}
+          titleStyle={{ textAlign: 'center' }}
           modal={false}
           onRequestClose={this.handleClose}
           autoDetectWindowHeight={false}
           autoScrollBodyContent={false}
-          contentStyle={{maxWidth: 300}}
+          contentStyle={{ maxWidth: 300 }}
           open={this.state.open}
         >
           <RaisedButton

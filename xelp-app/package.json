@@ -5,17 +5,20 @@
   "author": "Ben, Tom, Catherine, Tyler",
   "license": "",
   "engines": {
-    "node": ">=6.4.0"
+    "node": ">=6.4.0",
+    "npm": ">=5.0.0"
   },
   "scripts": {
     "react-dev": "webpack -d --watch",
     "server-dev": "nodemon --inspect server/index.js",
+    "start": "nodemon --inspect server/index.js",
     "build:server": "babel ./server -d build/server",
     "build:database": "babel ./database -d build/database",
     "build:fakeData": "cp ./data.json build/; cp ./knexfile.js build/",
     "build:client": "webpack --config ./webpack.config.js/",
     "build:prod": "npm run build:server && npm run build:database && npm run build:client && npm run build:fakeData",
-    "test": "./node_modules/.bin/mocha --exit"
+    "test": "./node_modules/.bin/mocha --exit",
+    "postinstall": "webpack -d"
   },
   "dependencies": {
     "axios": "^0.17.1",
@@ -35,7 +38,9 @@
     "material-ui": "^0.20.0",
     "nodemon": "^1.14.9",
     "passport": "^0.4.0",
+    "passport-facebook": "^2.1.1",
     "passport-github": "^1.1.0",
+    "passport-google-oauth20": "^1.0.0",
     "path": "^0.12.7",
     "pg": "^7.4.1",
     "prettier-eslint": "^8.7.1",

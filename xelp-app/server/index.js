@@ -6,7 +6,9 @@ const path = require('path');
 const axios = require('axios');
 const yelp = require('yelp-fusion');
 const passport = require('passport');
-const GithubStrategy = require('passport-github').Strategy;
+const GitHubStrategy = require('passport-github').Strategy;
+const FacebookStrategy = require('passport-facebook');
+const GoogleStrategy = require('passport-facebook').Strategy;
 
 const db = require('../database/db');
 const data = require('../data.json');
@@ -15,6 +17,7 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use((req, res, next) => {
+  console.log(process.env);
   console.log(`${req.path}, ${req.method}, ${req.status}, ${JSON.stringify(req.body)}`);
   next();
 });
@@ -60,18 +63,72 @@ app.get('/3restaurants', (req, res) => {
 /* =================
      Signup/Login
    ================= */
+
 /* Github Authentication */
 app.get('/auth/github', passport.authenticate('github'));
-app.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/login' }), (req, res) => {
-  res.redirect('/');
-});
+app.get(
+  '/auth/github/callback',
+  passport.authenticate('github', { failureRedirect: '/login' }),
+  (req, res) => { res.redirect('/'); },
+);
+passport.use(new GitHubStrategy(
+  {
+    clientID: 'abc' || process.env.GITHUB_CLIENT_ID,
+    clientSecret: process.env.GITHUB_SECRET,
+    callbackURL: 'http://127.0.0.1:3000/auth/github/callback',
+  },
+  (accessToken, refreshToken, profile, cb) => {
+    // do database things here
+    console.log('accessToken: ', accessToken);
+    console.log('refreshToken: ', refreshToken);
+    console.log('profile: ', profile);
+    return cb(null, profile);
+  },
+));
 
-passport.use(new GithubStrategy({
-  clientID: 'abc',
-  clientSecret: 'def',
-  callbackURL: '/auth/github/callback',
-}, (accessToken, refreshToken, profile, cb) => cb(null, profile)));
+app.get('/auth/facebook', passport.authenticate('facebook'));
+app.get(
+  '/auth/facebook/callback',
+  passport.authenticate('facebook', { failureRedirect: '/login' }),
+  (req, res) => { res.redirect('/'); },
+);
+
+/* Facebook Authentication -- Currently processing by Ben */
+passport.use(new FacebookStrategy(
+  {
+    clientID: process.env.FACEBOOK_CLIENT_ID,
+    clientSecret: process.env.FACEBOOK_SECRET,
+    callbackURL: '/auth/facebook/callback',
+  },
+  (accessToken, refreshToken, profile, cb) => {
+    // do database things here
+    console.log('accessToken: ', accessToken);
+    console.log('refreshToken: ', refreshToken);
+    console.log('profile: ', profile);
+    return cb(null, profile);
+  },
+));
+
 
 /* Google Authentication */
+app.get('/auth/google', passport.authenticate('google'));
+app.get(
+  '/auth/google/callback',
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  (req, res) => { res.redirect('/'); }
+);
 
-/* Facebook Authentication */
+passport.use(new GoogleStrategy(
+  {
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_SECRET,
+    callbackURL: '/auth/google/callback',
+  },
+  (accessToken, refreshToken, profile, cb) => {
+    // do database things here
+    console.log('accessToken: ', accessToken);
+    console.log('refreshToken: ', refreshToken);
+    console.log('profile: ', profile);
+    return cb(null, profile);
+  },
+));
