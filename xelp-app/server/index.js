@@ -23,12 +23,13 @@ app.listen(process.env.PORT || 3000);
 /* =================
         Search 
    ================= */
-app.get('/search/:searchInput', (req, res) => {
-  console.log(`doing GET -> /search/${req.params.searchInput}`);
+app.get('/search/:searchInput/:prices', (req, res) => {
+  console.log(`doing GET -> /search/${req.params.searchInput}/${req.params.prices}`);
 
   const searchRequest = {
     term: req.params.searchInput,
     location: 'san francisco, ca',
+    price: req.params.prices,
   };
   const client = yelp.client(process.env.YELP_API_KEY);
 
