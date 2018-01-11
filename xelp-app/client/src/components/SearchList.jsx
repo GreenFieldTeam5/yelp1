@@ -1,5 +1,6 @@
 import React from 'react';
 import SearchListEntry from './SearchListEntry.jsx';
+import Map from './Map.jsx';
 
 const SearchList = (props) => {
   return (
@@ -9,6 +10,7 @@ const SearchList = (props) => {
           This is the SearchList component. Please search something!
         </div>
       }
+      <Map />
       {props.tenSearchResults.length !== 0 && props.tenSearchResults.map(item => (
         <SearchListEntry
           key={item.id}
