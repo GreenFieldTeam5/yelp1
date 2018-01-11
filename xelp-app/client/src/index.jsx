@@ -75,9 +75,8 @@ class App extends React.Component {
     console.log('this feature is in testing, current state: searches for exact string match');
     axios.get(`/test/search/${this.state.searchInput}/${prices}`)
       .then((response) => {
-        const results = Array(10).fill(response.data.filter(item => item.name === _this.state.searchInput)[0]);
-        console.log('testing search results: ', results);
-        _this.setState({ tenSearchResults: results });
+        console.log('testing search results: ', response.data);
+        _this.setState({ tenSearchResults: response.data });
         console.log('the top 10 search results: ', _this.state.tenSearchResults);
       })
       .catch((error) => {

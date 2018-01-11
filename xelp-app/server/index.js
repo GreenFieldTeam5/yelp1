@@ -72,6 +72,7 @@ app.get('/cat-wipe', (req, res) => {
 app.post('/populate', (req, res) => {
   for (let i = 0; i <= 1000; i += 50) {
     const searchRequest = {
+      term: 'restaurants',
       location: 'san francisco, ca',
       limit: 50,
       offset: i,
@@ -95,8 +96,12 @@ app.get('/test/search/:searchInput/:prices', (req, res) => {
   console.log(`doing GET -> /test/search/${req.params.searchInput}/${req.params.prices}`);
   dbHelpers.getAllRestaurants((data) => {
     console.log('testing search function got data: ', data);
-    //const results = data.filter(item => item.name === req.params.searchInput);
-    res.status(200).json(data);
+    // assign each result in the database a point value based on keyword matches
+    // return the top 10 of them
+    // below line is a strict search by exact string match to restaurant name.
+    // const results = Array(10).fill(data.filter(item => item.name === req.params.searchInput)[0]);
+    const results = dbHelpers.searchAlgorithm(data, req.params.searchInput);
+    res.status(200).json(results);
   });
 });
 

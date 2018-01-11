@@ -36,6 +36,7 @@ exports.up = (knex, Promise) => Promise.all([
     restaurants.string('zip_code');
     restaurants.string('price');
     restaurants.string('rating');
+    restaurants.string('categories');
     restaurants.float('latitude');
     restaurants.float('longitude');
   }),
