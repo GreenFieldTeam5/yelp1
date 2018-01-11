@@ -53,7 +53,6 @@ class TopNavbar extends React.Component {
             secondary
             icon={<FontIcon className="muidocs-icon-custom-github" />}
           />
-          <br/>
           <RaisedButton
             className="signin-oauth facebook"
             target="_blank"
@@ -61,7 +60,6 @@ class TopNavbar extends React.Component {
             primary
             icon={<FontIcon className="muidocs-icon-custom-github" />}
           />
-          <br/>
           <RaisedButton
             className="signin-oauth google"
             target="_blank"

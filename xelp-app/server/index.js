@@ -3,6 +3,8 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const axios = require('axios');
 const yelp = require('yelp-fusion');
+const passport = require('passport');
+const GithubStrategy = require('passport-github').Strategy;
 
 const db = require('../database/db');
 const config = require('../client/src/config.js');
@@ -20,7 +22,7 @@ app.use(express.static(path.join(__dirname, '../client/dist')));
 app.listen(3000);
 
 /* =================
-        Search 
+        Search
    ================= */
 app.get('/search/:searchInput', (req, res) => {
   console.log(`doing GET -> /search/${req.params.searchInput}`);
@@ -56,7 +58,18 @@ app.get('/3restaurants', (req, res) => {
 /* =================
      Signup/Login
    ================= */
-app.post('/createUser', (req, res) => {
-
+/* Github Authentication */
+app.get('/auth/github', passport.authenticate('github'));
+app.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/login' }), (req, res) => {
+  res.redirect('/');
 });
 
+passport.use(new GithubStrategy({
+  clientID: 'abc',
+  clientSecret: 'def',
+  callbackURL: '/auth/github/callback',
+}, (accessToken, refreshToken, profile, cb) => cb(null, profile)));
+
+/* Google Authentication */
+
+/* Facebook Authentication */
