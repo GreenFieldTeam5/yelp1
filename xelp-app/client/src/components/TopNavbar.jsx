@@ -30,12 +30,14 @@ class TopNavbar extends React.Component {
 
     return (
       <div>
+      <Link to="/">
         <AppBar
           title="Xelp"
           onRightIconButtonClick={this.handleOpen}
           showMenuIconButton={false}
           iconElementRight={<FlatButton label="Login" />}
         />
+      </Link>
         <Dialog
           title="Sign Up / Login"
           titleStyle={{textAlign: "center"}}
