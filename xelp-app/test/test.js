@@ -1,6 +1,8 @@
 const assert = require('assert');
 const axios = require('axios');
 
+require('dotenv').config();
+
 describe('Array', function() {
   describe('#indexOf()', function() {
     it('should return -1 when the value is not present', function() {
@@ -9,7 +11,7 @@ describe('Array', function() {
   });
 });
 
-const baseUrl = `http://localhost:3000`;
+const baseUrl = `http://localhost:${process.env.PORT}`;
 
 describe('GET /3restaurants', () => {
   it('responds with a status code of 200', (done) => {

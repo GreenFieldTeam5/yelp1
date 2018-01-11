@@ -1,35 +1,39 @@
+require('dotenv').config();
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const axios = require('axios');
 const yelp = require('yelp-fusion');
+const passport = require('passport');
+const GithubStrategy = require('passport-github').Strategy;
 
 const db = require('../database/db');
-const config = require('../client/src/config.js');
 const data = require('../data.json');
 
 const app = express();
 
 app.use(bodyParser.json());
 app.use((req, res, next) => {
-  console.log(`${req.path}, ${req.method}, ${req.status}, ${req.body}`);
+  console.log(`${req.path}, ${req.method}, ${req.status}, ${JSON.stringify(req.body)}`);
   next();
 });
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
-app.listen(3000);
+app.listen(process.env.PORT || 3000);
 
 /* =================
-        Search 
+        Search
    ================= */
-app.get('/search/:searchInput', (req, res) => {
-  console.log(`doing GET -> /search/${req.params.searchInput}`);
+app.get('/search/:searchInput/:prices', (req, res) => {
+  console.log(`doing GET -> /search/${req.params.searchInput}/${req.params.prices}`);
 
   const searchRequest = {
     term: req.params.searchInput,
     location: 'san francisco, ca',
+    price: req.params.prices,
   };
-  const client = yelp.client(config.apiKey);
+  const client = yelp.client(process.env.YELP_API_KEY);
 
   client.search(searchRequest)
     .then((response) => {
@@ -56,7 +60,18 @@ app.get('/3restaurants', (req, res) => {
 /* =================
      Signup/Login
    ================= */
-app.post('/createUser', (req, res) => {
-
+/* Github Authentication */
+app.get('/auth/github', passport.authenticate('github'));
+app.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/login' }), (req, res) => {
+  res.redirect('/');
 });
 
+passport.use(new GithubStrategy({
+  clientID: 'abc',
+  clientSecret: 'def',
+  callbackURL: '/auth/github/callback',
+}, (accessToken, refreshToken, profile, cb) => cb(null, profile)));
+
+/* Google Authentication */
+
+/* Facebook Authentication */
