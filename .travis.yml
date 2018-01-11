@@ -4,4 +4,5 @@ node_js:
   - 8.4.0
 before_script:
 - npm run build:prod
+- psql -c 'create database xelp;' -U postgres
 script: node ./build/server/index.js & npm run test
