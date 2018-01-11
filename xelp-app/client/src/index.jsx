@@ -46,8 +46,11 @@ class App extends React.Component {
       });
   }
 
-  handleSearchListClick(name) {
-    console.log('you just clicked ', name);
+  handleSearchListClick(entry) {
+    console.log('you just clicked ', entry);
+    this.setState({
+      restaurant: entry,
+    });
   }
 
   selectRestaurant(restaurant) {
@@ -71,7 +74,7 @@ class App extends React.Component {
           </div>
           <Route exact={true} path="/" render={() => <Main selectRestaurant={this.selectRestaurant} />} />
           <Route path="/restaurant" render={() => <SingleRestaurant restaurant={this.state.restaurant} />} />
-          <Route path="/searchList" render={() => <SearchList tenSearchResults={this.state.tenSearchResults} handleSearchListClick={this.handleSearchListClick} selectRestaurant={this.selectRestaurant} />} />
+          <Route path="/searchList" render={() => <SearchList tenSearchResults={this.state.tenSearchResults} handleSearchListClick={this.handleSearchListClick} />} />
           <Footer />
         </div>
       </MuiThemeProvider>
