@@ -6,7 +6,7 @@ const path = require('path');
 const axios = require('axios');
 const yelp = require('yelp-fusion');
 const passport = require('passport');
-const GithubStrategy = require('passport-github').Strategy;
+const GitHubStrategy = require('passport-github').Strategy;
 
 const db = require('../database/db');
 const data = require('../data.json');
@@ -61,16 +61,27 @@ app.get('/3restaurants', (req, res) => {
      Signup/Login
    ================= */
 /* Github Authentication */
-app.get('/auth/github', passport.authenticate('github'));
-app.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/login' }), (req, res) => {
-  res.redirect('/');
-});
 
-passport.use(new GithubStrategy({
-  clientID: 'abc',
-  clientSecret: 'def',
-  callbackURL: '/auth/github/callback',
-}, (accessToken, refreshToken, profile, cb) => cb(null, profile)));
+app.get('/auth/github', passport.authenticate('github'));
+
+app.get(
+  '/auth/github/callback',
+  passport.authenticate('github', { failureRedirect: '/login' }),
+  (req, res) => { res.redirect('/'); },
+);
+
+passport.use(new GitHubStrategy({
+  clientID: process.env.GITHUB_CLIENT_ID,
+  clientSecret: process.env.GITHUB_SECRET,
+  callbackURL: "http://127.0.0.1:3000/auth/github/callback"
+},
+function(accessToken, refreshToken, profile, cb) {
+  // do database things here
+  User.findOrCreate({ githubId: profile.id }, function (err, user) {
+    return cb(err, user);
+  });
+}
+));
 
 /* Google Authentication */
 
