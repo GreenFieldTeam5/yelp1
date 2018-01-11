@@ -8,7 +8,7 @@ const SearchListEntry = (props) => {
       <div onClick={() => props.handleSearchListClick(props.entry)}>
         {props.entry.name} ({props.entry.price})<br />
         Rating: {props.entry.rating} / 5<br />
-        Address: {props.entry.location.address1}, {props.entry.location.city} {props.entry.location.zip_code}<br />
+        Address: {props.entry.location.address1}, {props.entry.location.city}, ${props.entry.location.state} {props.entry.location.zip_code}<br />
         Phone: {props.entry.display_phone.length > 0 && props.entry.display_phone}
         <br />
       </div>

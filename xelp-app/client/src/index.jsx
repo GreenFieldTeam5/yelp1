@@ -78,6 +78,19 @@ class App extends React.Component {
     if (price === '$$$$') { this.setState({ priceFilterFour: !this.state.priceFilterFour }, () => this.handleSearchButtonClick()); }
   }
 
+  addRestaurantsToDB(restaurants) {
+    console.log('doing axios call to /cat-add');
+    axios.post('/cat-add', {
+      data: restaurants,
+    })
+      .then((response) => {
+        console.log('got post response: ', response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   render() {
     return (
       <MuiThemeProvider>
@@ -85,6 +98,12 @@ class App extends React.Component {
           <div>
             <TopNavbar />
           </div>
+          <button onClick={() => this.addRestaurantsToDB([this.state.tenSearchResults[0]])}>
+            Add the first search result to the database
+          </button>
+          <button>
+            Check if the first search result is in the database
+          </button>
           <Route path="/" render={() => (
             <Search
               searchInput={this.state.searchInput}

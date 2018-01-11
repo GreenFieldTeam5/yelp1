@@ -1,6 +1,5 @@
 require('dotenv').config();
 
-const abc = require('../database/index');
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
@@ -10,6 +9,7 @@ const passport = require('passport');
 const GithubStrategy = require('passport-github').Strategy;
 
 const db = require('../database/db');
+const dbHelpers = require('../database/index');
 const data = require('../data.json');
 
 const app = express();
@@ -58,8 +58,20 @@ app.get('/3restaurants', (req, res) => {
   res.send(data.businesses);
 });
 
+/* =================
+    Database Testing
+   ================= */
+
+app.post('/cat-add', (req, res) => {
+  console.log('doing POST -> /cat-add. got data: ');
+  console.log(req.body.data);
+  dbHelpers.addToRestaurants(req.body.data, (post) => {
+    res.status(201).json(post);
+  });
+});
+
 app.get('/testinghere', (req, res) => {
-  abc.test();
+  dbHelpers.test();
 });
 
 /* =================
