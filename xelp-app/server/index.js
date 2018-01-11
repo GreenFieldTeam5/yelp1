@@ -8,6 +8,7 @@ const yelp = require('yelp-fusion');
 const passport = require('passport');
 const GitHubStrategy = require('passport-github').Strategy;
 const FacebookStrategy = require('passport-facebook');
+const GoogleStrategy = require('passport-facebook').Strategy;
 
 const db = require('../database/db');
 const data = require('../data.json');
@@ -16,6 +17,7 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use((req, res, next) => {
+  console.log(process.env);
   console.log(`${req.path}, ${req.method}, ${req.status}, ${JSON.stringify(req.body)}`);
   next();
 });
@@ -61,8 +63,8 @@ app.get('/3restaurants', (req, res) => {
 /* =================
      Signup/Login
    ================= */
-/* Github Authentication */
 
+/* Github Authentication */
 app.get('/auth/github', passport.authenticate('github'));
 app.get(
   '/auth/github/callback',
@@ -84,19 +86,19 @@ passport.use(new GitHubStrategy(
   },
 ));
 
-
 app.get('/auth/facebook', passport.authenticate('facebook'));
 app.get(
-  '/auth/fb/callback',
+  '/auth/facebook/callback',
   passport.authenticate('facebook', { failureRedirect: '/login' }),
   (req, res) => { res.redirect('/'); },
 );
+
 /* Facebook Authentication -- Currently processing by Ben */
-/* passport.use(new FacebookStrategy(
+passport.use(new FacebookStrategy(
   {
     clientID: process.env.FACEBOOK_CLIENT_ID,
     clientSecret: process.env.FACEBOOK_SECRET,
-    callbackURL: 'http://127.0.0.1:3000/auth/fb/callback',
+    callbackURL: '/auth/facebook/callback',
   },
   (accessToken, refreshToken, profile, cb) => {
     // do database things here
@@ -105,15 +107,28 @@ app.get(
     console.log('profile: ', profile);
     return cb(null, profile);
   },
-)); */
+));
 
-/* 
+
+/* Google Authentication */
 app.get('/auth/google', passport.authenticate('google'));
 app.get(
   '/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/login' }),
-  (req, res) => { res.redirect('/'); },
-); 
-*/
+  (req, res) => { res.redirect('/'); }
+);
 
-/* Google Authentication */
+passport.use(new GoogleStrategy(
+  {
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_SECRET,
+    callbackURL: '/auth/google/callback',
+  },
+  (accessToken, refreshToken, profile, cb) => {
+    // do database things here
+    console.log('accessToken: ', accessToken);
+    console.log('refreshToken: ', refreshToken);
+    console.log('profile: ', profile);
+    return cb(null, profile);
+  },
+));
