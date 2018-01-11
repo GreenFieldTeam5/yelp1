@@ -10,3 +10,8 @@ body {
 .footer-table {
   width: 100%;
 }
+
+.signin-oauth {
+  width: 220px;
+  margin: 10px;
+}
