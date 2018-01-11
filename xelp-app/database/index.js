@@ -31,12 +31,30 @@ const addToRestaurants = (restaurants, cb) => {
     }).into('restaurants')
       .then(() => {
         completion++;
-        if (completion === restaurants.length) cb(restaurants)
+        if (completion === restaurants.length) cb(restaurants);
       });
   });
+};
+
+const getAllRestaurants = (cb) => {
+  knex.select().table('restaurants')
+    .then((data) => {
+      console.log('got data: ', data);
+      cb(data);
+    });
+};
+
+const deleteAllRestaurants = (cb) => {
+  knex('restaurants').where('id', '>', 0).del()
+    .then((data) => {
+      console.log('deleted everything', data);
+      cb(data);
+    });
 };
 
 module.exports = {
   test,
   addToRestaurants,
+  getAllRestaurants,
+  deleteAllRestaurants,
 };

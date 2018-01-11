@@ -29,6 +29,9 @@ class App extends React.Component {
     this.handleSearchListClick = this.handleSearchListClick.bind(this);
     this.selectRestaurant = this.selectRestaurant.bind(this);
     this.handlePriceFilterClick = this.handlePriceFilterClick.bind(this);
+    this.addRestaurantsToDB = this.addRestaurantsToDB.bind(this);
+    this.getAllRestaurants = this.getAllRestaurants.bind(this);
+    this.wipeRestaurantDB = this.wipeRestaurantDB.bind(this);
   }
 
   handleSearchInputChange(e) {
@@ -84,7 +87,29 @@ class App extends React.Component {
       data: restaurants,
     })
       .then((response) => {
-        console.log('got post response: ', response);
+        console.log('got POST response: ', response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  getAllRestaurants() {
+    console.log('doing axios call to /cat-get');
+    axios.get('/cat-get')
+      .then((response) => {
+        console.log('got GET response: ', response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  wipeRestaurantDB() {
+    console.log('doing axios call to /cat-wipe');
+    axios.get('/cat-wipe')
+      .then((response) => {
+        console.log('got GET response: ', response);
       })
       .catch((error) => {
         console.log(error);
@@ -98,11 +123,14 @@ class App extends React.Component {
           <div>
             <TopNavbar />
           </div>
-          <button onClick={() => this.addRestaurantsToDB([this.state.tenSearchResults[0]])}>
-            Add the first search result to the database
+          <button onClick={() => this.addRestaurantsToDB(this.state.tenSearchResults.slice(0, 2))}>
+            Add the first two search results to the database
           </button>
-          <button>
-            Check if the first search result is in the database
+          <button onClick={() => this.getAllRestaurants()}>
+            Get all restaurants in database
+          </button>
+          <button onClick={() => this.wipeRestaurantDB()}>
+            Wipe the restaurant database
           </button>
           <Route path="/" render={() => (
             <Search

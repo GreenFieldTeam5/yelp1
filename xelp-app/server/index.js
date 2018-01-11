@@ -70,6 +70,20 @@ app.post('/cat-add', (req, res) => {
   });
 });
 
+app.get('/cat-get', (req, res) => {
+  console.log('doing GET -> /cat-get');
+  dbHelpers.getAllRestaurants((data) => {
+    res.status(200).json(data);
+  });
+});
+
+app.get('/cat-wipe', (req, res) => {
+  console.log('doing GET -> /cat-wipe');
+  dbHelpers.deleteAllRestaurants((data) => {
+    res.status(200).json(data);
+  });
+});
+
 app.get('/testinghere', (req, res) => {
   dbHelpers.test();
 });
