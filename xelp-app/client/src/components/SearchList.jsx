@@ -11,7 +11,7 @@ const SearchList = (props) => {
       }
       {props.tenSearchResults.length !== 0 && props.tenSearchResults.map(item => (
         <SearchListEntry
-          key={item.id}
+          key={Math.random()}
           entry={item}
           handleSearchListClick={props.handleSearchListClick}
         />
