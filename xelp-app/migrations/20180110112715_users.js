@@ -32,10 +32,13 @@ exports.up = (knex, Promise) => Promise.all([
     restaurants.string('phone_number');
     restaurants.string('street_name');
     restaurants.string('city');
+    restaurants.string('state');
     restaurants.string('zip_code');
     restaurants.string('price');
-    restaurants.float('longitude');
+    restaurants.string('rating');
+    restaurants.string('categories');
     restaurants.float('latitude');
+    restaurants.float('longitude');
   }),
   knex.schema.createTable('users_restaurants_recently_viewed', (userRestaurants) => {
     userRestaurants.increments('id').notNullable().primary();
