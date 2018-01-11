@@ -27,24 +27,35 @@ class AddReview extends React.Component {
       rating: 'Rating',
       review: '',
     }
-    this.handleChange = this.handleChange.bind(this);
+    this.handleRatingChange = this.handleRatingChange.bind(this);
+    this.handleReviewChange = this.handleReviewChange.bind(this);
+    this.submitReview = this.submitReview.bind(this);
   }
-  handleChange (event) {
-    console.log(event)
+  handleRatingChange (e, i, o) {
     this.setState({
-      rating: value,
+      rating: o,
     });
   } 
+  handleReviewChange (event) {
+    console.log(event.target.value)
+    this.setState({
+      review: event,
+    });
+  }   
+  submitReview() {
+  // submit post request to database with rating, review, and username
+  }
   render() {
     return (
         <div>
         <div>
         <DropDownMenu
-          value={this.state.rating || "Rating"}
-          onChange={() => this.handleChange()}
+          value={undefined}
+          onChange={this.handleRatingChange}
           style={styles.customWidth}
           autoWidth={false}
         >
+          <MenuItem value={undefined} primaryText='Rating'/>
           <MenuItem value={1} primaryText="1" />
           <MenuItem value={2} primaryText="2" />
           <MenuItem value={3} primaryText="3" />
@@ -54,10 +65,15 @@ class AddReview extends React.Component {
       </div>
   <div>
     <Divider />
-    <TextField hintText="Review" style={style} underlineShow={false} />
+        <TextField
+      onChange={this.handleReviewChange}
+      floatingLabelText="Review"
+      multiLine={true}
+      rows={5}
+    /><br />
     <Divider />
     <div>
-      <RaisedButton label="Submit" primary={true} style={buttonStyle} />
+      <RaisedButton onClick={this.submitReview} label="Submit" primary={true} style={buttonStyle} />
     </div>
   </div>
   </div>
