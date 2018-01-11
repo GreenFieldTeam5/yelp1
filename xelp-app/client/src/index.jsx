@@ -96,7 +96,6 @@ class App extends React.Component {
               handleSearchButtonClick={this.handleSearchButtonClick}
               handlePriceFilterClick={this.handlePriceFilterClick}
             />
-          </div>
           <Route exact={true} path="/" render={() => <Main selectRestaurant={this.selectRestaurant} />} />
           <Route path="/restaurant" render={() => <SingleRestaurant restaurant={this.state.restaurant} />} />
           <Route path="/searchList" render={() => <SearchList tenSearchResults={this.state.tenSearchResults} handleSearchListClick={this.handleSearchListClick} />} />
