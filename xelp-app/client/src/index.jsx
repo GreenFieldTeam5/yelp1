@@ -17,6 +17,7 @@ class App extends React.Component {
     this.state = {
       searchInput: '',
       tenSearchResults: [],
+      restaurant: [],
       priceFilterOne: true,
       priceFilterTwo: true,
       priceFilterThree: true,
@@ -26,6 +27,7 @@ class App extends React.Component {
     this.handleSearchInputChange = this.handleSearchInputChange.bind(this);
     this.handleSearchButtonClick = this.handleSearchButtonClick.bind(this);
     this.handleSearchListClick = this.handleSearchListClick.bind(this);
+    this.selectRestaurant = this.selectRestaurant.bind(this);
     this.handlePriceFilterClick = this.handlePriceFilterClick.bind(this);
   }
 
@@ -55,8 +57,18 @@ class App extends React.Component {
       });
   }
 
-  handleSearchListClick(name) {
-    console.log('you just clicked ', name);
+  handleSearchListClick(entry) {
+    console.log('you just clicked ', entry);
+    this.setState({
+      restaurant: entry,
+    });
+  }
+
+  selectRestaurant(restaurant) {
+    console.log('selected: ', restaurant);
+    this.setState({
+      restaurant: restaurant,
+    });
   }
 
   handlePriceFilterClick(price) {
@@ -83,11 +95,11 @@ class App extends React.Component {
               handleSearchInputChange={this.handleSearchInputChange}
               handleSearchButtonClick={this.handleSearchButtonClick}
               handlePriceFilterClick={this.handlePriceFilterClick}
-            />)}
-          />
-          <Route exact={true} path="/" component={Main} />
-          <Route path="/restaurant" component={SingleRestaurant} />
-          <Route path="/searchList" render={() => <SearchList tenSearchResults={this.state.tenSearchResults} handleSearchListClick={this.handleSearchListClick}/>}/>
+            />
+          </div>
+          <Route exact={true} path="/" render={() => <Main selectRestaurant={this.selectRestaurant} />} />
+          <Route path="/restaurant" render={() => <SingleRestaurant restaurant={this.state.restaurant} />} />
+          <Route path="/searchList" render={() => <SearchList tenSearchResults={this.state.tenSearchResults} handleSearchListClick={this.handleSearchListClick} />} />
           <Footer />
         </div>
       </MuiThemeProvider>
@@ -99,5 +111,5 @@ ReactDOM.render(
   <Router>
     <App />
   </Router>
-  , document.getElementById('app')
+  , document.getElementById('app'),
 );
