@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
@@ -27,6 +28,7 @@ class TopNavbar extends React.Component {
   }
 
   render() {
+    const linkTo = <Link to="auth/facebook" />;
     return (
       <div>
         <Link to="/">
@@ -55,6 +57,8 @@ class TopNavbar extends React.Component {
             icon={<FontIcon className="muidocs-icon-custom-github" />}
           />
           <RaisedButton
+            linkButton
+            href="/auth/facebook"
             className="signin-oauth facebook"
             target="_blank"
             label="Facebook"

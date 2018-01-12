@@ -1,24 +1,15 @@
 const knex = require('./db');
 
-const insertGitUser = (profile) => {
+const facebookLogin = (profile) => {
   knex.insert({
-    github_id: profile.id,
-    
-  });
-}
+    facebook_id: profile.id,
+    username: profile.displayName,
+  }).into('users').then(() => console.log('facebook_id inserted!'));
 
-const test = () => {
-  knex.insert({
-    google_id: 1,
-    github_id: 1,
-    facebook_id: 1,
-    username: 'cat123',
-    first_name: 'cat',
-    last_name: 'herine',
-    phone_number: '289232329',
-    email: 'catsruletheworld@gmail.com',
-  }).into('users')
-    .then(() => console.log('sds'));
+  return knex('users').where({
+    facebook_id: profile.id,
+  }).select('facebook_id')
+    .then(user => user);
 };
 
 const addToRestaurants = (restaurants, cb) => {
@@ -66,7 +57,7 @@ const searchAlgorithm = (restaurants, searchString) => {
   // exact category alias match: 2 points
   // partial category alias match: 1 point
   // then, all the elements for each point value are sorted based on rating.
-  let points = []; // array of [restaurant, pointscore]
+  const points = []; // array of [restaurant, pointscore]
   let ret = [];
   let searchInput = searchString.toLowerCase();
 
@@ -104,8 +95,7 @@ const searchAlgorithm = (restaurants, searchString) => {
 };
 
 module.exports = {
-  test,
-  insertGitUser,
+  facebookLogin,
   addToRestaurants,
   getAllRestaurants,
   deleteAllRestaurants,

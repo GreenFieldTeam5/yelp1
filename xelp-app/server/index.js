@@ -19,11 +19,23 @@ const client = yelp.client(process.env.YELP_API_KEY);
 
 app.use(bodyParser.json());
 app.use((req, res, next) => {
-  console.log(process.env);
   console.log(`${req.path}, ${req.method}, ${req.status}, ${JSON.stringify(req.body)}`);
   next();
 });
+app.use(require('cookie-parser')());
+app.use(require('body-parser').urlencoded({ extended: true }));
+app.use(require('express-session')({
+  secret: 'keyboard cat',
+  resave: true,
+  saveUninitialized: true,
+}));
+
 app.use(express.static(path.join(__dirname, '../client/dist')));
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser((user, done) => done(null, user));
+passport.deserializeUser((user, done) => done(null, user));
 
 app.listen(process.env.PORT || 3000);
 
@@ -113,26 +125,26 @@ app.get('/test/search/:searchInput/:prices', (req, res) => {
    ================= */
 
 /* Github Authentication */
-app.get('/auth/github', passport.authenticate('github'));
-app.get(
-  '/auth/github/callback',
-  passport.authenticate('github', { failureRedirect: '/login' }),
-  (req, res) => { res.redirect('/'); },
-);
-passport.use(new GitHubStrategy(
-  {
-    clientID: process.env.GITHUB_CLIENT_ID,
-    clientSecret: process.env.GITHUB_SECRET,
-    callbackURL: 'http://127.0.0.1:3000/auth/github/callback',
-  },
-  (accessToken, refreshToken, profile, cb) => {
-    // do database things here
-    console.log('accessToken: ', accessToken);
-    console.log('refreshToken: ', refreshToken);
-    console.log('profile: ', profile);
-    return cb(null, profile);
-  },
-));
+// app.get('/auth/github', passport.authenticate('github'));
+// app.get(
+//   '/auth/github/callback',
+//   passport.authenticate('github', { failureRedirect: '/login' }),
+//   (req, res) => { res.redirect('/'); },
+// );
+// passport.use(new GitHubStrategy(
+//   {
+//     clientID: process.env.GITHUB_CLIENT_ID,
+//     clientSecret: process.env.GITHUB_SECRET,
+//     callbackURL: 'http://127.0.0.1:3000/auth/github/callback',
+//   },
+//   (accessToken, refreshToken, profile, cb) => {
+//     // do database things here
+//     console.log('accessToken: ', accessToken);
+//     console.log('refreshToken: ', refreshToken);
+//     console.log('profile: ', profile);
+//     return cb(null, profile);
+//   },
+// ));
 
 app.get('/auth/facebook', passport.authenticate('facebook'));
 app.get(
@@ -147,36 +159,45 @@ passport.use(new FacebookStrategy(
     clientID: process.env.FACEBOOK_CLIENT_ID,
     clientSecret: process.env.FACEBOOK_SECRET,
     callbackURL: '/auth/facebook/callback',
+    passReqToCallback: true,
   },
-  (accessToken, refreshToken, profile, cb) => {
+  (req, accessToken, refreshToken, profile, cb) => {
     // do database things here
-    console.log('accessToken: ', accessToken);
-    console.log('refreshToken: ', refreshToken);
-    console.log('profile: ', profile);
+    if (!req.user) {
+      const fbLoginId = dbHelpers.facebookLogin(profile);
+      fbLoginId.then(user => console.log(user[0].facebook_id));
+    } else {
+      console.log('no user');
+    }
+
+    // if (!req.user) console.log(' uhhh');
     return cb(null, profile);
   },
 ));
 
+// /* Google Authentication */
+// app.get('/auth/google', passport.authenticate('google'));
+// app.get(
+//   '/auth/google/callback',
+//   passport.authenticate('google', { failureRedirect: '/login' }),
+//   (req, res) => { res.redirect('/'); },
+// );
 
-/* Google Authentication */
-app.get('/auth/google', passport.authenticate('google'));
-app.get(
-  '/auth/google/callback',
-  passport.authenticate('google', { failureRedirect: '/login' }),
-  (req, res) => { res.redirect('/'); }
-);
+// passport.use(new GoogleStrategy(
+//   {
+//     clientID: process.env.GOOGLE_CLIENT_ID,
+//     clientSecret: process.env.GOOGLE_SECRET,
+//     callbackURL: '/auth/google/callback',
+//   },
+//   (accessToken, refreshToken, profile, cb) => {
+//     // do database things here
+//     console.log('accessToken: ', accessToken);
+//     console.log('refreshToken: ', refreshToken);
+//     console.log('profile: ', profile);
+//     return cb(null, profile);
+//   },
+// ));
 
-passport.use(new GoogleStrategy(
-  {
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_SECRET,
-    callbackURL: '/auth/google/callback',
-  },
-  (accessToken, refreshToken, profile, cb) => {
-    // do database things here
-    console.log('accessToken: ', accessToken);
-    console.log('refreshToken: ', refreshToken);
-    console.log('profile: ', profile);
-    return cb(null, profile);
-  },
-));
+// app.get('/logout', (req, res) => {
+//   req.logout();
+// });
