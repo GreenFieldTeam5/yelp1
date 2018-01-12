@@ -18,6 +18,7 @@ class App extends React.Component {
     this.state = {
       searchInput: '',
       searchingYelpAPI: true,
+      page: 1,
       tenSearchResults: [],
       restaurant: [],
       showDatabaseButtons: false,
@@ -37,6 +38,7 @@ class App extends React.Component {
     this.wipeRestaurantDB = this.wipeRestaurantDB.bind(this);
     this.populateRestaurants = this.populateRestaurants.bind(this);
     this.toggleDatabaseButtons = this.toggleDatabaseButtons.bind(this);
+    this.handlePageClick = this.handlePageClick.bind(this);
   }
 
   componentDidMount() {
@@ -50,9 +52,7 @@ class App extends React.Component {
         console.log('detected restaurant database has data, not adding any more data. ');
       }
     });
-  }
 
-  componentDidMount() {
     axios.get('/getuserdata')
       .then((userData) => {
         this.setState({
@@ -90,9 +90,9 @@ class App extends React.Component {
         });
     } else {
       this.setState({ searchingYelpAPI: false });
-      axios.get(`/test/search/${this.state.searchInput}/${prices}`)
+      axios.get(`/test/search/${this.state.searchInput}/${prices}/${this.state.page}`)
         .then((response) => {
-          _this.setState({ tenSearchResults: response.data });
+          _this.setState({ tenSearchResults: response.data.slice(0, 10) });
           console.log('the top 10 search results: ', _this.state.tenSearchResults);
         })
         .catch((error) => {
@@ -164,6 +164,18 @@ class App extends React.Component {
       });
   }
 
+  handlePageClick(page) {
+    let newPage = this.state.page;
+    if (page === 'Prev' && this.state.page > 1) {
+      newPage = this.state.page - 1;
+    } else if (page === 'Next' && this.state.page < 9) {
+      newPage = this.state.page + 1;
+    } else if (typeof page === 'number') {
+      newPage = page;
+    }
+    this.setState({page: newPage}, () => this.handleSearchButtonClick(this.state.searchingYelpAPI));
+  }
+
   render() {
     return (
       <MuiThemeProvider>
@@ -204,7 +216,12 @@ class App extends React.Component {
           />
           <Route exact path="/" render={() => <Main selectRestaurant={this.selectRestaurant} />} />
           <Route path="/restaurant" render={() => <SingleRestaurant restaurant={this.state.restaurant} />} />
-          <Route path="/searchList" render={() => <SearchList tenSearchResults={this.state.tenSearchResults} handleSearchListClick={this.handleSearchListClick} />} />
+          <Route path="/searchList" render={() => <SearchList
+            tenSearchResults={this.state.tenSearchResults}
+            handleSearchListClick={this.handleSearchListClick}
+            handlePageClick={this.handlePageClick}
+            page={this.state.page} />} 
+          />
           <Route path="/restaurant/writeReview" render={() => <AddReview />} />
           <Footer />
         </div>

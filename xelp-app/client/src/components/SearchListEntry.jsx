@@ -4,13 +4,13 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 const styles = {
   container: {
     display: 'flex',
-    width: '1000px',
+    width: '700px',
   },
   title: {
     fontSize: '25px',
   },
   pic: {
-    width: '20%',
+    width: '30%',
     height: "150px",
   },
   item: {
@@ -19,7 +19,7 @@ const styles = {
     padding: '10px',
   },
   address: {
-    width: '30%',
+    width: '20%',
     height: "150px",
     padding: '10px',
   },

@@ -114,10 +114,10 @@ app.post('/populate', (req, res) => {
       });
   }
 });
-app.get('/test/search/:searchInput/:prices', (req, res) => {
-  console.log(`doing GET -> /test/search/${req.params.searchInput}/${req.params.prices}`);
+app.get('/test/search/:searchInput/:prices/:page', (req, res) => {
+  console.log(`doing GET -> /test/search/${req.params.searchInput}/${req.params.prices}/${req.params.page}`);
   dbHelpers.getAllRestaurants((data) => {
-    const results = dbHelpers.searchAlgorithm(data, req.params.searchInput, req.params.prices);
+    const results = dbHelpers.searchAlgorithm(data, req.params.searchInput, req.params.prices, req.params.page);
     res.status(200).json(results);
   });
 });

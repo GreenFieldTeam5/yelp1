@@ -7,6 +7,7 @@ const styles = {
     border: 'solid black',
     borderLeft: 'none',
     width: '400px',
+    margin: '10px',
   },
 };
 
