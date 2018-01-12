@@ -1,17 +1,31 @@
 const knex = require('./db');
+const { Client } = require('pg');
 
-const test = () => {
+const client = new Client({
+  connectionString: process.env.DATABASE_URL,
+  ssl: true,
+});
+
+client.connect();
+console.log('connect successful!');
+// client.query('SELECT * FROM restaurants;', (err, res) => {
+// if (err) throw err;
+// for (const row of res.rows) {
+// console.log(JSON.stringify(row));
+// }
+// client.end();
+// });
+
+const facebookLogin = (profile) => {
   knex.insert({
-    google_id: 1,
-    github_id: 1,
-    facebook_id: 1,
-    username: 'cat123',
-    first_name: 'cat',
-    last_name: 'herine',
-    phone_number: '289232329',
-    email: 'catsruletheworld@gmail.com',
-  }).into('users')
-    .then(() => console.log('sds'));
+    facebook_id: profile.id,
+    username: profile.displayName,
+  }).into('users').then(() => console.log('facebook_id inserted!'));
+
+  return knex('users').where({
+    facebook_id: profile.id,
+  }).select('facebook_id')
+    .then(user => user);
 };
 
 const addToRestaurants = (restaurants, cb) => {
@@ -63,7 +77,7 @@ const searchAlgorithm = (restaurants, searchString, pricesString) => {
   // exact category alias match: 2 points
   // partial category alias match: 1 point
   // then, all the elements for each point value are sorted based on rating.
-  let points = []; // array of [restaurant, pointscore]
+  const points = []; // array of [restaurant, pointscore]
   let ret = [];
   let searchInput = searchString.toLowerCase();
   let pricesInput = pricesString.split(', ').map(price => parseInt(price));
@@ -104,7 +118,7 @@ const searchAlgorithm = (restaurants, searchString, pricesString) => {
 };
 
 module.exports = {
-  test,
+  facebookLogin,
   addToRestaurants,
   getAllRestaurants,
   deleteAllRestaurants,
