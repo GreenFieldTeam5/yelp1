@@ -3,8 +3,6 @@ const axios = require('axios');
 
 require('dotenv').config();
 
-console.log('process environment variables: ', process.env);
-
 describe('Array', function() {
   describe('#indexOf()', function() {
     it('should return -1 when the value is not present', function() {

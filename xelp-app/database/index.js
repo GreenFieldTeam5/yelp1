@@ -1,5 +1,12 @@
 const knex = require('./db');
 
+const insertGitUser = (profile) => {
+  knex.insert({
+    github_id: profile.id,
+    
+  });
+}
+
 const test = () => {
   knex.insert({
     google_id: 1,
@@ -98,6 +105,7 @@ const searchAlgorithm = (restaurants, searchString) => {
 
 module.exports = {
   test,
+  insertGitUser,
   addToRestaurants,
   getAllRestaurants,
   deleteAllRestaurants,

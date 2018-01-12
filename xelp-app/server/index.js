@@ -108,10 +108,6 @@ app.get('/test/search/:searchInput/:prices', (req, res) => {
   });
 });
 
-app.get('/testinghere', (req, res) => {
-  dbHelpers.test();
-});
-
 /* =================
      Signup/Login
    ================= */
