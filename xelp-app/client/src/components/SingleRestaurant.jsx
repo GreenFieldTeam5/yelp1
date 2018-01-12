@@ -19,9 +19,10 @@ class SingleRestaurant extends React.Component {
     return (
       <div>
         <h1>{this.props.restaurant.name}</h1>
+        <div className="container">
         <div>
           <List>
-            <ListItem primaryText={`${this.props.restaurant.location.address1}, ${this.props.restaurant.location.city}, ${this.props.restaurant.location.state}, ${this.props.restaurant.location.zip_code}`} leftIcon={<LocationOnIcon />} />
+            <ListItem primaryText={this.props.restaurant.street_name} leftIcon={<LocationOnIcon />} />
             <ListItem primaryText={this.props.restaurant.rating} leftIcon={<ActionGradeIcon />} />
             <ListItem primaryText={this.props.restaurant.display_phone || 'None listed'} leftIcon={<PhoneIcon />} />
             <ListItem primaryText={this.props.restaurant.price} leftIcon={<MoneyIcon />} />
@@ -31,6 +32,10 @@ class SingleRestaurant extends React.Component {
             <Link to="restaurant/writeReview"> <ListItem primaryText="Write Review" leftIcon={<WriteReviewIcon />} /> </Link>
           </List>
         </div>
+        <div>
+        <img src={this.props.restaurant.image_url} width="444px" height="400px" />
+        </div>
+      </div>
       </div>
     );
   }
