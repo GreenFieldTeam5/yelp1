@@ -19,6 +19,7 @@ class App extends React.Component {
       searchingYelpAPI: true,
       tenSearchResults: [],
       restaurant: [],
+      showDatabaseButtons: false,
       priceFilterOne: true,
       priceFilterTwo: true,
       priceFilterThree: true,
@@ -33,6 +34,21 @@ class App extends React.Component {
     this.getAllRestaurants = this.getAllRestaurants.bind(this);
     this.wipeRestaurantDB = this.wipeRestaurantDB.bind(this);
     this.populateRestaurants = this.populateRestaurants.bind(this);
+    this.toggleDatabaseButtons = this.toggleDatabaseButtons.bind(this);
+  }
+
+  componentDidMount() {
+    this.getAllRestaurants((response) => {
+      if (response.data.length === 0) {
+        console.log('detected restaurant database is empty. filling it up...');
+        this.populateRestaurants((response) => {
+          console.log('finished populating restaurant database. ');
+        });
+      } else {
+        console.log('detected restaurant database has data, not adding any more data. ');
+      }
+    });
+    
   }
 
   handleSearchInputChange(e) {
@@ -90,43 +106,48 @@ class App extends React.Component {
   }
 
   handlePriceFilterClick(price) {
-    console.log('HELLO I AM CURIOUS GEORGE');
-    console.log(this.state.searchingYelpAPI ? 'searching yelp API' : 'searching our database');
     if (price === '$') { this.setState({ priceFilterOne: !this.state.priceFilterOne }, () => this.handleSearchButtonClick(this.state.searchingYelpAPI)); }
     if (price === '$$') { this.setState({ priceFilterTwo: !this.state.priceFilterTwo }, () => this.handleSearchButtonClick(this.state.searchingYelpAPI)); }
     if (price === '$$$') { this.setState({ priceFilterThree: !this.state.priceFilterThree }, () => this.handleSearchButtonClick(this.state.searchingYelpAPI)); }
     if (price === '$$$$') { this.setState({ priceFilterFour: !this.state.priceFilterFour }, () => this.handleSearchButtonClick(this.state.searchingYelpAPI)); }
   }
 
-  getAllRestaurants() {
+  toggleDatabaseButtons() {
+    this.setState({showDatabaseButtons: !this.state.showDatabaseButtons});
+  }
+
+  getAllRestaurants(cb) {
     console.log('doing axios call to /cat-get');
     axios.get('/cat-get')
       .then((response) => {
         console.log('got GET response: ', response);
+        if (cb) cb(response);
       })
       .catch((error) => {
         console.log(error);
       });
   }
 
-  wipeRestaurantDB() {
+  wipeRestaurantDB(cb) {
     console.log('doing axios call to /cat-wipe');
     axios.get('/cat-wipe')
       .then((response) => {
         console.log('got GET response: ', response);
+        if (cb) cb(response);
       })
       .catch((error) => {
         console.log(error);
       });
   }
 
-  populateRestaurants() {
+  populateRestaurants(cb) {
     console.log('doing axios call to /populate');
     axios.post('/populate', {
       data: '',
     })
       .then((response) => {
         console.log('got POST response:: ', response);
+        if (cb) cb(response);
       })
       .catch((error) => {
         console.log(error);
@@ -140,15 +161,22 @@ class App extends React.Component {
           <div>
             <TopNavbar />
           </div>
-          <button onClick={() => this.getAllRestaurants()}>
-            Get all restaurants in database
+          <button onClick={this.toggleDatabaseButtons}>
+            Toggle Database Testing Buttons
           </button>
-          <button onClick={() => this.wipeRestaurantDB()}>
-            Wipe the restaurant table
-          </button>
-          <button onClick={() => this.populateRestaurants()}>
-            Add 1000 restaurants from San Francisco, CA to database (20 API calls)
-          </button>
+          {this.state.showDatabaseButtons && 
+            <div>
+              <button onClick={() => this.getAllRestaurants()}>
+                Get all restaurants in database
+              </button>
+              <button onClick={() => this.wipeRestaurantDB()}>
+                Wipe the restaurant table
+              </button>
+              <button onClick={() => this.populateRestaurants()}>
+                Add 1000 restaurants from San Francisco, CA to database (20 API calls)
+              </button>
+            </div>
+          }
           <Route path="/" render={() => (
             <Search
               searchInput={this.state.searchInput}

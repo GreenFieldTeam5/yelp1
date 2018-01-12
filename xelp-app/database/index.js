@@ -17,24 +17,28 @@ const test = () => {
 const addToRestaurants = (restaurants, cb) => {
   let completion = 0;
   restaurants.forEach((restaurant) => {
-    knex.insert({
-      name: restaurant.name,
-      image_url: restaurant.image_url,
-      display_phone: restaurant.display_phone,
-      address1: restaurant.location.address1,
-      city: restaurant.location.city,
-      state: restaurant.location.state,
-      zip_code: restaurant.location.zip_code,
-      price: restaurant.price,
-      rating: restaurant.rating,
-      categories: restaurant.categories.map(item => item.alias).join('<AND>'),
-      latitude: restaurant.coordinates.latitude,
-      longitude: restaurant.coordinates.longitude,
-    }).into('restaurants')
-      .then(() => {
-        completion++;
-        if (completion === restaurants.length) cb(restaurants);
-      });
+    getAllRestaurants((data) => {
+      if (!data.map(item => item.name).includes(restaurant.name)) {
+        knex.insert({
+          name: restaurant.name,
+          image_url: restaurant.image_url,
+          display_phone: restaurant.display_phone,
+          address1: restaurant.location.address1,
+          city: restaurant.location.city,
+          state: restaurant.location.state,
+          zip_code: restaurant.location.zip_code,
+          price: restaurant.price,
+          rating: restaurant.rating,
+          categories: restaurant.categories.map(item => item.alias).join('<AND>'),
+          latitude: restaurant.coordinates.latitude,
+          longitude: restaurant.coordinates.longitude,
+        }).into('restaurants')
+          .then(() => {
+            completion++;
+            if (completion === restaurants.length) cb(restaurants);
+          });
+      }
+    });
   });
 };
 
