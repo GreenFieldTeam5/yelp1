@@ -5,10 +5,12 @@ import Map from './Map.jsx';
 const SearchList = (props) => {
   return (
     <div>
+      <div style={{position: 'relative'}} >
+        <Map restaurants={props.tenSearchResults} />
+      </div>
       {props.tenSearchResults.length === 0 &&
-        <div>
+        <div >
           This is the SearchList component. Please search something!
-          <Map className="mapping" />
         </div>
       }
       {props.tenSearchResults.length !== 0 && props.tenSearchResults.map(item => (

@@ -39,9 +39,15 @@ class Map extends React.Component {
   render() {
     const { longitude, latitude, zoom } = this.state;
 
+    var divStyle = {
+      position: 'relative',
+      height: '400px',
+      width: '400px',
+    };
+
     return (
       <div>
-        <div ref={el => this.mapContainer = el} className="absolute top right left bottom" />
+        <div ref={el => this.mapContainer = el} style={divStyle} />
       </div>
     );
   }
