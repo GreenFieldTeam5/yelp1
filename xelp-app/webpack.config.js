@@ -1,6 +1,9 @@
-let path = require('path');
-let SRC_DIR = path.join(__dirname, '/client/src');
-let DIST_DIR = path.join(__dirname, '/client/dist');
+require('dotenv').config();
+
+const path = require('path');
+const SRC_DIR = path.join(__dirname, '/client/src');
+const DIST_DIR = path.join(__dirname, '/client/dist');
+const webpack = require('webpack');
 
 module.exports = {
   entry: `${SRC_DIR}/index.jsx`,
@@ -20,4 +23,11 @@ module.exports = {
       },
     ],
   },
+  plugins: [
+    new webpack.DefinePlugin({
+        'process.env': {
+            'MAPBOX_TOKEN': JSON.stringify(process.env.MAPBOX_TOKEN)
+        }
+    }),
+  ]
 };
