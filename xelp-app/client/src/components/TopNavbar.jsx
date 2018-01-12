@@ -50,6 +50,8 @@ class TopNavbar extends React.Component {
           open={this.state.open}
         >
           <RaisedButton
+            linkButton
+            href="/auth/github"
             className="signin-oauth github"
             target="_blank"
             label="Github"
@@ -66,6 +68,8 @@ class TopNavbar extends React.Component {
             icon={<FontIcon className="muidocs-icon-custom-github" />}
           />
           <RaisedButton
+            linkButton
+            href="/auth/google"
             className="signin-oauth google"
             target="_blank"
             label="Google"

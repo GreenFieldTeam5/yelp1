@@ -8,7 +8,7 @@ const yelp = require('yelp-fusion');
 const passport = require('passport');
 const GitHubStrategy = require('passport-github').Strategy;
 const FacebookStrategy = require('passport-facebook');
-const GoogleStrategy = require('passport-facebook').Strategy;
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 const db = require('../database/db');
 const dbHelpers = require('../database/index');
@@ -139,8 +139,8 @@ app.get('/test/search/:searchInput/:prices', (req, res) => {
 //   },
 //   (accessToken, refreshToken, profile, cb) => {
 //     // do database things here
-//     console.log('accessToken: ', accessToken);
-//     console.log('refreshToken: ', refreshToken);
+//     // console.log('accessToken: ', accessToken);
+//     // console.log('refreshToken: ', refreshToken);
 //     console.log('profile: ', profile);
 //     return cb(null, profile);
 //   },
@@ -162,42 +162,44 @@ passport.use(new FacebookStrategy(
     passReqToCallback: true,
   },
   (req, accessToken, refreshToken, profile, cb) => {
-    // do database things here
+    // what to do with access token?
     if (!req.user) {
       const fbLoginId = dbHelpers.facebookLogin(profile);
       fbLoginId.then(user => console.log(user[0].facebook_id));
-    } else {
-      console.log('no user');
-    }
+    } else { console.log('user has already logged in'); }
 
-    // if (!req.user) console.log(' uhhh');
     return cb(null, profile);
   },
 ));
 
 // /* Google Authentication */
-// app.get('/auth/google', passport.authenticate('google'));
-// app.get(
-//   '/auth/google/callback',
-//   passport.authenticate('google', { failureRedirect: '/login' }),
-//   (req, res) => { res.redirect('/'); },
-// );
+app.get(
+  '/auth/google',
+  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }),
+);
+app.get(
+  '/auth/google/callback',
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  (req, res) => { res.redirect('/'); },
+);
 
-// passport.use(new GoogleStrategy(
-//   {
-//     clientID: process.env.GOOGLE_CLIENT_ID,
-//     clientSecret: process.env.GOOGLE_SECRET,
-//     callbackURL: '/auth/google/callback',
-//   },
-//   (accessToken, refreshToken, profile, cb) => {
-//     // do database things here
-//     console.log('accessToken: ', accessToken);
-//     console.log('refreshToken: ', refreshToken);
-//     console.log('profile: ', profile);
-//     return cb(null, profile);
-//   },
-// ));
+passport.use(new GoogleStrategy(
+  {
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_SECRET,
+    callbackURL: '/auth/google/callback',
+  },
+  (accessToken, refreshToken, profile, cb) => {
+    // what to do with access token?
+    if (!req.user) {
+      const googleLoginId = dbHelpers.googleLogin(profile);
+      googleLoginId.then(user => console.log(user[0].googleLogin));
+    } else { console.log('user has already logged in'); }
 
-// app.get('/logout', (req, res) => {
-//   req.logout();
-// });
+    return cb(null, profile);
+  },
+));
+
+app.get('/logout', (req, res) => {
+  req.logout();
+});
