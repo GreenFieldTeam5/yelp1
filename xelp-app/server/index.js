@@ -126,7 +126,9 @@ app.get('/auth/facebook', passport.authenticate('facebook'));
 app.get(
   '/auth/facebook/callback',
   passport.authenticate('facebook', { failureRedirect: '/login' }),
-  (req, res) => { res.redirect('/'); },
+  (req, res) => {
+    res.redirect('/');
+  },
 );
 
 /* Facebook Authentication -- Currently processing by Ben */
@@ -147,6 +149,10 @@ passport.use(new FacebookStrategy(
     return cb(null, profile);
   },
 ));
+
+app.get('/getuserdata', (req, res) => {
+  res.json(req.user);
+});
 
 /* Logout */
 app.get('/logout', (req, res) => {
