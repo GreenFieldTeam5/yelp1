@@ -19,6 +19,7 @@ class SingleRestaurant extends React.Component {
     return (
       <div>
         <h1>{this.props.restaurant.name}</h1>
+        <div className="container">
         <div>
           <List>
             <ListItem primaryText={this.props.restaurant.street_name} leftIcon={<LocationOnIcon />} />
@@ -31,6 +32,10 @@ class SingleRestaurant extends React.Component {
             <Link to="restaurant/writeReview"> <ListItem primaryText="Write Review" leftIcon={<WriteReviewIcon />} /> </Link>
           </List>
         </div>
+        <div>
+        <img src={this.props.restaurant.image_url} width="444px" height="400px" />
+        </div>
+      </div>
       </div>
     );
   }
