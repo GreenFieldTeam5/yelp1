@@ -8,6 +8,7 @@ const yelp = require('yelp-fusion');
 const passport = require('passport');
 const FacebookStrategy = require('passport-facebook');
 
+const psqlHelper = require('../database/postgres');
 const db = require('../database/db');
 const dbHelpers = require('../database/index');
 const data = require('../data.json');
@@ -54,7 +55,7 @@ app.get('/search/:searchInput/:prices', (req, res) => {
       const topTen = response.jsonBody.businesses.slice(0, 10);
       topTen.forEach((business) => {
         console.log('got ', business.name);
-        // below line are to match API format with our database format. 
+        // below line are to match API format with our database format.
         business.address1 = business.location.address1;
         business.city = business.location.city;
         business.state = business.location.state;
@@ -150,7 +151,6 @@ passport.use(new FacebookStrategy(
     passReqToCallback: true,
   },
   (req, accessToken, refreshToken, profile, cb) => {
-    // what to do with access token?
     if (!req.user) {
       const fbLoginId = dbHelpers.facebookLogin(profile);
       fbLoginId.then(user => console.log(user[0].facebook_id));
@@ -168,4 +168,10 @@ app.get('/getuserdata', (req, res) => {
 app.get('/logout', (req, res) => {
   req.logout();
   res.redirect('/');
+});
+
+app.get('/testpostgres', (req, res) => {
+  psqlHelper.abc();
+  console.log('inserted test data');
+  res.json('abc');
 });

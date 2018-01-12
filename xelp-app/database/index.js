@@ -1,12 +1,14 @@
 const knex = require('./db');
-const { Client } = require('pg');
+const pg = require('pg');
 
-const client = new Client({
-  connectionString: process.env.DATABASE_URL,
-  ssl: true,
+pg.connect(process.env.DATABASE_URL, (err, client, done) => {
+  client.query('SELECT * FROM users', (err, result) => {
+    done();
+    if (err) return console.error(err);
+    console.log('skjdahfkjsahdfjsdk');
+  });
 });
 
-client.connect();
 console.log('connect successful!');
 // client.query('SELECT * FROM restaurants;', (err, res) => {
 // if (err) throw err;
@@ -57,13 +59,13 @@ const addToRestaurants = (restaurants, cb) => {
 };
 
 const addReview = (review, cb) => {
-    knex.insert({
-      review_text: review.review_text,
-      avg_rating: review.avg_rating,
-    }).into('reviews')
-      .then(() => {
-        cb(review);
-      });
+  knex.insert({
+    review_text: review.review_text,
+    avg_rating: review.avg_rating,
+  }).into('reviews')
+    .then(() => {
+      cb(review);
+    });
 };
 
 const getAllRestaurants = (cb) => {
@@ -97,7 +99,7 @@ const searchAlgorithm = (restaurants, searchString, pricesString) => {
   const points = []; // array of [restaurant, pointscore]
   let ret = [];
   let searchInput = searchString.toLowerCase();
-  let pricesInput = pricesString.split(', ').map(price => parseInt(price));
+  const pricesInput = pricesString.split(', ').map(price => parseInt(price));
 
   for (let i = 0; i < restaurants.length; i++) {
     let point = 0;
@@ -106,7 +108,7 @@ const searchAlgorithm = (restaurants, searchString, pricesString) => {
     if (name === searchInput) {
       point += 4;
       // if exact name match is found, populate rest based on foremost category of matched restaurant
-      // the observation is that the first category is usually the most relevant. observation may be incorrect. 
+      // the observation is that the first category is usually the most relevant. observation may be incorrect.
       console.log('searchInput CHANGING TO: ', categories[0]);
       searchInput = categories[0] || searchInput;
     }
