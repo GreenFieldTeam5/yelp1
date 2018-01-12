@@ -1,22 +1,4 @@
 const knex = require('./db');
-const pg = require('pg');
-
-pg.connect(process.env.DATABASE_URL, (err, client, done) => {
-  client.query('SELECT * FROM users', (err, result) => {
-    done();
-    if (err) return console.error(err);
-    console.log('skjdahfkjsahdfjsdk');
-  });
-});
-
-console.log('connect successful!');
-// client.query('SELECT * FROM restaurants;', (err, res) => {
-// if (err) throw err;
-// for (const row of res.rows) {
-// console.log(JSON.stringify(row));
-// }
-// client.end();
-// });
 
 const facebookLogin = (profile) => {
   knex.insert({
