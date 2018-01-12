@@ -16,10 +16,6 @@ body {
   margin: 10px;
 }
 
-.mapping {
-  height: 400px;
-}
-
 .container {
  display: flex;
 }

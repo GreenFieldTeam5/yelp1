@@ -15,10 +15,12 @@ const styles = {
 const SearchList = (props) => {
   return (
     <div>
+      <div style={{position: 'relative'}} >
+        <Map restaurants={props.tenSearchResults} />
+      </div>
       {props.tenSearchResults.length === 0 &&
-        <div>
+        <div >
           This is the SearchList component. Please search something!
-          <Map className="mapping" />
         </div>
       }
       <div style={styles.container}>
