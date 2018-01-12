@@ -22,6 +22,7 @@ class App extends React.Component {
       priceFilterTwo: true,
       priceFilterThree: true,
       priceFilterFour: true,
+      user: null,
     };
 
     this.handleSearchInputChange = this.handleSearchInputChange.bind(this);
@@ -33,6 +34,15 @@ class App extends React.Component {
     this.getAllRestaurants = this.getAllRestaurants.bind(this);
     this.wipeRestaurantDB = this.wipeRestaurantDB.bind(this);
     this.populateRestaurants = this.populateRestaurants.bind(this);
+  }
+
+  componentDidMount() {
+    axios.get('/getuserdata')
+      .then((userData) => {
+        this.setState({
+          user: userData.data,
+        });
+      });
   }
 
   handleSearchInputChange(e) {
@@ -94,7 +104,7 @@ class App extends React.Component {
   selectRestaurant(restaurant) {
     console.log('selected: ', restaurant);
     this.setState({
-      restaurant: restaurant,
+      restaurant,
     });
   }
 
@@ -145,7 +155,7 @@ class App extends React.Component {
       <MuiThemeProvider>
         <div>
           <div>
-            <TopNavbar />
+            <TopNavbar user={this.state.user} />
           </div>
           <button onClick={() => this.getAllRestaurants()}>
             Get all restaurants in database
@@ -156,21 +166,23 @@ class App extends React.Component {
           <button onClick={() => this.populateRestaurants()}>
             Add 1000 restaurants from San Francisco, CA to database (20 API calls)
           </button>
-          <Route path="/" render={() => (
-            <Search
-              searchInput={this.state.searchInput}
-              priceFilterOne={this.state.priceFilterOne}
-              priceFilterTwo={this.state.priceFilterTwo}
-              priceFilterThree={this.state.priceFilterThree}
-              priceFilterFour={this.state.priceFilterFour}
-              handleSearchInputChange={this.handleSearchInputChange}
-              handleSearchButtonClick={this.handleSearchButtonClick}
-              handleSearchButtonClickTesting={this.handleSearchButtonClickTesting}
-              handlePriceFilterClick={this.handlePriceFilterClick}
-            />
+          <Route
+            path="/"
+            render={() => (
+              <Search
+                searchInput={this.state.searchInput}
+                priceFilterOne={this.state.priceFilterOne}
+                priceFilterTwo={this.state.priceFilterTwo}
+                priceFilterThree={this.state.priceFilterThree}
+                priceFilterFour={this.state.priceFilterFour}
+                handleSearchInputChange={this.handleSearchInputChange}
+                handleSearchButtonClick={this.handleSearchButtonClick}
+                handleSearchButtonClickTesting={this.handleSearchButtonClickTesting}
+                handlePriceFilterClick={this.handlePriceFilterClick}
+              />
           )}
           />
-          <Route exact={true} path="/" render={() => <Main selectRestaurant={this.selectRestaurant} />} />
+          <Route exact path="/" render={() => <Main selectRestaurant={this.selectRestaurant} />} />
           <Route path="/restaurant" render={() => <SingleRestaurant restaurant={this.state.restaurant} />} />
           <Route path="/searchList" render={() => <SearchList tenSearchResults={this.state.tenSearchResults} handleSearchListClick={this.handleSearchListClick} />} />
           <Route path="/restaurant/writeReview" render={() => <AddReview />} />
