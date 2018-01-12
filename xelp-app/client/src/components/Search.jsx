@@ -4,6 +4,9 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 const styles = {
   container: {
     display: 'flex',
+    border: 'solid black',
+    borderLeft: 'none',
+    width: '400px',
   },
 };
 
@@ -15,16 +18,18 @@ const Search = (props) => {
         onChange={props.handleSearchInputChange}
       />
       <Link to="/searchList">
-      <button onClick={props.handleSearchButtonClick}>Xelp it! (Yelp API)</button>
-      <button onClick={props.handleSearchButtonClickTesting}>Xelp it! (Our Database)</button>
+        <button onClick={() => props.handleSearchButtonClick(true)}>Xelp it! (Yelp API)</button>
+        <button onClick={() => props.handleSearchButtonClick(false)}>Xelp it! (Our Database)</button>
       </Link>
       <div style={styles.container}>
         {['$', '$$', '$$$', '$$$$'].map(item => (
           <div key={item} onClick={() => props.handlePriceFilterClick(item)} style={{
             fontSize: '20px',
-            margin: '5px',
+            width: '25%',
+            height: '35px',
             padding: '3px',
-            border: 'solid black',
+            borderLeft: 'solid black',
+            textAlign: 'center',
             backgroundColor:
             (item === '$' && props.priceFilterOne) ||
             (item === '$$' && props.priceFilterTwo) ||

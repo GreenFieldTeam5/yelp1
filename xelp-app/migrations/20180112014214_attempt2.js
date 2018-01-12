@@ -27,13 +27,13 @@ exports.up = (knex, Promise) => Promise.all([
     restaurants.increments('id').notNullable().primary();
     restaurants.string('name');
     restaurants.string('image_url');
-    restaurants.string('phone_number');
-    restaurants.string('street_name');
+    restaurants.string('display_phone');
+    restaurants.string('address1');
     restaurants.string('city');
     restaurants.string('state');
     restaurants.string('zip_code');
     restaurants.string('price');
-    restaurants.string('rating');
+    restaurants.float('rating');
     restaurants.string('categories');
     restaurants.float('latitude');
     restaurants.float('longitude');
