@@ -19,3 +19,7 @@ body {
 .mapping {
   height: 400px;
 }
+
+.container {
+ display: flex;
+}

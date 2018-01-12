@@ -6,6 +6,7 @@ import TextField from 'material-ui/TextField';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
+import axios from 'axios';
 
 const buttonStyle = {
   margin: 12,
@@ -26,42 +27,53 @@ class AddReview extends React.Component {
     this.state = {
       rating: 'Rating',
       review: '',
-    }
+    };
     this.handleRatingChange = this.handleRatingChange.bind(this);
     this.handleReviewChange = this.handleReviewChange.bind(this);
     this.submitReview = this.submitReview.bind(this);
   }
-  handleRatingChange (e, i, o) {
+  handleRatingChange(event, index, object) {
     this.setState({
-      rating: o,
+      rating: object,
     });
-  } 
-  handleReviewChange (event) {
-    console.log(event.target.value)
+  }
+  handleReviewChange(event) {
     this.setState({
-      review: event,
+      review: event.target.value,
     });
-  }   
+  }  
   submitReview() {
   // submit post request to database with rating, review, and username
+    axios.post('/review', {
+      review_text: this.state.review,
+      avg_rating: this.state.rating,
+      // add restaurant id to link review to restaurant
+      // add username to link review to a user
+    })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
   render() {
     return (
+      <div>
         <div>
-        <div>
-        <DropDownMenu
-          value={undefined}
-          onChange={this.handleRatingChange}
-          style={styles.customWidth}
-          autoWidth={false}
-        >
-          <MenuItem value={undefined} primaryText='Rating'/>
-          <MenuItem value={1} primaryText="1" />
-          <MenuItem value={2} primaryText="2" />
-          <MenuItem value={3} primaryText="3" />
-          <MenuItem value={4} primaryText="4" />
-          <MenuItem value={5} primaryText="5" />
-        </DropDownMenu>
+          <DropDownMenu
+            value={undefined}
+            onChange={this.handleRatingChange}
+            style={styles.customWidth}
+            autoWidth={false}
+          >
+            <MenuItem value={undefined} primaryText="Rating" />
+            <MenuItem value={1} primaryText="1" />
+            <MenuItem value={2} primaryText="2" />
+            <MenuItem value={3} primaryText="3" />
+            <MenuItem value={4} primaryText="4" />
+            <MenuItem value={5} primaryText="5" />
+          </DropDownMenu>
       </div>
   <div>
     <Divider />

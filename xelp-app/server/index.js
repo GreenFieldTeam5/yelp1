@@ -69,7 +69,10 @@ app.get('/search/:searchInput/:prices', (req, res) => {
 });
 
 app.get('/3restaurants', (req, res) => {
-  res.send(data.businesses);
+  console.log('doing GET -> /3restaurants');
+  dbHelpers.getThreeRestaurants((data) => {
+    res.status(200).json(data);
+  });
 });
 
 /* =================
@@ -119,10 +122,17 @@ app.get('/test/search/:searchInput/:prices', (req, res) => {
   });
 });
 
+app.post('/review', (req, res) => {
+  dbHelpers.addReview(req.body, () => {
+  	res.status(201).json('reviews are in DB');
+  });
+});
+
 /* =================
      Signup/Login
    ================= */
 
+/* Facebook Authentication */
 app.get('/auth/facebook', passport.authenticate('facebook'));
 app.get(
   '/auth/facebook/callback',
@@ -132,7 +142,6 @@ app.get(
   },
 );
 
-/* Facebook Authentication -- Currently processing by Ben */
 passport.use(new FacebookStrategy(
   {
     clientID: process.env.FACEBOOK_CLIENT_ID,
