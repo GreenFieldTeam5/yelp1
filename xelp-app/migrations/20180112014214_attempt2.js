@@ -2,8 +2,6 @@
 exports.up = (knex, Promise) => Promise.all([
   knex.schema.createTableIfNotExists('users', (users) => {
     users.increments('uid').notNullable().primary();
-    users.biginteger('google_id').unique();
-    users.string('github_id').unique();
     users.biginteger('facebook_id').unique();
     users.string('username').notNullable();
     users.string('first_name');

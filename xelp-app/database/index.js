@@ -12,10 +12,6 @@ const facebookLogin = (profile) => {
     .then(user => user);
 };
 
-const githubLogin = (profile) => {
-
-};
-
 const addToRestaurants = (restaurants, cb) => {
   let completion = 0;
   restaurants.forEach((restaurant) => {
@@ -100,7 +96,6 @@ const searchAlgorithm = (restaurants, searchString) => {
 
 module.exports = {
   facebookLogin,
-  githubLogin,
   addToRestaurants,
   getAllRestaurants,
   deleteAllRestaurants,
