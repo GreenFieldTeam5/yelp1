@@ -53,7 +53,10 @@ app.get('/search/:searchInput/:prices', (req, res) => {
 });
 
 app.get('/3restaurants', (req, res) => {
-  res.send(data.businesses);
+  console.log('doing GET -> /3restaurants');
+  dbHelpers.getThreeRestaurants((data) => {
+    res.status(200).json(data);
+  });
 });
 
 /* =================
@@ -112,6 +115,12 @@ app.get('/testinghere', (req, res) => {
   dbHelpers.test();
 });
 
+app.post('/review', (req, res) => {
+  dbHelpers.addReview(req.body, () => {
+  	res.status(201).json('reviews are in DB');
+  });
+});
+
 /* =================
      Signup/Login
    ================= */
@@ -121,8 +130,9 @@ app.get('/auth/github', passport.authenticate('github'));
 app.get(
   '/auth/github/callback',
   passport.authenticate('github', { failureRedirect: '/login' }),
-  (req, res) => { res.redirect('/'); },
+  (req, res) => { res.redirect('/'); }
 );
+
 passport.use(new GitHubStrategy(
   {
     clientID: 'abc' || process.env.GITHUB_CLIENT_ID,

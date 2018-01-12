@@ -6,6 +6,7 @@ import TextField from 'material-ui/TextField';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
+import axios from 'axios';
 
 const buttonStyle = {
   margin: 12,
@@ -37,13 +38,22 @@ class AddReview extends React.Component {
     });
   } 
   handleReviewChange (event) {
-    console.log(event.target.value)
     this.setState({
-      review: event,
+      review: event.target.value,
     });
   }   
   submitReview() {
   // submit post request to database with rating, review, and username
+    axios.post('/review', {
+      review_text: this.state.review,
+      avg_rating: this.state.rating,
+    })
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
   }
   render() {
     return (

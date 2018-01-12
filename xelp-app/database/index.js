@@ -38,8 +38,25 @@ const addToRestaurants = (restaurants, cb) => {
   });
 };
 
+const addReview = (review, cb) => {
+    knex.insert({
+      review_text: review.review_text,
+      avg_rating: review.avg_rating,
+    }).into('reviews')
+      .then(() => {
+        cb(review);
+      });
+};
+
 const getAllRestaurants = (cb) => {
   knex.select().table('restaurants')
+    .then((data) => {
+      cb(data);
+    });
+};
+
+const getThreeRestaurants = (cb) => {
+  knex.select().table('restaurants').limit(20)
     .then((data) => {
       cb(data);
     });
@@ -102,4 +119,6 @@ module.exports = {
   getAllRestaurants,
   deleteAllRestaurants,
   searchAlgorithm,
+  getThreeRestaurants,
+  addReview,
 };
