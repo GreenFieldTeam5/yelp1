@@ -15,8 +15,8 @@ const Search = (props) => {
         onChange={props.handleSearchInputChange}
       />
       <Link to="/searchList">
-      <button onClick={props.handleSearchButtonClick}>Xelp it! (Yelp API)</button>
-      <button onClick={props.handleSearchButtonClickTesting}>Xelp it! (Our Database)</button>
+        <button onClick={() => props.handleSearchButtonClick(true)}>Xelp it! (Yelp API)</button>
+        <button onClick={() => props.handleSearchButtonClick(false)}>Xelp it! (Our Database)</button>
       </Link>
       <div style={styles.container}>
         {['$', '$$', '$$$', '$$$$'].map(item => (

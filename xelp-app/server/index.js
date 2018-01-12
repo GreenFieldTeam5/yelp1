@@ -44,6 +44,9 @@ app.get('/search/:searchInput/:prices', (req, res) => {
       const topTen = response.jsonBody.businesses.slice(0, 10);
       topTen.forEach((business) => {
         console.log('got ', business.name);
+        // below 2 lines are to match API format with our database format. 
+        business.phone_number = business.display_phone;
+        business.street_name = `${business.location.address1}, ${business.location.city}, ${business.location.state} ${business.location.zip_code}`;
       });
       res.status(200).json(topTen);
     })
@@ -98,12 +101,7 @@ app.post('/populate', (req, res) => {
 app.get('/test/search/:searchInput/:prices', (req, res) => {
   console.log(`doing GET -> /test/search/${req.params.searchInput}/${req.params.prices}`);
   dbHelpers.getAllRestaurants((data) => {
-    console.log('testing search function got data: ', data);
-    // assign each result in the database a point value based on keyword matches
-    // return the top 10 of them
-    // below line is a strict search by exact string match to restaurant name.
-    // const results = Array(10).fill(data.filter(item => item.name === req.params.searchInput)[0]);
-    const results = dbHelpers.searchAlgorithm(data, req.params.searchInput);
+    const results = dbHelpers.searchAlgorithm(data, req.params.searchInput, req.params.prices);
     res.status(200).json(results);
   });
 });

@@ -5,30 +5,12 @@ const SearchListEntry = (props) => {
   return (
     <div>
       <Link to="/restaurant">
-      <div onClick={() => props.handleSearchListClick(props.entry)}>
-        {props.entry.name} ({props.entry.price})<br />
-        Rating: {props.entry.rating} / 5<br />
-        {props.entry.location &&
-          <div>
-            Address: {props.entry.location.address1}, {props.entry.location.city}, ${props.entry.location.state} {props.entry.location.zip_code}<br />
-          </div>
-        }
-        {props.entry.street_name &&
-          <div>
-            Address: {props.entry.street_name}<br />
-          </div>
-        }
-        {props.entry.display_phone &&
-          <div>
-            Phone: {props.entry.display_phone.length > 0 && props.entry.display_phone}
-          </div>
-        }
-        {props.entry.phone_number &&
-          <div>
-            Phone: {props.entry.phone_number.length > 0 && props.entry.phone_number}
-          </div>
-        }
-      </div>
+        <div onClick={() => props.handleSearchListClick(props.entry)}>
+          {props.entry.name} ({props.entry.price})<br />
+          Rating: {props.entry.rating} / 5<br />
+          Address: {props.entry.street_name}<br />
+          Phone: {props.entry.phone_number.length > 0 && props.entry.phone_number}
+        </div>
       </Link>
       <img src={props.entry.image_url} height="25%" width="25%" /><br />
     </div>

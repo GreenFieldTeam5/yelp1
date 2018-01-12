@@ -13,7 +13,7 @@ const SearchList = (props) => {
       }
       {props.tenSearchResults.length !== 0 && props.tenSearchResults.map(item => (
         <SearchListEntry
-          key={Math.random()}
+          key={item.id}
           entry={item}
           handleSearchListClick={props.handleSearchListClick}
         />

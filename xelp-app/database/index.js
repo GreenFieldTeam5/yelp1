@@ -52,7 +52,7 @@ const deleteAllRestaurants = (cb) => {
     });
 };
 
-const searchAlgorithm = (restaurants, searchString) => {
+const searchAlgorithm = (restaurants, searchString, pricesString) => {
   // assigns a point value to each index based on the search string.
   // exact title match: 4 points
   // partial title match: 3 points
@@ -62,6 +62,7 @@ const searchAlgorithm = (restaurants, searchString) => {
   let points = []; // array of [restaurant, pointscore]
   let ret = [];
   let searchInput = searchString.toLowerCase();
+  let pricesInput = pricesString.split(', ').map(price => parseInt(price));
 
   for (let i = 0; i < restaurants.length; i++) {
     let point = 0;
@@ -69,11 +70,14 @@ const searchAlgorithm = (restaurants, searchString) => {
     const categories = restaurants[i].categories.split('<AND>');
     if (name === searchInput) {
       point += 4;
+      // if exact name match is found, populate rest based on foremost category of matched restaurant
+      // the observation is that the first category is usually the most relevant. observation may be incorrect. 
       console.log('searchInput CHANGING TO: ', categories[0]);
       searchInput = categories[0] || searchInput;
     }
     if (name !== searchInput && name.includes(searchInput)) {
       point += 3;
+      // if partial name match is found, populate rest on foremost category of matched restaurant
       console.log('searchInput CHANGING TO: ', categories[0]);
       searchInput = categories[0] || searchInput;
     }
@@ -86,14 +90,13 @@ const searchAlgorithm = (restaurants, searchString) => {
     points.push([restaurants[i], point]);
   }
 
-  // points = points.sort((a, b) => (b[1] - a[1]));
   for (let i = 10; i >= 0; i--) {
     let sliver = points.filter(item => item[1] === i);
     sliver = sliver.sort((a, b) => (b[0].rating - a[0].rating)).map(item => item[0]);
     ret = ret.concat(sliver);
   }
 
-  return ret.slice(0, 10);
+  return ret.filter(item => item.price !== null).filter(item => pricesInput.includes(item.price.length)).slice(0, 10);
 };
 
 module.exports = {

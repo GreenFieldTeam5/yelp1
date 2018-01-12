@@ -16,6 +16,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       searchInput: '',
+      searchingYelpAPI: true,
       tenSearchResults: [],
       restaurant: [],
       priceFilterOne: true,
@@ -26,7 +27,6 @@ class App extends React.Component {
 
     this.handleSearchInputChange = this.handleSearchInputChange.bind(this);
     this.handleSearchButtonClick = this.handleSearchButtonClick.bind(this);
-    this.handleSearchButtonClickTesting = this.handleSearchButtonClickTesting.bind(this);
     this.handleSearchListClick = this.handleSearchListClick.bind(this);
     this.selectRestaurant = this.selectRestaurant.bind(this);
     this.handlePriceFilterClick = this.handlePriceFilterClick.bind(this);
@@ -40,7 +40,7 @@ class App extends React.Component {
     console.log(e.target.value);
   }
 
-  handleSearchButtonClick() {
+  handleSearchButtonClick(searchingYelpAPI) {
     const _this = this;
     let prices = [
       this.state.priceFilterOne ? '1' : '',
@@ -51,37 +51,28 @@ class App extends React.Component {
     prices = prices === '' ? '1, 2, 3, 4' : prices;
 
     console.log(`doing axios call with search input: ${this.state.searchInput} and prices ${prices}`);
-    axios.get(`/search/${this.state.searchInput}/${prices}`)
-      .then((response) => {
-        _this.setState({ tenSearchResults: response.data });
-        console.log('the top 10 search results: ', _this.state.tenSearchResults);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
 
-  handleSearchButtonClickTesting() {
-    const _this = this;
-    let prices = [
-      this.state.priceFilterOne ? '1' : '',
-      this.state.priceFilterTwo ? '2' : '',
-      this.state.priceFilterThree ? '3' : '',
-      this.state.priceFilterFour ? '4' : '',
-    ].filter(item => item !== '').join(', ');
-    prices = prices === '' ? '1, 2, 3, 4' : prices;
-
-    console.log(`doing axios call with search input: ${this.state.searchInput} and prices ${prices}`);
-    console.log('this feature is in testing, current state: searches for exact string match');
-    axios.get(`/test/search/${this.state.searchInput}/${prices}`)
-      .then((response) => {
-        console.log('testing search results: ', response.data);
-        _this.setState({ tenSearchResults: response.data });
-        console.log('the top 10 search results: ', _this.state.tenSearchResults);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    if (searchingYelpAPI) {
+      this.setState({searchingYelpAPI: true});
+      axios.get(`/search/${this.state.searchInput}/${prices}`)
+        .then((response) => {
+          _this.setState({ tenSearchResults: response.data });
+          console.log('the top 10 search results: ', _this.state.tenSearchResults);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      this.setState({searchingYelpAPI: false});
+      axios.get(`/test/search/${this.state.searchInput}/${prices}`)
+        .then((response) => {
+          _this.setState({ tenSearchResults: response.data });
+          console.log('the top 10 search results: ', _this.state.tenSearchResults);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   }
 
   handleSearchListClick(entry) {
@@ -99,10 +90,12 @@ class App extends React.Component {
   }
 
   handlePriceFilterClick(price) {
-    if (price === '$') { this.setState({ priceFilterOne: !this.state.priceFilterOne }, () => this.handleSearchButtonClick()); }
-    if (price === '$$') { this.setState({ priceFilterTwo: !this.state.priceFilterTwo }, () => this.handleSearchButtonClick()); }
-    if (price === '$$$') { this.setState({ priceFilterThree: !this.state.priceFilterThree }, () => this.handleSearchButtonClick()); }
-    if (price === '$$$$') { this.setState({ priceFilterFour: !this.state.priceFilterFour }, () => this.handleSearchButtonClick()); }
+    console.log('HELLO I AM CURIOUS GEORGE');
+    console.log(this.state.searchingYelpAPI ? 'searching yelp API' : 'searching our database');
+    if (price === '$') { this.setState({ priceFilterOne: !this.state.priceFilterOne }, () => this.handleSearchButtonClick(this.state.searchingYelpAPI)); }
+    if (price === '$$') { this.setState({ priceFilterTwo: !this.state.priceFilterTwo }, () => this.handleSearchButtonClick(this.state.searchingYelpAPI)); }
+    if (price === '$$$') { this.setState({ priceFilterThree: !this.state.priceFilterThree }, () => this.handleSearchButtonClick(this.state.searchingYelpAPI)); }
+    if (price === '$$$$') { this.setState({ priceFilterFour: !this.state.priceFilterFour }, () => this.handleSearchButtonClick(this.state.searchingYelpAPI)); }
   }
 
   getAllRestaurants() {
@@ -165,7 +158,6 @@ class App extends React.Component {
               priceFilterFour={this.state.priceFilterFour}
               handleSearchInputChange={this.handleSearchInputChange}
               handleSearchButtonClick={this.handleSearchButtonClick}
-              handleSearchButtonClickTesting={this.handleSearchButtonClickTesting}
               handlePriceFilterClick={this.handlePriceFilterClick}
             />
           )}
