@@ -3,8 +3,6 @@ const axios = require('axios');
 
 require('dotenv').config();
 
-console.log('process environment variables: ', process.env);
-
 describe('Array', function() {
   describe('#indexOf()', function() {
     it('should return -1 when the value is not present', function() {
@@ -20,7 +18,7 @@ describe('GET /3restaurants', () => {
     axios.get(`${baseUrl}/3restaurants`)
       .then((response) => {
         assert.equal(response.status, 200);
-        console.log('response:', response);
+        // console.log('response:', response);
         // expect(response.status).to.equal(200);
         done();
       })
