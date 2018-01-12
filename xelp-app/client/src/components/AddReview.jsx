@@ -32,9 +32,9 @@ class AddReview extends React.Component {
     this.handleReviewChange = this.handleReviewChange.bind(this);
     this.submitReview = this.submitReview.bind(this);
   }
-  handleRatingChange(e, i, o) {
+  handleRatingChange(event, index, object) {
     this.setState({
-      rating: o,
+      rating: object,
     });
   }
   handleReviewChange(event) {
