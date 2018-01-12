@@ -20,8 +20,8 @@ const addToRestaurants = (restaurants, cb) => {
     knex.insert({
       name: restaurant.name,
       image_url: restaurant.image_url,
-      phone_number: restaurant.display_phone,
-      street_name: `${restaurant.location.address1}, ${restaurant.location.city}, ${restaurant.location.state} ${restaurant.location.zip_code}`,
+      display_phone: restaurant.display_phone,
+      address1: restaurant.location.address1,
       city: restaurant.location.city,
       state: restaurant.location.state,
       zip_code: restaurant.location.zip_code,

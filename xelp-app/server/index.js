@@ -44,9 +44,12 @@ app.get('/search/:searchInput/:prices', (req, res) => {
       const topTen = response.jsonBody.businesses.slice(0, 10);
       topTen.forEach((business) => {
         console.log('got ', business.name);
-        // below 2 lines are to match API format with our database format. 
-        business.phone_number = business.display_phone;
-        business.street_name = `${business.location.address1}, ${business.location.city}, ${business.location.state} ${business.location.zip_code}`;
+        // below line are to match API format with our database format. 
+        business.address1 = business.location.address1;
+        business.city = business.location.city;
+        business.state = business.location.state;
+        business.zip_code = business.location.zip_code;
+        business.categories = business.categories.map(item => item.alias).join('<AND>');
       });
       res.status(200).json(topTen);
     })
