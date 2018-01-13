@@ -48,12 +48,18 @@ const getAllRestaurants = (cb) => {
     });
 };
 
-const getThreeRestaurants = (cb) => {
-  knex.select().table('restaurants').limit(20)
-    .then((data) => {
-      cb(data);
-    });
-};
+const getThreeRestaurants = () =>
+  new Promise((resolve, reject) => {
+    knex.select().table('restaurants').limit(20)
+      .then((data) => {
+        console.log(data);
+        resolve(data);
+      })
+      .catch(err => reject(err));
+  });
+  // .then((data) => {
+  //   cb(data);
+  // });
 
 const deleteAllRestaurants = (cb) => {
   knex('restaurants').where('id', '>', 0).del()
@@ -106,49 +112,49 @@ const searchAlgorithm = (restaurants, searchString, pricesString, page) => {
     ret = ret.concat(sliver);
   }
 
-  return ret.
-    filter(item => item.price !== null).
-    filter(item => pricesInput.includes(item.price.length)).
-    slice(page * 10 - 10, page * 10);
+  return ret
+    .filter(item => item.price !== null)
+    .filter(item => pricesInput.includes(item.price.length))
+    .slice(page * 10 - 10, page * 10);
 };
 
-const userVisitedRestaurantPage = (userId, restaurantId) => {
-  return new Promise((resolve, reject) => {
-    knex.insert({
-      user_id: userId,
-      restaurant_id: restaurantId,
-    }).into('users_restaurants_recently_viewed')
+const userVisitedRestaurantPage = (userId, restaurantId) => new Promise((resolve, reject) => {
+  knex.insert({
+    user_id: userId,
+    restaurant_id: restaurantId,
+  }).into('users_restaurants_recently_viewed')
     .then(() => {
       resolve();
     })
     .catch((error) => {
       console.log('error inserting user visit to restaurant page: ', error);
       reject(error);
-    })
-  })
-}
+    });
+});
 
 const userAddsReviewToRestaurant = (userReviewObject) => {
-  const { review_text, user_id, restaurant_id, rating, image_url } = userReviewObject;
+  const {
+    review_text, user_id, restaurant_id, rating, image_url,
+  } = userReviewObject;
 
   return new Promise((resolve, reject) => {
     knex.insert({
-      user_id: user_id,
-      restaurant_id: restaurant_id,
-      rating: rating,
-      image_url: image_url,
-      review_text: review_text,
+      user_id,
+      restaurant_id,
+      rating,
+      image_url,
+      review_text,
     }).into('reviews')
-    .then(() => {
-      console.log('Saved review into db');
-      resolve();
-    })
-    .catch((error) => {
-      console.log('Error inserting review into db: ', error);
-      reject(error);
-    })
-  })
-}
+      .then(() => {
+        console.log('Saved review into db');
+        resolve();
+      })
+      .catch((error) => {
+        console.log('Error inserting review into db: ', error);
+        reject(error);
+      });
+  });
+};
 
 module.exports = {
   facebookLogin,

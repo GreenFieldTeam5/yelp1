@@ -71,10 +71,13 @@ app.get('/search/:searchInput/:prices', (req, res) => {
 
 app.get('/3restaurants', (req, res) => {
   console.log('doing GET -> /3restaurants');
-  dbHelpers.getThreeRestaurants((data) => {
-    res.status(200).json(data);
-  });
+  dbHelpers.getThreeRestaurants()
+    .then(result => res.json(result));
 });
+
+// => {
+//   res.status(200).json(data);
+// });
 
 /* =================
     Database Testing
@@ -181,12 +184,12 @@ app.get('/testpostgres', (req, res) => {
 
 app.post('/userVisitedRestaurant/:userid/:restaurantid', (req, res) => {
   dbHelpers.userVisitedRestaurantPage(req.params.userid, req.params.restaurantid)
-  .then(() => {
-    res.end('Successfully added to db');
-  })
-  .catch((error) => {
-    res.end('Error:', error);
-  })
+    .then(() => {
+      res.end('Successfully added to db');
+    })
+    .catch((error) => {
+      res.end('Error:', error);
+    });
 });
 
 /* =================
@@ -195,13 +198,11 @@ app.post('/userVisitedRestaurant/:userid/:restaurantid', (req, res) => {
 
 app.post('/createReview', (req, res) => {
   dbHelpers.userAddsReviewToRestaurant(req.body)
-  .then(() => {
-    res.end('Successfully added review to db');
-  })
-  .catch((error) => {
-    res.end('Error:', error);
-  })
-})
-
-
+    .then(() => {
+      res.end('Successfully added review to db');
+    })
+    .catch((error) => {
+      res.end('Error:', error);
+    });
+});
 
