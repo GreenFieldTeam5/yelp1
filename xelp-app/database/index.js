@@ -52,7 +52,6 @@ const getThreeRestaurants = () =>
   new Promise((resolve, reject) => {
     knex.select().table('restaurants').limit(20)
       .then((data) => {
-        console.log(data);
         resolve(data);
       })
       .catch(err => reject(err));
