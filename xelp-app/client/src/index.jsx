@@ -20,7 +20,6 @@ class App extends React.Component {
       searchingYelpAPI: true,
       page: 1,
       locationInput: 'San Francisco, CA',
-      cities: ['San Francisco', 'New York', 'San Jose', 'Chicago', 'Palo Alto', 'Oakland'],
       tenSearchResults: [],
       restaurant: [],
       showDatabaseButtons: false,
@@ -41,7 +40,6 @@ class App extends React.Component {
     this.populateRestaurants = this.populateRestaurants.bind(this);
     this.toggleDatabaseButtons = this.toggleDatabaseButtons.bind(this);
     this.handlePageClick = this.handlePageClick.bind(this);
-    this.handleLocationChange = this.handleLocationChange.bind(this);
   }
 
   componentDidMount() {
@@ -180,21 +178,6 @@ class App extends React.Component {
     this.setState({page: newPage}, () => this.handleSearchButtonClick(this.state.searchingYelpAPI));
   }
 
-  handleLocationChange(e) {
-    const _this = this;
-    e.persist();
-    this.wipeRestaurantDB(() => {
-      _this.setState({locationInput: e.target.value}, () => {
-        _this.populateRestaurants(() => {  
-          // note: for unknown reasons, sometimes populateRestaurants will get stuck and never execute this callback
-          // but the data will still be correctly populated. 
-          console.log('populated restaurants with location: ', _this.state.locationInput);
-          _this.handleSearchButtonClick(_this.state.searchingYelpAPI);
-        });
-      });
-    });  
-  }
-
   render() {
     return (
       <MuiThemeProvider>
@@ -202,6 +185,32 @@ class App extends React.Component {
           <div>
             <TopNavbar user={this.state.user} />
           </div>
+          <Route
+            path="/"
+            render={() => (
+              <Search
+                searchInput={this.state.searchInput}
+                priceFilterOne={this.state.priceFilterOne}
+                priceFilterTwo={this.state.priceFilterTwo}
+                priceFilterThree={this.state.priceFilterThree}
+                priceFilterFour={this.state.priceFilterFour}
+                handleSearchInputChange={this.handleSearchInputChange}
+                handleSearchButtonClick={this.handleSearchButtonClick}
+                handlePriceFilterClick={this.handlePriceFilterClick}
+                cities={this.state.cities}
+              />
+          )}
+          />
+          <Route exact path="/" render={() => <Main selectRestaurant={this.selectRestaurant} />} />
+          <Route path="/restaurant" render={() => <SingleRestaurant restaurant={this.state.restaurant} />} />
+          <Route path="/searchList" render={() => <SearchList
+            tenSearchResults={this.state.tenSearchResults}
+            handleSearchListClick={this.handleSearchListClick}
+            handlePageClick={this.handlePageClick}
+            page={this.state.page} />} 
+          />
+          <Route path="/restaurant/writeReview" render={() => <AddReview />} />
+          <Footer />
           <button onClick={this.toggleDatabaseButtons}>
             Toggle Database Testing Buttons
           </button>
@@ -218,33 +227,6 @@ class App extends React.Component {
               </button>
             </div>
           }
-          <Route
-            path="/"
-            render={() => (
-              <Search
-                searchInput={this.state.searchInput}
-                priceFilterOne={this.state.priceFilterOne}
-                priceFilterTwo={this.state.priceFilterTwo}
-                priceFilterThree={this.state.priceFilterThree}
-                priceFilterFour={this.state.priceFilterFour}
-                handleSearchInputChange={this.handleSearchInputChange}
-                handleSearchButtonClick={this.handleSearchButtonClick}
-                handlePriceFilterClick={this.handlePriceFilterClick}
-                cities={this.state.cities}
-                handleLocationChange={this.handleLocationChange}
-              />
-          )}
-          />
-          <Route exact path="/" render={() => <Main selectRestaurant={this.selectRestaurant} />} />
-          <Route path="/restaurant" render={() => <SingleRestaurant restaurant={this.state.restaurant} />} />
-          <Route path="/searchList" render={() => <SearchList
-            tenSearchResults={this.state.tenSearchResults}
-            handleSearchListClick={this.handleSearchListClick}
-            handlePageClick={this.handlePageClick}
-            page={this.state.page} />} 
-          />
-          <Route path="/restaurant/writeReview" render={() => <AddReview />} />
-          <Footer />
         </div>
       </MuiThemeProvider>
     );

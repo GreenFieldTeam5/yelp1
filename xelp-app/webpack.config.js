@@ -21,6 +21,15 @@ module.exports = {
           presets: ['react', 'es2015'],
         },
       },
+      {
+        test: /\.(jpg|jpeg|png|gif)(\?.*)?$/,
+        loader: 'file-loader',
+        options: {
+          name: '[sha512:hash:base64:7].[ext]',
+          publicPath: './',
+          outputPath: 'images/',
+        },
+      },
     ],
   },
   plugins: [
