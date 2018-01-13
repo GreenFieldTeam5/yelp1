@@ -13,10 +13,13 @@ const styles = {
 };
 
 const SearchList = (props) => {
+  const tenSearchResults = props.tenSearchResults;
   return (
     <div>
       <div style={{position: 'relative'}} >
-        <Map restaurants={props.tenSearchResults} />
+        {tenSearchResults.length > 0 &&
+          <Map restaurants={props.tenSearchResults} />
+        }
       </div>
       {props.tenSearchResults.length === 0 &&
         <div >

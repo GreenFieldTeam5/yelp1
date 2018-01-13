@@ -50,9 +50,6 @@ class App extends React.Component {
         console.log('detected restaurant database has data, not adding any more data. ');
       }
     });
-  }
-
-  componentDidMount() {
     axios.get('/getuserdata')
       .then((userData) => {
         this.setState({

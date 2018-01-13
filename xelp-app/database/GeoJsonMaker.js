@@ -8,16 +8,14 @@ const convertRestaurantsToGeoJSON = (jsonRestaurants) => {
     newGeoRestObj.type = 'Feature';
 
     const propertiesSubObject = {};
-    propertiesSubObject.name = jsonRestaurant.name;
-    propertiesSubObject['marker-color'] = '#0000ff';
-    propertiesSubObject['marker-symbol'] = 'rail-metro';
-    propertiesSubObject.line = 'blue';
+    propertiesSubObject.title = jsonRestaurant.name;
+    propertiesSubObject.icon = 'monument';
     newGeoRestObj.properties = propertiesSubObject;
 
     const geometrySubObject = {};
     geometrySubObject.type = 'Point';
     const coords = jsonRestaurant.coordinates;
-    geometrySubObject.coordinates = [coords.latitude, coords.longitude];
+    geometrySubObject.coordinates = [coords.longitude, coords.latitude];
     newGeoRestObj.geometry = geometrySubObject;
 
     geoJSON.features.push(newGeoRestObj);
