@@ -19,6 +19,8 @@ class App extends React.Component {
       searchInput: '',
       searchingYelpAPI: true,
       page: 1,
+      locationInput: 'San Francisco, CA',
+      cities: ['San Francisco, CA', 'Los Angeles, CA', 'San Mateo, CA', 'Sacramento, CA', 'Alameda, CA', 'Princeton, NJ', 'New York, NY'],
       tenSearchResults: [],
       restaurant: [],
       showDatabaseButtons: false,
@@ -39,6 +41,7 @@ class App extends React.Component {
     this.populateRestaurants = this.populateRestaurants.bind(this);
     this.toggleDatabaseButtons = this.toggleDatabaseButtons.bind(this);
     this.handlePageClick = this.handlePageClick.bind(this);
+    this.handleLocationChange = this.handleLocationChange.bind(this);
   }
 
   componentDidMount() {
@@ -151,8 +154,8 @@ class App extends React.Component {
   }
 
   populateRestaurants(cb) {
-    console.log('doing axios call to /populate');
-    axios.post('/populate', {
+    console.log(`doing axios call to /populate/${this.state.locationInput}`);
+    axios.post(`/populate/${this.state.locationInput}`, {
       data: '',
     })
       .then((response) => {
@@ -161,6 +164,7 @@ class App extends React.Component {
       })
       .catch((error) => {
         console.log(error);
+        if (cb) cb(error);
       });
   }
 
@@ -174,6 +178,21 @@ class App extends React.Component {
       newPage = page;
     }
     this.setState({page: newPage}, () => this.handleSearchButtonClick(this.state.searchingYelpAPI));
+  }
+
+  handleLocationChange(e) {
+    const _this = this;
+    e.persist();
+    this.wipeRestaurantDB(() => {
+      _this.setState({locationInput: e.target.value}, () => {
+        _this.populateRestaurants(() => {  
+          // note: for unknown reasons, sometimes populateRestaurants will get stuck and never execute this callback
+          // but the data will still be correctly populated. 
+          console.log('populated restaurants with location: ', _this.state.locationInput);
+          _this.handleSearchButtonClick(_this.state.searchingYelpAPI);
+        });
+      });
+    });  
   }
 
   render() {
@@ -211,6 +230,8 @@ class App extends React.Component {
                 handleSearchInputChange={this.handleSearchInputChange}
                 handleSearchButtonClick={this.handleSearchButtonClick}
                 handlePriceFilterClick={this.handlePriceFilterClick}
+                cities={this.state.cities}
+                handleLocationChange={this.handleLocationChange}
               />
           )}
           />

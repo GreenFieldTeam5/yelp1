@@ -21,6 +21,10 @@ const styles = {
     borderLeft: 'none',
     width: '500px',
     margin: '10px',
+    cursor: 'default',
+  },
+  showing: {
+    marginBottom: '5px',
   },
 };
 
@@ -43,11 +47,16 @@ const SearchList = (props) => {
           </div>
         ))}
       </div>
+      <div style={styles.showing}>
+        Showing {props.page * 10 - 9}-{props.page * 10} of 90
+      </div>
       <div style={styles.everything}>
         <div style={styles.container}>
-          {props.tenSearchResults.length !== 0 && props.tenSearchResults.map(item => (
+          {props.tenSearchResults.length !== 0 && props.tenSearchResults.map((item, index) => (
             <SearchListEntry
               key={item.id}
+              indexNumber={index}
+              page={props.page}
               entry={item}
               handleSearchListClick={props.handleSearchListClick}
             />

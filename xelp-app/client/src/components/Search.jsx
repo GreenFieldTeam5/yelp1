@@ -8,6 +8,7 @@ const styles = {
     borderLeft: 'none',
     width: '400px',
     margin: '10px',
+    cursor: 'default',
   },
 };
 
@@ -22,6 +23,14 @@ const Search = (props) => {
         <button onClick={() => props.handleSearchButtonClick(true)}>Xelp it! (Yelp API)</button>
         <button onClick={() => props.handleSearchButtonClick(false)}>Xelp it! (Our Database)</button>
       </Link>
+      <div>
+        Location: 
+        <select value={props.locationInput} onChange={props.handleLocationChange}>
+          {props.cities.map(city => (
+            <option key={city} value={city}>{city}</option>
+          ))}
+        </select>
+      </div>
       <div style={styles.container}>
         {['$', '$$', '$$$', '$$$$'].map(item => (
           <div key={item} onClick={() => props.handlePriceFilterClick(item)} style={{

@@ -91,11 +91,13 @@ app.get('/cat-wipe', (req, res) => {
     res.status(200).json(data);
   });
 });
-app.post('/populate', (req, res) => {
-  for (let i = 0; i <= 1000; i += 50) {
+app.post('/populate/:location', (req, res) => {
+  console.log(`doing POST -> /populate/${req.params.location}`);
+  for (let i = 0; i < 1000; i += 50) {
+    console.log(i);
     const searchRequest = {
       term: 'restaurants',
-      location: 'san francisco, ca',
+      location: req.params.location,
       limit: 50,
       offset: i,
     };
@@ -104,8 +106,8 @@ app.post('/populate', (req, res) => {
       .then((response) => {
         const results = response.jsonBody.businesses;
         dbHelpers.addToRestaurants(results, () => {
-          if (i === 1000) {
-            res.status(201).json('POSTing finished, 1000 results. ');
+          if (i === 950) {
+            res.status(201).json('"POSTing finished, 1000 results. "');
           }
         });
       })
