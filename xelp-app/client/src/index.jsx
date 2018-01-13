@@ -20,7 +20,7 @@ class App extends React.Component {
       searchingYelpAPI: true,
       page: 1,
       locationInput: 'San Francisco, CA',
-      cities: ['San Francisco, CA', 'Los Angeles, CA', 'San Mateo, CA', 'Sacramento, CA', 'Alameda, CA', 'Princeton, NJ', 'New York, NY'],
+      cities: ['San Francisco', 'New York', 'San Jose', 'Chicago', 'Palo Alto', 'Oakland'],
       tenSearchResults: [],
       restaurant: [],
       showDatabaseButtons: false,
