@@ -9,6 +9,7 @@ const styles = {
   },
   map: {
     width: '300px',
+    position: 'relative',
   },
   container: {
     display: 'flex',
@@ -29,6 +30,7 @@ const styles = {
 };
 
 const SearchList = (props) => {
+  const tenSearchResults = props.tenSearchResults;
   return (
     <div>
       <div style={styles.pageContainer}>
@@ -62,8 +64,10 @@ const SearchList = (props) => {
             />
           ))}
         </div>
-        <div style={styles.map} >
-          <Map restaurants={props.tenSearchResults} />
+        <div style={styles.map}>
+          {tenSearchResults.length > 0 &&
+            <Map restaurants={props.tenSearchResults} />
+          }
         </div>
       </div>
     </div>
