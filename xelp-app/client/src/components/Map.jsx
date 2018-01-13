@@ -13,7 +13,12 @@ class Map extends React.Component {
     const startingLongitude = -122.2030;
     const startingLatitude = 37.7503;
     const startingZoom = 12;
-    const geoJSON = GeoJsonMaker.convertRestaurantsToGeoJSON(props.restaurants);
+    let isYelpAPIResults = true;
+    if (props.restaurants[0].longitude) {
+      isYelpAPIResults = false;
+    }
+
+    const geoJSON = GeoJsonMaker.convertRestaurantsToGeoJSON(props.restaurants, isYelpAPIResults);
 
     this.state = {
       longitude: startingLongitude,
@@ -23,6 +28,7 @@ class Map extends React.Component {
       restaurants: props.restaurants,
       map: undefined,
       mapLoaded: false,
+      isYelpAPIResults: isYelpAPIResults,
     };
   }
 
@@ -78,7 +84,7 @@ class Map extends React.Component {
   componentWillReceiveProps(newProps) {
     const isNewRestaurantData = JSON.stringify(newProps.restaurants) !== JSON.stringify(this.state.restaurants);
     if (isNewRestaurantData) {
-      const localGeoJSON = GeoJsonMaker.convertRestaurantsToGeoJSON(newProps.restaurants);
+      const localGeoJSON = GeoJsonMaker.convertRestaurantsToGeoJSON(newProps.restaurants, this.state.isYelpAPIResults);
       this.setState({
         restaurants: newProps.restaurants,
         geoData: localGeoJSON,
