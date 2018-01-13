@@ -176,11 +176,11 @@ class App extends React.Component {
     } else if (typeof page === 'number') {
       newPage = page;
     }
-    this.setState({page: newPage}, () => this.handleSearchButtonClick(this.state.searchingYelpAPI));
+    this.setState({ page: newPage }, () => this.handleSearchButtonClick(this.state.searchingYelpAPI));
   }
 
   clearSearchResults() {
-    this.setState({tenSearchResults: []});
+    this.setState({ tenSearchResults: [] });
     console.log('cleared');
   }
 
@@ -190,8 +190,9 @@ class App extends React.Component {
         <div>
           <div>
             <TopNavbar
-            user={this.state.user}
-            clearSearchResults={this.clearSearchResults} />
+              user={this.state.user}
+              clearSearchResults={this.clearSearchResults}
+            />
           </div>
           <Route
             exact
@@ -208,7 +209,9 @@ class App extends React.Component {
           />
           <Route exact path="/" render={() => <Carousel selectRestaurant={this.selectRestaurant} />} />
           <Route path="/restaurant" render={() => <SingleRestaurant restaurant={this.state.restaurant} />} />
-          <Route path="/searchList" render={() => <SearchList
+          <Route
+            path="/searchList"
+            render={() => (<SearchList
             priceFilterOne={this.state.priceFilterOne}
             priceFilterTwo={this.state.priceFilterTwo}
             priceFilterThree={this.state.priceFilterThree}
@@ -217,7 +220,7 @@ class App extends React.Component {
             tenSearchResults={this.state.tenSearchResults}
             handleSearchListClick={this.handleSearchListClick}
             handlePageClick={this.handlePageClick}
-            page={this.state.page} />} 
+            page={this.state.page} />)}
           />
           <Route path="/restaurant/writeReview" render={() => <AddReview />} />
           <Footer />
