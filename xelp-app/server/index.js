@@ -161,6 +161,7 @@ passport.use(new FacebookStrategy(
 ));
 
 app.get('/getuserdata', (req, res) => {
+  console.log(req.user);
   res.json(req.user);
 });
 
