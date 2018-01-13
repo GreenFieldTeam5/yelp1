@@ -40,15 +40,6 @@ const addToRestaurants = (restaurants, cb) => {
   });
 };
 
-const addReview = (review, cb) => {
-  knex.insert({
-    review_text: review.review_text,
-    avg_rating: review.avg_rating,
-  }).into('reviews')
-    .then(() => {
-      cb(review);
-    });
-};
 
 const getAllRestaurants = (cb) => {
   knex.select().table('restaurants')
@@ -137,6 +128,28 @@ const userVisitedRestaurantPage = (userId, restaurantId) => {
   })
 }
 
+const userAddsReviewToRestaurant = (userReviewObject) => {
+  const { review_text, user_id, restaurant_id, rating, image_url } = userReviewObject;
+
+  return new Promise((resolve, reject) => {
+    knex.insert({
+      user_id: user_id,
+      restaurant_id: restaurant_id,
+      rating: rating,
+      image_url: image_url,
+      review_text: review_text,
+    }).into('reviews')
+    .then(() => {
+      console.log('Saved review into db');
+      resolve();
+    })
+    .catch((error) => {
+      console.log('Error inserting review into db: ', error);
+      reject(error);
+    })
+  })
+}
+
 module.exports = {
   facebookLogin,
   addToRestaurants,
@@ -144,6 +157,6 @@ module.exports = {
   deleteAllRestaurants,
   searchAlgorithm,
   getThreeRestaurants,
-  addReview,
   userVisitedRestaurantPage,
+  userAddsReviewToRestaurant,
 };

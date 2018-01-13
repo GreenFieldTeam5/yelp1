@@ -125,11 +125,6 @@ app.get('/test/search/:searchInput/:prices/:page', (req, res) => {
   });
 });
 
-app.post('/review', (req, res) => {
-  dbHelpers.addReview(req.body, () => {
-  	res.status(201).json('reviews are in DB');
-  });
-});
 
 /* =================
      Signup/Login
@@ -194,7 +189,19 @@ app.post('/userVisitedRestaurant/:userid/:restaurantid', (req, res) => {
   })
 });
 
+/* =================
+     Reviews
+   ================= */
 
+app.post('/createReview', (req, res) => {
+  dbHelpers.userAddsReviewToRestaurant(req.body)
+  .then(() => {
+    res.end('Successfully added review to db');
+  })
+  .catch((error) => {
+    res.end('Error:', error);
+  })
+})
 
 
 
