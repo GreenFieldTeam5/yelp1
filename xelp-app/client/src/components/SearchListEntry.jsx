@@ -4,13 +4,13 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 const styles = {
   container: {
     display: 'flex',
-    width: '1000px',
+    width: '700px',
   },
   title: {
     fontSize: '25px',
   },
   pic: {
-    width: '20%',
+    width: '30%',
     height: "150px",
   },
   item: {
@@ -19,7 +19,7 @@ const styles = {
     padding: '10px',
   },
   address: {
-    width: '30%',
+    width: '20%',
     height: "150px",
     padding: '10px',
   },
@@ -47,7 +47,11 @@ const SearchListEntry = (props) => {
         </Link>
       </div>
       <div style={styles.item}>
-        <Link to="/restaurant"><div style={styles.title} onClick={() => props.handleSearchListClick(props.entry)}>{props.entry.name}</div></Link><br />
+        <Link to="/restaurant">
+          <div style={styles.title} onClick={() => props.handleSearchListClick(props.entry)}>
+            {props.page * 10 - 9 + props.indexNumber}. {props.entry.name}<br />
+          </div>
+        </Link>
         Rating: {props.entry.rating} / 5<br />
         ({props.entry.price}) | {props.entry.categories.split('<AND>').map(item => item[0].toUpperCase() + item.slice(1, item.length)).join(', ').split('_').map(item => item[0].toUpperCase() + item.slice(1, item.length)).join(' ')}
       </div>

@@ -5,4 +5,5 @@ node_js:
 before_script:
 - npm run build:prod
 - psql -c 'create database xelp;' -U postgres
+- knex migrate:latest
 script: node ./build/server/index.js & npm run test

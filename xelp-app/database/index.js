@@ -71,7 +71,7 @@ const deleteAllRestaurants = (cb) => {
     });
 };
 
-const searchAlgorithm = (restaurants, searchString, pricesString) => {
+const searchAlgorithm = (restaurants, searchString, pricesString, page) => {
   // assigns a point value to each index based on the search string.
   // exact title match: 4 points
   // partial title match: 3 points
@@ -115,7 +115,10 @@ const searchAlgorithm = (restaurants, searchString, pricesString) => {
     ret = ret.concat(sliver);
   }
 
-  return ret.filter(item => item.price !== null).filter(item => pricesInput.includes(item.price.length)).slice(0, 10);
+  return ret.
+    filter(item => item.price !== null).
+    filter(item => pricesInput.includes(item.price.length)).
+    slice(page * 10 - 10, page * 10);
 };
 
 module.exports = {
