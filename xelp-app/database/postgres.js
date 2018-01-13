@@ -7,7 +7,7 @@ const client = new Client({
 
 client.connect();
 
-const abc = client.query('INSERT INTO users (facebook_id, username) VALUES (12312323, $1)', ['abc'], (err, result) => {
+const abc = client.query('INSERT INTO users (facebook_id, username) VALUES (12312323, $1) ON CONFLICT DO NOTHING;', ['abc'], (err, result) => {
   if (err) throw err;
   else {
     console.log(result);
