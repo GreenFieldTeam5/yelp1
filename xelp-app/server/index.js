@@ -152,8 +152,8 @@ passport.use(new FacebookStrategy(
   },
   (req, accessToken, refreshToken, profile, cb) => {
     if (!req.user) {
-      const fbLoginId = dbHelpers.facebookLogin(profile);
-      fbLoginId.then(user => console.log(user[0].facebook_id));
+      const fbLogin = psqlHelper.insertFacebookLogin(profile);
+      fbLogin.then(user => console.log(user[0].facebook_id));
     } else { console.log('user has already logged in'); }
 
     return cb(null, profile);
