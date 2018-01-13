@@ -121,6 +121,22 @@ const searchAlgorithm = (restaurants, searchString, pricesString, page) => {
     slice(page * 10 - 10, page * 10);
 };
 
+const userVisitedRestaurantPage = (userId, restaurantId) => {
+  return new Promise((resolve, reject) => {
+    knex.insert({
+      user_id: userId,
+      restaurant_id: restaurantId,
+    }).into('users_restaurants_recently_viewed')
+    .then(() => {
+      resolve();
+    })
+    .catch((error) => {
+      console.log('error inserting user visit to restaurant page: ', error);
+      reject(error);
+    })
+  })
+}
+
 module.exports = {
   facebookLogin,
   addToRestaurants,
@@ -129,4 +145,5 @@ module.exports = {
   searchAlgorithm,
   getThreeRestaurants,
   addReview,
+  userVisitedRestaurantPage,
 };

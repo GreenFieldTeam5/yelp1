@@ -154,7 +154,8 @@ passport.use(new FacebookStrategy(
   },
   (req, accessToken, refreshToken, profile, cb) => {
     if (!req.user) {
-      const fbLogin = psqlHelper.insertFacebookLogin(profile);
+      const fbLogin = dbHelpers.facebookLogin(profile);
+      // const fbLogin = psqlHelper.insertFacebookLogin(profile);
       fbLogin.then(user => console.log(user[0].facebook_id));
     } else { console.log('user has already logged in'); }
 
@@ -178,3 +179,22 @@ app.get('/testpostgres', (req, res) => {
   console.log('inserted test data');
   res.json('abc');
 });
+
+/* =================
+     User metadata
+   ================= */
+
+app.post('/userVisitedRestaurant/:userid/:restaurantid', (req, res) => {
+  dbHelpers.userVisitedRestaurantPage(req.params.userid, req.params.restaurantid)
+  .then(() => {
+    res.end('Successfully added to db');
+  })
+  .catch((error) => {
+    res.end('Error:', error);
+  })
+});
+
+
+
+
+
