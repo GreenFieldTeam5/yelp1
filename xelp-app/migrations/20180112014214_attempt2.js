@@ -10,7 +10,7 @@ exports.up = (knex, Promise) => Promise.all([
     reviews.increments('id').primary();
     reviews.integer('user_id').references('uid').inTable('users').onDelete('CASCADE');
     reviews.integer('restaurant_id').references('id').inTable('restaurants').onDelete('CASCADE');
-    reviews.float('avg_rating');
+    reviews.float('rating');
     reviews.string('review_text');
     reviews.string('image_url');
     reviews.timestamp('created_at').defaultTo(knex.fn.now());
