@@ -21,7 +21,7 @@ const styles = {
   },
 };
 
-class Main extends React.Component {
+class Carousel extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -67,5 +67,5 @@ class Main extends React.Component {
     );
   }
 }
-export default Main;
+export default Carousel;
 

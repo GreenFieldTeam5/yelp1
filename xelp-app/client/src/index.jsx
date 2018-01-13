@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import Search from './components/Search.jsx';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import Main from './components/Main.jsx';
+import Carousel from './components/Carousel.jsx';
 import TopNavbar from './components/TopNavbar.jsx';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import SingleRestaurant from './components/SingleRestaurant.jsx';
@@ -20,7 +20,6 @@ class App extends React.Component {
       searchingYelpAPI: true,
       page: 1,
       locationInput: 'San Francisco, CA',
-      cities: ['San Francisco', 'New York', 'San Jose', 'Chicago', 'Palo Alto', 'Oakland'],
       tenSearchResults: [],
       restaurant: [],
       showDatabaseButtons: false,
@@ -41,7 +40,7 @@ class App extends React.Component {
     this.populateRestaurants = this.populateRestaurants.bind(this);
     this.toggleDatabaseButtons = this.toggleDatabaseButtons.bind(this);
     this.handlePageClick = this.handlePageClick.bind(this);
-    this.handleLocationChange = this.handleLocationChange.bind(this);
+    this.clearSearchResults = this.clearSearchResults.bind(this);
   }
 
   componentDidMount() {
@@ -180,19 +179,9 @@ class App extends React.Component {
     this.setState({page: newPage}, () => this.handleSearchButtonClick(this.state.searchingYelpAPI));
   }
 
-  handleLocationChange(e) {
-    const _this = this;
-    e.persist();
-    this.wipeRestaurantDB(() => {
-      _this.setState({locationInput: e.target.value}, () => {
-        _this.populateRestaurants(() => {  
-          // note: for unknown reasons, sometimes populateRestaurants will get stuck and never execute this callback
-          // but the data will still be correctly populated. 
-          console.log('populated restaurants with location: ', _this.state.locationInput);
-          _this.handleSearchButtonClick(_this.state.searchingYelpAPI);
-        });
-      });
-    });  
+  clearSearchResults() {
+    this.setState({tenSearchResults: []});
+    console.log('cleared');
   }
 
   render() {
@@ -200,8 +189,38 @@ class App extends React.Component {
       <MuiThemeProvider>
         <div>
           <div>
-            <TopNavbar user={this.state.user} />
+            <TopNavbar
+            user={this.state.user}
+            clearSearchResults={this.clearSearchResults} />
           </div>
+          <Route
+            exact
+            path="/"
+            render={() => (
+              <Search
+                searchInput={this.state.searchInput}
+                tenSearchResults={this.state.tenSearchResults}
+                handleSearchInputChange={this.handleSearchInputChange}
+                handleSearchButtonClick={this.handleSearchButtonClick}
+                cities={this.state.cities}
+              />
+          )}
+          />
+          <Route exact path="/" render={() => <Carousel selectRestaurant={this.selectRestaurant} />} />
+          <Route path="/restaurant" render={() => <SingleRestaurant restaurant={this.state.restaurant} />} />
+          <Route path="/searchList" render={() => <SearchList
+            priceFilterOne={this.state.priceFilterOne}
+            priceFilterTwo={this.state.priceFilterTwo}
+            priceFilterThree={this.state.priceFilterThree}
+            priceFilterFour={this.state.priceFilterFour}
+            handlePriceFilterClick={this.handlePriceFilterClick}
+            tenSearchResults={this.state.tenSearchResults}
+            handleSearchListClick={this.handleSearchListClick}
+            handlePageClick={this.handlePageClick}
+            page={this.state.page} />} 
+          />
+          <Route path="/restaurant/writeReview" render={() => <AddReview />} />
+          <Footer />
           <button onClick={this.toggleDatabaseButtons}>
             Toggle Database Testing Buttons
           </button>
@@ -218,33 +237,6 @@ class App extends React.Component {
               </button>
             </div>
           }
-          <Route
-            path="/"
-            render={() => (
-              <Search
-                searchInput={this.state.searchInput}
-                priceFilterOne={this.state.priceFilterOne}
-                priceFilterTwo={this.state.priceFilterTwo}
-                priceFilterThree={this.state.priceFilterThree}
-                priceFilterFour={this.state.priceFilterFour}
-                handleSearchInputChange={this.handleSearchInputChange}
-                handleSearchButtonClick={this.handleSearchButtonClick}
-                handlePriceFilterClick={this.handlePriceFilterClick}
-                cities={this.state.cities}
-                handleLocationChange={this.handleLocationChange}
-              />
-          )}
-          />
-          <Route exact path="/" render={() => <Main selectRestaurant={this.selectRestaurant} />} />
-          <Route path="/restaurant" render={() => <SingleRestaurant restaurant={this.state.restaurant} />} />
-          <Route path="/searchList" render={() => <SearchList
-            tenSearchResults={this.state.tenSearchResults}
-            handleSearchListClick={this.handleSearchListClick}
-            handlePageClick={this.handlePageClick}
-            page={this.state.page} />} 
-          />
-          <Route path="/restaurant/writeReview" render={() => <AddReview />} />
-          <Footer />
         </div>
       </MuiThemeProvider>
     );
