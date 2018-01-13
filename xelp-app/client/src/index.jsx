@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import Search from './components/Search.jsx';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import Main from './components/Main.jsx';
+import Carousel from './components/Carousel.jsx';
 import TopNavbar from './components/TopNavbar.jsx';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import SingleRestaurant from './components/SingleRestaurant.jsx';
@@ -40,6 +40,7 @@ class App extends React.Component {
     this.populateRestaurants = this.populateRestaurants.bind(this);
     this.toggleDatabaseButtons = this.toggleDatabaseButtons.bind(this);
     this.handlePageClick = this.handlePageClick.bind(this);
+    this.clearSearchResults = this.clearSearchResults.bind(this);
   }
 
   componentDidMount() {
@@ -178,32 +179,41 @@ class App extends React.Component {
     this.setState({page: newPage}, () => this.handleSearchButtonClick(this.state.searchingYelpAPI));
   }
 
+  clearSearchResults() {
+    this.setState({tenSearchResults: []});
+    console.log('cleared');
+  }
+
   render() {
     return (
       <MuiThemeProvider>
         <div>
           <div>
-            <TopNavbar user={this.state.user} />
+            <TopNavbar
+            user={this.state.user}
+            clearSearchResults={this.clearSearchResults} />
           </div>
           <Route
+            exact
             path="/"
             render={() => (
               <Search
                 searchInput={this.state.searchInput}
-                priceFilterOne={this.state.priceFilterOne}
-                priceFilterTwo={this.state.priceFilterTwo}
-                priceFilterThree={this.state.priceFilterThree}
-                priceFilterFour={this.state.priceFilterFour}
+                tenSearchResults={this.state.tenSearchResults}
                 handleSearchInputChange={this.handleSearchInputChange}
                 handleSearchButtonClick={this.handleSearchButtonClick}
-                handlePriceFilterClick={this.handlePriceFilterClick}
                 cities={this.state.cities}
               />
           )}
           />
-          <Route exact path="/" render={() => <Main selectRestaurant={this.selectRestaurant} />} />
+          <Route exact path="/" render={() => <Carousel selectRestaurant={this.selectRestaurant} />} />
           <Route path="/restaurant" render={() => <SingleRestaurant restaurant={this.state.restaurant} />} />
           <Route path="/searchList" render={() => <SearchList
+            priceFilterOne={this.state.priceFilterOne}
+            priceFilterTwo={this.state.priceFilterTwo}
+            priceFilterThree={this.state.priceFilterThree}
+            priceFilterFour={this.state.priceFilterFour}
+            handlePriceFilterClick={this.handlePriceFilterClick}
             tenSearchResults={this.state.tenSearchResults}
             handleSearchListClick={this.handleSearchListClick}
             handlePageClick={this.handlePageClick}

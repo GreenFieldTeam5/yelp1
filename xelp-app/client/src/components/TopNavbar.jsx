@@ -70,6 +70,7 @@ class TopNavbar extends React.Component {
         <Link to="/">
           <AppBar
             title="Xelp"
+            onTitleClick={() => this.props.clearSearchResults()}
             onRightIconButtonClick={this.handleOpen}
             showMenuIconButton={false}
             iconElementRight={<FlatButton label={label} />}
