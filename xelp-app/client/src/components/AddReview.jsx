@@ -61,19 +61,7 @@ class AddReview extends React.Component {
     return (
       <div>
         <div>
-          <DropDownMenu
-            value={undefined}
-            onChange={this.handleRatingChange}
-            style={styles.customWidth}
-            autoWidth={false}
-          >
-            <MenuItem value={undefined} primaryText="Rating" />
-            <MenuItem value={1} primaryText="1" />
-            <MenuItem value={2} primaryText="2" />
-            <MenuItem value={3} primaryText="3" />
-            <MenuItem value={4} primaryText="4" />
-            <MenuItem value={5} primaryText="5" />
-          </DropDownMenu>
+          
       </div>
   <div>
     <Divider />

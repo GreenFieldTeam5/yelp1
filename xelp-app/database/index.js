@@ -131,29 +131,49 @@ const userVisitedRestaurantPage = (userId, restaurantId) => new Promise((resolve
     });
 });
 
-const userAddsReviewToRestaurant = (userReviewObject) => {
-  const {
-    review_text, user_id, restaurant_id, rating, image_url,
-  } = userReviewObject;
-
+const getReviewsForRestaurant = (restaurant_id) => {
   return new Promise((resolve, reject) => {
-    knex.insert({
-      user_id,
-      restaurant_id,
-      rating,
-      image_url,
-      review_text,
-    }).into('reviews')
-      .then(() => {
-        console.log('Saved review into db');
-        resolve();
+    knex.select().table('reviews').where('restaurant_id', restaurant_id)
+      .then(data => {
+        console.log('got rewviews for restaurant: ', data);
+        resolve(data);
       })
       .catch((error) => {
-        console.log('Error inserting review into db: ', error);
+        console.log(error);
         reject(error);
       });
   });
 };
+
+const userAddsReviewToRestaurant = (userReviewObject) => {
+  console.log(userReviewObject);
+  const {
+    review_text, facebook_id, restaurant_id, rating, image_url,
+  } = userReviewObject.data;
+
+  return new Promise((resolve, reject) => {
+    knex.select('uid').table('users').where('facebook_id', facebook_id)
+    .then(user_id => {
+      console.log('thing we need to see: ', user_id);
+      knex.insert({
+        user_id: user_id[0].uid,
+        restaurant_id,
+        rating,
+        image_url,
+        review_text,
+      }).into('reviews')
+        .then(() => {
+          console.log('Saved review into db');
+          resolve();
+        })
+        .catch((error) => {
+          console.log('Error inserting review into db: ', error);
+          reject(error);
+        });      
+      }
+    );
+  });
+}
 
 module.exports = {
   facebookLogin,
@@ -164,4 +184,5 @@ module.exports = {
   getThreeRestaurants,
   userVisitedRestaurantPage,
   userAddsReviewToRestaurant,
+  getReviewsForRestaurant,
 };
