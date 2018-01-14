@@ -1,5 +1,5 @@
 import React from 'react';
-import {List, ListItem} from 'material-ui/List';
+import { List, ListItem } from 'material-ui/List';
 import TextField from 'material-ui/TextField';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
@@ -62,8 +62,8 @@ class SingleRestaurant extends React.Component {
         <div style={styles.container}>
           <div style={styles.child}>
             <List>
-              <ListItem primaryText={this.props.restaurant.address1 + ', ' + this.props.restaurant.city + ', ' + this.props.restaurant.state + ' ' + this.props.restaurant.zip_code} leftIcon={<LocationOnIcon />} />
-              <ListItem primaryText={this.props.restaurant.rating + ' / 5'} leftIcon={<ActionGradeIcon />} />
+              <ListItem primaryText={`${this.props.restaurant.address1}, ${this.props.restaurant.city}, ${this.props.restaurant.state} ${this.props.restaurant.zip_code}`} leftIcon={<LocationOnIcon />} />
+              <ListItem primaryText={`${this.props.restaurant.rating} / 5`} leftIcon={<ActionGradeIcon />} />
               <ListItem primaryText={this.props.restaurant.display_phone || 'None listed'} leftIcon={<PhoneIcon />} />
               <ListItem primaryText={this.props.restaurant.price} leftIcon={<MoneyIcon />} />
               <ListItem primaryText="Send via SMS" leftIcon={<CellPhoneIcon />} />
@@ -73,7 +73,7 @@ class SingleRestaurant extends React.Component {
             </List>
           </div>
           <div style={styles.child}>
-            <img src={this.props.restaurant.image_url} style={styles.image}/>
+            <img src={this.props.restaurant.image_url} style={styles.image} />
           </div>
           <div style={styles.child}>
             {this.props.restaurantReviews.map(item => (

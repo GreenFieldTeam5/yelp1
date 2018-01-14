@@ -134,19 +134,17 @@ const userVisitedRestaurantPage = (userId, restaurantId) => new Promise((resolve
 
 // select reviews.user_id, reviews.restaurant_id, users.username, reviews.review_text from reviews, users where users.uid = reviews.user_id AND reviews.restaurant_id = 1;
 
-const getReviewsForRestaurant = (restaurant_id) => {
-  return new Promise((resolve, reject) => {
-    knex.raw('select reviews.user_id, reviews.restaurant_id, users.username, reviews.review_text from reviews, users where users.uid = reviews.user_id AND reviews.restaurant_id = ?', restaurant_id)
-      .then((data) => {
-        console.log('got rewviews for restaurant: ', data);
-        resolve(data);
-      })
-      .catch((error) => {
-        console.log(error);
-        reject(error);
-      });
-  });
-};
+const getReviewsForRestaurant = restaurant_id => new Promise((resolve, reject) => {
+  knex.raw('select reviews.user_id, reviews.restaurant_id, users.username, reviews.review_text from reviews, users where users.uid = reviews.user_id AND reviews.restaurant_id = ?', restaurant_id)
+    .then((data) => {
+      console.log('got rewviews for restaurant: ', data);
+      resolve(data);
+    })
+    .catch((error) => {
+      console.log(error);
+      reject(error);
+    });
+});
 
 const userAddsReviewToRestaurant = (userReviewObject) => {
   console.log(userReviewObject);
@@ -156,27 +154,26 @@ const userAddsReviewToRestaurant = (userReviewObject) => {
 
   return new Promise((resolve, reject) => {
     knex.select('uid').table('users').where('facebook_id', facebook_id)
-    .then(user_id => {
-      console.log('thing we need to see: ', user_id);
-      knex.insert({
-        user_id: user_id[0].uid,
-        restaurant_id,
-        rating,
-        image_url,
-        review_text,
-      }).into('reviews')
-        .then(() => {
-          console.log('Saved review into db');
-          resolve();
-        })
-        .catch((error) => {
-          console.log('Error inserting review into db: ', error);
-          reject(error);
-        });      
-      }
-    );
+      .then((user_id) => {
+        console.log('thing we need to see: ', user_id);
+        knex.insert({
+          user_id: user_id[0].uid,
+          restaurant_id,
+          rating,
+          image_url,
+          review_text,
+        }).into('reviews')
+          .then(() => {
+            console.log('Saved review into db');
+            resolve();
+          })
+          .catch((error) => {
+            console.log('Error inserting review into db: ', error);
+            reject(error);
+          });
+      });
   });
-}
+};
 
 module.exports = {
   facebookLogin,

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { HashRouter } from 'react-router-dom'
+import { HashRouter } from 'react-router-dom';
 import axios from 'axios';
 import Search from './components/Search.jsx';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -128,14 +128,14 @@ class App extends React.Component {
   }
 
   getReviewsForRestaurant(restaurant) {
-   axios.get(`/getReviewsForRestaurant/${restaurant.id}`)
-    .then((response) => {
-      console.log('got GET reviewwww responseeeesponse: ', response);
-      this.setState({ restaurantReviews: response.data.rows});
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+    axios.get(`/getReviewsForRestaurant/${restaurant.id}`)
+      .then((response) => {
+        console.log('got GET reviewwww responseeeesponse: ', response);
+        this.setState({ restaurantReviews: response.data.rows });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   handlePriceFilterClick(price) {
@@ -286,22 +286,24 @@ class App extends React.Component {
           <Route
             path="/searchList"
             render={() => (<SearchList
-            priceFilterOne={this.state.priceFilterOne}
-            priceFilterTwo={this.state.priceFilterTwo}
-            priceFilterThree={this.state.priceFilterThree}
-            priceFilterFour={this.state.priceFilterFour}
-            handlePriceFilterClick={this.handlePriceFilterClick}
-            tenSearchResults={this.state.tenSearchResults}
-            handleSearchListClick={this.handleSearchListClick}
-            handlePageClick={this.handlePageClick}
-            page={this.state.page} />)}
+              priceFilterOne={this.state.priceFilterOne}
+              priceFilterTwo={this.state.priceFilterTwo}
+              priceFilterThree={this.state.priceFilterThree}
+              priceFilterFour={this.state.priceFilterFour}
+              handlePriceFilterClick={this.handlePriceFilterClick}
+              tenSearchResults={this.state.tenSearchResults}
+              handleSearchListClick={this.handleSearchListClick}
+              handlePageClick={this.handlePageClick}
+              page={this.state.page}
+            />)}
           />
           <Route path="/restaurant/writeReview" render={() => <AddReview />} />
           <Footer />
-          <button onClick={this.toggleDatabaseButtons}>
+          <div style={{ display: 'none' }}>
+            <button onClick={this.toggleDatabaseButtons}>
             Toggle Database Testing Buttons
-          </button>
-          {this.state.showDatabaseButtons &&
+            </button>
+            {this.state.showDatabaseButtons &&
             <div>
               <button onClick={() => this.getAllRestaurants()}>
                 Get all restaurants in database
@@ -314,6 +316,7 @@ class App extends React.Component {
               </button>
             </div>
           }
+          </div>
         </div>
       </MuiThemeProvider>
     );

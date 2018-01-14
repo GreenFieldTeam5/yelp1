@@ -32,26 +32,23 @@ const styles = {
   },
 };
 
-const Search = (props) => {
-  return (
-    <div>
-      <div style={styles.searchContainer}>
-        <div style={styles.searchChild}>
-          <div><img width="30%" height="15%" src={xelpLogo} /></div><input
-            style={styles.inputBox}
-            value={props.searchInput}
-            onChange={props.handleSearchInputChange}
-          />
-        </div>
-        <div style={styles.searchChild}>
-          <Link to="/searchList">
-            <RaisedButton primary style={styles.searchButton} label="Xelp it! (Yelp API)" onClick={() => props.handleSearchButtonClick(true)} />
-            <RaisedButton secondary style={styles.searchButton} label="Xelp it! (Our Database)" onClick={() => props.handleSearchButtonClick(false)} />
-          </Link>
-        </div>
+const Search = props => (
+  <div>
+    <div style={styles.searchContainer}>
+      <div style={styles.searchChild}>
+        <div><img width="30%" height="15%" src={xelpLogo} /></div><input
+          style={styles.inputBox}
+          value={props.searchInput}
+          onChange={props.handleSearchInputChange}
+        />
+      </div>
+      <div style={styles.searchChild}>
+        <Link to="/searchList">
+          <RaisedButton secondary style={styles.searchButton} label="Search" onClick={() => props.handleSearchButtonClick(false)} />
+        </Link>
       </div>
     </div>
-  );
-};
+  </div>
+);
 
 export default Search;

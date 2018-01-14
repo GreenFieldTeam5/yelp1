@@ -43,7 +43,10 @@ const SearchList = (props) => {
     <div>
       <div style={styles.priceFiltersContainer}>
         {['$', '$$', '$$$', '$$$$'].map(item => (
-          <div key={item} onClick={() => props.handlePriceFilterClick(item)} style={{
+          <div
+            key={item}
+            onClick={() => props.handlePriceFilterClick(item)}
+            style={{
             fontSize: '20px',
             width: '25%',
             height: '35px',
@@ -63,7 +66,10 @@ const SearchList = (props) => {
       </div>
       <div style={styles.pageContainer}>
         {['Prev', 1, 2, 3, 4, 5, 6, 7, 8, 9, 'Next'].map(item => (
-          <div key={item} onClick={() => props.handlePageClick(item)} style={{
+          <div
+            key={item}
+            onClick={() => props.handlePageClick(item)}
+            style={{
             fontSize: '20px',
             width: '10%',
             height: '35px',
