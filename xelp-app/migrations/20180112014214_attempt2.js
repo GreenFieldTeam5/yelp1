@@ -8,7 +8,7 @@ exports.up = (knex, Promise) => Promise.all([
   }),
   knex.schema.createTableIfNotExists('reviews', (reviews) => {
     reviews.increments('id').primary();
-    reviews.integer('user_id').references('uid').inTable('users').onDelete('CASCADE');
+    reviews.biginteger('user_id').references('uid').inTable('users').onDelete('CASCADE');
     reviews.integer('restaurant_id').references('id').inTable('restaurants').onDelete('CASCADE');
     reviews.float('rating');
     reviews.string('review_text');
