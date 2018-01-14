@@ -69,7 +69,9 @@ class SingleRestaurant extends React.Component {
               <ListItem primaryText="Send via SMS" leftIcon={<CellPhoneIcon />} />
               <ListItem primaryText="Upload Photo" leftIcon={<AddPhotoIcon />} />
               <ListItem primaryText="Get Directions" leftIcon={<CarIcon />} />
-              <ListItem onClick={this.props.handleWriteReviewClick} primaryText="Write Review" leftIcon={<WriteReviewIcon />} />
+              {this.props.user &&
+                <ListItem onClick={this.props.handleWriteReviewClick} primaryText="Write Review" leftIcon={<WriteReviewIcon />} />
+              }
             </List>
           </div>
           <div style={styles.child}>
@@ -84,7 +86,7 @@ class SingleRestaurant extends React.Component {
             ))}
           </div>
         </div>
-        {this.props.writeReview &&
+        {this.props.writeReview && this.props.user &&
           <div>
             <DropDownMenu
               value={this.props.reviewRating}
