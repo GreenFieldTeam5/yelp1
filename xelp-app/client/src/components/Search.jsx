@@ -37,6 +37,7 @@ const Search = props => (
     <div style={styles.searchContainer}>
       <div style={styles.searchChild}>
         <div><img width="30%" height="15%" src={xelpLogo} /></div><input
+          placeholder="Search Restaurants..."
           style={styles.inputBox}
           value={props.searchInput}
           onChange={props.handleSearchInputChange}
