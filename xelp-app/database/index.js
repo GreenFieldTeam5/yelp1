@@ -131,10 +131,13 @@ const userVisitedRestaurantPage = (userId, restaurantId) => new Promise((resolve
     });
 });
 
+
+// select reviews.user_id, reviews.restaurant_id, users.username, reviews.review_text from reviews, users where users.uid = reviews.user_id AND reviews.restaurant_id = 1;
+
 const getReviewsForRestaurant = (restaurant_id) => {
   return new Promise((resolve, reject) => {
-    knex.select().table('reviews').where('restaurant_id', restaurant_id)
-      .then(data => {
+    knex.raw('select reviews.user_id, reviews.restaurant_id, users.username, reviews.review_text from reviews, users where users.uid = reviews.user_id AND reviews.restaurant_id = ?', restaurant_id)
+      .then((data) => {
         console.log('got rewviews for restaurant: ', data);
         resolve(data);
       })

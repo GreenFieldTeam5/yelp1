@@ -131,7 +131,7 @@ class App extends React.Component {
    axios.get(`/getReviewsForRestaurant/${restaurant.id}`)
     .then((response) => {
       console.log('got GET reviewwww responseeeesponse: ', response);
-      this.setState({ restaurantReviews: response.data});
+      this.setState({ restaurantReviews: response.data.rows});
     })
     .catch((error) => {
       console.log(error);

@@ -60,7 +60,7 @@ class SingleRestaurant extends React.Component {
           <div>
             {this.props.restaurantReviews.map(item => (
               <div key={item.id} style={styles.reviews}>
-                {item.user_id || 'Anonymous'} says:<br />
+                {item.username || 'Anonymous'} says:<br />
                 {item.review_text}
               </div>
             ))}
