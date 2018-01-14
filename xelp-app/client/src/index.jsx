@@ -280,6 +280,7 @@ class App extends React.Component {
                 submitReview={this.submitReview}
                 handleRatingChange={this.handleRatingChange}
                 restaurantReviews={this.state.restaurantReviews}
+                user={this.state.user}
               />)}
 
           />
