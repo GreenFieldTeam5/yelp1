@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { HashRouter } from 'react-router-dom'
 import axios from 'axios';
 import Search from './components/Search.jsx';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -247,8 +248,8 @@ class App extends React.Component {
 }
 
 ReactDOM.render(
-  <Router>
+  <HashRouter>
     <App />
-  </Router>
+  </HashRouter>
   , document.getElementById('app'),
 );
