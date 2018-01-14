@@ -11,16 +11,16 @@ const styles = {
   },
   pic: {
     width: '30%',
-    height: "150px",
+    height: '150px',
   },
   item: {
     width: '50%',
-    height: "150px",
+    height: '150px',
     padding: '10px',
   },
   address: {
     width: '20%',
-    height: "150px",
+    height: '150px',
     padding: '10px',
   },
   link: {

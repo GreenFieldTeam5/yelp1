@@ -18,18 +18,36 @@ import CarIcon from 'material-ui/svg-icons/maps/directions-car';
 const buttonStyle = {
   margin: 12,
 };
-
-const style = {
-  marginLeft: 20,
-};
 const styles = {
+  everything: {
+    width: '800px',
+  },
+  container: {
+    display: 'flex',
+  },
   customWidth: {
     width: 200,
   },
   reviews: {
-    border: '1px 1px blue',
+    border: '1px blue',
     fontSize: '16px',
     margin: '5px',
+  },
+  child: {
+    margin: '5px',
+    padding: '3px',
+    width: '33%',
+  },
+  title: {
+    fontSize: '25px',
+    margin: '5px',
+    padding: '3px',
+    width: '800px',
+    marginLeft: '20px',
+  },
+  image: {
+    width: '250px',
+    height: '250px',
   },
 };
 
@@ -39,13 +57,13 @@ class SingleRestaurant extends React.Component {
   }
   render() {
     return (
-      <div>
-        <h1>{this.props.restaurant.name}</h1>
-        <div className="container">
-          <div>
+      <div style={styles.everything}>
+        <div style={styles.title}>{this.props.restaurant.name}</div>
+        <div style={styles.container}>
+          <div style={styles.child}>
             <List>
-              <ListItem primaryText={this.props.restaurant.street_name} leftIcon={<LocationOnIcon />} />
-              <ListItem primaryText={this.props.restaurant.rating} leftIcon={<ActionGradeIcon />} />
+              <ListItem primaryText={this.props.restaurant.address1 + ', ' + this.props.restaurant.city + ', ' + this.props.restaurant.state + ' ' + this.props.restaurant.zip_code} leftIcon={<LocationOnIcon />} />
+              <ListItem primaryText={this.props.restaurant.rating + ' / 5'} leftIcon={<ActionGradeIcon />} />
               <ListItem primaryText={this.props.restaurant.display_phone || 'None listed'} leftIcon={<PhoneIcon />} />
               <ListItem primaryText={this.props.restaurant.price} leftIcon={<MoneyIcon />} />
               <ListItem primaryText="Send via SMS" leftIcon={<CellPhoneIcon />} />
@@ -54,10 +72,10 @@ class SingleRestaurant extends React.Component {
               <ListItem onClick={this.props.handleWriteReviewClick} primaryText="Write Review" leftIcon={<WriteReviewIcon />} />
             </List>
           </div>
-          <div>
-            <img src={this.props.restaurant.image_url} width="300px" height="300px" />
+          <div style={styles.child}>
+            <img src={this.props.restaurant.image_url} style={styles.image}/>
           </div>
-          <div>
+          <div style={styles.child}>
             {this.props.restaurantReviews.map(item => (
               <div key={item.id} style={styles.reviews}>
                 {item.username || 'Anonymous'} says:<br />
