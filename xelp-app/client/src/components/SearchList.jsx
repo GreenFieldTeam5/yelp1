@@ -46,7 +46,10 @@ const SearchList = (props) => {
     <div>
       <div style={styles.priceFiltersContainer}>
         {['$', '$$', '$$$', '$$$$'].map(item => (
-          <div key={item} onClick={() => props.handlePriceFilterClick(item)} style={{
+          <div
+            key={item}
+            onClick={() => props.handlePriceFilterClick(item)}
+            style={{
             fontSize: '20px',
             width: '25%',
             height: '35px',
@@ -63,6 +66,28 @@ const SearchList = (props) => {
             {item}
           </div>
         ))}
+      </div>
+      <div style={styles.pageContainer}>
+        {['Prev', 1, 2, 3, 4, 5, 6, 7, 8, 9, 'Next'].map(item => (
+          <div
+            key={item}
+            onClick={() => props.handlePageClick(item)}
+            style={{
+            fontSize: '20px',
+            width: '10%',
+            height: '35px',
+            padding: '3px',
+            borderLeft: 'solid black',
+            textAlign: 'center',
+            backgroundColor: item === props.page ? 'green' : 'transparent',
+          }}
+          >
+            {item.toString()}
+          </div>
+        ))}
+      </div>
+      <div style={styles.showing}>
+        Showing {props.page * 10 - 9}-{props.page * 10} of 90
       </div>
       <div style={styles.everything}>
         <div style={styles.container}>
