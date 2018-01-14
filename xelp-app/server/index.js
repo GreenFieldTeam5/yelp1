@@ -206,3 +206,18 @@ app.post('/createReview', (req, res) => {
     });
 });
 
+app.get('/getReviewsForRestaurant/:restaurant_id', (req, res) => {
+  dbHelpers.getReviewsForRestaurant(req.params.restaurant_id)
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((error) => {
+      res.end('Error:', error);
+    });
+});
+
+
+
+
+
+

@@ -28,6 +28,10 @@ class App extends React.Component {
       priceFilterThree: true,
       priceFilterFour: true,
       user: null,
+      reviewRating: 1,
+      reviewText: '',
+      writeReview: false,
+      restaurantReviews: [],
     };
 
     this.handleSearchInputChange = this.handleSearchInputChange.bind(this);
@@ -41,6 +45,11 @@ class App extends React.Component {
     this.toggleDatabaseButtons = this.toggleDatabaseButtons.bind(this);
     this.handlePageClick = this.handlePageClick.bind(this);
     this.clearSearchResults = this.clearSearchResults.bind(this);
+    this.handleWriteReviewClick = this.handleWriteReviewClick.bind(this);
+    this.handleReviewTextChange = this.handleReviewTextChange.bind(this);
+    this.submitReview = this.submitReview.bind(this);
+    this.handleRatingChange = this.handleRatingChange.bind(this);
+    this.getReviewsForRestaurant = this.getReviewsForRestaurant.bind(this);
   }
 
   componentDidMount() {
@@ -114,6 +123,17 @@ class App extends React.Component {
     console.log('selected: ', restaurant);
     this.setState({
       restaurant,
+    }, () => this.getReviewsForRestaurant(restaurant));
+  }
+
+  getReviewsForRestaurant(restaurant) {
+   axios.get(`/getReviewsForRestaurant/${restaurant.id}`)
+    .then((response) => {
+      console.log('got GET reviewwww responseeeesponse: ', response);
+      this.setState({ restaurantReviews: response.data});
+    })
+    .catch((error) => {
+      console.log(error);
     });
   }
 
@@ -158,7 +178,7 @@ class App extends React.Component {
       data: '',
     })
       .then((response) => {
-        console.log('got POST response:: ', response);
+        console.log('got POST response: ', response);
         if (cb) cb(response);
       })
       .catch((error) => {
@@ -181,7 +201,45 @@ class App extends React.Component {
 
   clearSearchResults() {
     this.setState({ tenSearchResults: [] });
-    console.log('cleared');
+  }
+
+  handleWriteReviewClick() {
+    console.log('lets load write review fields');
+    this.setState({ writeReview: !this.state.writeReview });
+  }
+
+  handleReviewTextChange(e) {
+    this.setState({ reviewText: e.target.value }, () => console.log(this.state.reviewText));
+  }
+
+  submitReview() {
+    console.log('submitting a review: ');
+    console.log('text: ', this.state.reviewText);
+    console.log('rating: ', this.state.reviewRating);
+    console.log('user: ', this.state.user.id || 'guest');
+    axios.post('/createReview', {
+      data: {
+        review_text: this.state.reviewText,
+        rating: this.state.reviewRating,
+        facebook_id: this.state.user.id || 'guest',
+        restaurant_id: this.state.restaurant.id,
+        image_url: this.state.restaurant.image_url,
+      },
+    })
+      .then((response) => {
+        console.log('got POST response: ', response);
+        this.setState({
+          writeReview: false,
+        }, () => this.getReviewsForRestaurant(this.state.restaurant));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  handleRatingChange(event, index, value) {
+    console.log(value);
+    this.setState({ reviewRating: value });
   }
 
   render() {
@@ -208,7 +266,22 @@ class App extends React.Component {
           )}
           />
           <Route exact path="/" render={() => <Carousel selectRestaurant={this.selectRestaurant} />} />
-          <Route path="/restaurant" render={() => <SingleRestaurant restaurant={this.state.restaurant} />} />
+          <Route
+            path="/restaurant"
+            render={() => (
+              <SingleRestaurant
+                restaurant={this.state.restaurant}
+                handleWriteReviewClick={this.handleWriteReviewClick}
+                reviewRating={this.state.reviewRating}
+                reviewText={this.state.reviewText}
+                writeReview={this.state.writeReview}
+                handleReviewTextChange={this.handleReviewTextChange}
+                submitReview={this.submitReview}
+                handleRatingChange={this.handleRatingChange}
+                restaurantReviews={this.state.restaurantReviews}
+              />)}
+
+          />
           <Route
             path="/searchList"
             render={() => (<SearchList
