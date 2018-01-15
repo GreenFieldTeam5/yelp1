@@ -10,7 +10,6 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import SingleRestaurant from './components/SingleRestaurant.jsx';
 import SearchList from './components/SearchList.jsx';
 import Footer from './components/footer.jsx';
-import AddReview from './components/AddReview.jsx';
 import ReviewList from './components/ReviewList.jsx';
 
 class App extends React.Component {
@@ -298,7 +297,6 @@ class App extends React.Component {
               page={this.state.page}
             />)}
           />
-          <Route path="/restaurant/writeReview" render={() => <AddReview />} />
           <Footer />
           <div style={{ display: 'none' }}>
             <button onClick={this.toggleDatabaseButtons}>
