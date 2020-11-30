@@ -78,8 +78,8 @@ class SingleRestaurant extends React.Component {
             <img src={this.props.restaurant.image_url} style={styles.image} />
           </div>
           <div style={styles.child}>
-            {this.props.restaurantReviews.map(item => (
-              <div key={item.id} style={styles.reviews}>
+            {this.props.restaurantReviews.map((item, index) => (
+              <div key={index} style={styles.reviews}>
                 {item.username || 'Anonymous'} says:<br />
                 {item.review_text}
               </div>
